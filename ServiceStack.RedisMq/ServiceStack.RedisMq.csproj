@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <PackageId>ServiceStack.RedisMq.Core</PackageId>
+	  <AssemblyName>ServiceStack.RedisMq</AssemblyName>
+	  <RootNamespace>ServiceStack.RedisMq</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+	<Title>ServiceStack.RedisMq .NET Standard 2.0</Title>
+  </PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+		<DefineConstants>$(DefineConstants);NETCORE;NETSTANDARD2_0</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<DefineConstants>$(DefineConstants);NETCORE;NET6_0;NET6_0_OR_GREATER</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+	  <LangVersion>default</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	  <LangVersion>default</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	  <LangVersion>default</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+	  <LangVersion>default</LangVersion>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceStack.Redis\src\ServiceStack.Redis\ServiceStack.Redis.Core.csproj" />
+    <ProjectReference Include="..\ServiceStack.Text\src\ServiceStack.Text\ServiceStack.Text.Core.csproj" />
+    <ProjectReference Include="..\ServiceStack\src\ServiceStack.Client\ServiceStack.Client.Core.csproj" />
+    <ProjectReference Include="..\ServiceStack\src\ServiceStack.Common\ServiceStack.Common.Core.csproj" />
+    <ProjectReference Include="..\ServiceStack\src\ServiceStack.Interfaces\ServiceStack.Interfaces.Core.csproj" />
+  </ItemGroup>
+
+</Project>
