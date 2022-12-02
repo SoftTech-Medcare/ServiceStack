@@ -398,8 +398,8 @@ namespace ServiceStack.Redis
             if (Pipeline == null && Transaction == null)
             {
                 Interlocked.Increment(ref __requestsPerHour);
-                if (__requestsPerHour % 20 == 0)
-                    LicenseUtils.AssertValidUsage(LicenseFeature.Redis, QuotaType.RequestsPerHour, __requestsPerHour);
+                //if (__requestsPerHour % 20 == 0)
+                //    LicenseUtils.AssertValidUsage(LicenseFeature.Redis, QuotaType.RequestsPerHour, __requestsPerHour);
             }
 
             if (log.IsDebugEnabled && RedisConfig.EnableVerboseLogging)

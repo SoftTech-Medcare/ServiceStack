@@ -160,13 +160,13 @@ namespace ServiceStack
 
         public static class FreeQuotas
         {
-            public const int ServiceStackOperations = 10;
-            public const int TypeFields = 20;
-            public const int RedisTypes = 20;
-            public const int RedisRequestPerHour = 6000;
-            public const int OrmLiteTables = 10;
-            public const int AwsTables = 10;
-            public const int PremiumFeature = 0;
+            public const int ServiceStackOperations = 1000;
+            public const int TypeFields = 2000;
+            public const int RedisTypes = 2000;
+            public const int RedisRequestPerHour = 10000000;
+            public const int OrmLiteTables = 1000;
+            public const int AwsTables = 1000;
+            public const int PremiumFeature = 100;
         }
 
         public static void AssertEvaluationLicense()
