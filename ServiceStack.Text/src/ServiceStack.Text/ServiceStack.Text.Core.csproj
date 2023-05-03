@@ -12,6 +12,7 @@
     </PackageDescription>
     <PackageTags>JSON;Text;Serializer;CSV;JSV;HTTP;Auto Mapping;Dump;Reflection;JS;Utils;Fast</PackageTags>
     <NoWarn>1591</NoWarn>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>$(DefineConstants);NETCORE;NETSTANDARD2_0</DefineConstants>
