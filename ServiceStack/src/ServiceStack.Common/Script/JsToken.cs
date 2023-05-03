@@ -752,7 +752,7 @@ namespace ServiceStack.Script
             return literal;
         }
 
-        internal static ReadOnlySpan<char> ParseJsMemberExpression(this ReadOnlySpan<char> literal, ref JsToken node, bool filterExpression)
+        internal static ReadOnlySpan<char> ParseJsMemberExpression(this ReadOnlySpan<char> literal, scoped ref JsToken node, bool filterExpression)
         {
             literal = literal.AdvancePastWhitespace();
 

@@ -469,7 +469,7 @@ namespace ServiceStack.Text.Json
                 : null;
         }
 
-        private static ReadOnlySpan<char> UnescapeJsonString(ReadOnlySpan<char> json, ref int index) =>
+        private static ReadOnlySpan<char> UnescapeJsonString(ReadOnlySpan<char> json, scoped ref int index) =>
             UnescapeJsString(json, JsonUtils.QuoteChar, removeQuotes:true, ref index);
 
         public static ReadOnlySpan<char> UnescapeJsString(ReadOnlySpan<char> json, char quoteChar)
@@ -478,7 +478,7 @@ namespace ServiceStack.Text.Json
             return UnescapeJsString(json, quoteChar, removeQuotes:false, ref ignore);
         }
         
-        public static ReadOnlySpan<char> UnescapeJsString(ReadOnlySpan<char> json, char quoteChar, bool removeQuotes, ref int index)
+        public static ReadOnlySpan<char> UnescapeJsString(ReadOnlySpan<char> json, char quoteChar, bool removeQuotes, scoped ref int index)
         {
             if (json.IsNullOrEmpty()) return json;
             var jsonLength = json.Length;
