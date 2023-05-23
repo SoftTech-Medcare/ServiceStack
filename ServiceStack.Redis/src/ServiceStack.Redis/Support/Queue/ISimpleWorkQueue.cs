@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace ServiceStack.Redis.Support.Queue
 {
-	public interface ISimpleWorkQueue<T> : IDisposable where T : class
-	{
+    public interface ISimpleWorkQueue<T> : IDisposable where T : class
+    {
         /// <summary>
         /// Enqueue item
         /// </summary>
@@ -18,5 +18,5 @@ namespace ServiceStack.Redis.Support.Queue
         /// <param name="maxBatchSize"></param>
         /// <returns></returns>
 		IList<T> Dequeue(int maxBatchSize);
-	}
+    }
 }

@@ -5,5 +5,5 @@ using System.Collections.Generic;
 
 namespace ServiceStack.Commands
 {
-    public interface ICommandList<T> : ICommand<List<T>> {}
+    public interface ICommandList<T> : ICommand<List<T>> { }
 }

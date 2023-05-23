@@ -10,18 +10,31 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text;
+using ServiceStack.Text.Support;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Linq;
 using System.Reflection;
-using System.Threading;
+After:
+using System.Collections.Generic;
+using System.ComponentModel;
+*/
+using System.Collections.Generic;
+using System.Linq;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using ServiceStack.Text.Support;
+After:
 using System.Linq.Expressions;
+*/
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-
-using ServiceStack.Text;
+using System.Threading;
 
 namespace ServiceStack
 {
@@ -33,7 +46,7 @@ namespace ServiceStack
         public static TypeCode GetTypeCode(this Type type)
         {
             return Type.GetTypeCode(type);
-        }        
+        }
 
         public static bool IsInstanceOf(this Type type, Type thisOrBaseType)
         {
@@ -351,7 +364,7 @@ namespace ServiceStack
         static Dictionary<Type, EmptyCtorDelegate> ConstructorMethods = new Dictionary<Type, EmptyCtorDelegate>();
         public static EmptyCtorDelegate GetConstructorMethod(Type type)
         {
-            if (ConstructorMethods.TryGetValue(type, out var emptyCtorFn)) 
+            if (ConstructorMethods.TryGetValue(type, out var emptyCtorFn))
                 return emptyCtorFn;
 
             emptyCtorFn = GetConstructorMethodToCache(type);
@@ -372,7 +385,7 @@ namespace ServiceStack
         static Dictionary<string, EmptyCtorDelegate> TypeNamesMap = new Dictionary<string, EmptyCtorDelegate>();
         public static EmptyCtorDelegate GetConstructorMethod(string typeName)
         {
-            if (TypeNamesMap.TryGetValue(typeName, out var emptyCtorFn)) 
+            if (TypeNamesMap.TryGetValue(typeName, out var emptyCtorFn))
                 return emptyCtorFn;
 
             var type = JsConfig.TypeFinder(typeName);
@@ -383,7 +396,8 @@ namespace ServiceStack
             do
             {
                 snapshot = TypeNamesMap;
-                newCache = new Dictionary<string, EmptyCtorDelegate>(TypeNamesMap) {
+                newCache = new Dictionary<string, EmptyCtorDelegate>(TypeNamesMap)
+                {
                     [typeName] = emptyCtorFn
                 };
 
@@ -656,7 +670,8 @@ namespace ServiceStack
             // else return those properties that are not decorated with IgnoreDataMember
             return readableProperties
                 .Where(prop => prop.AllAttributes()
-                    .All(attr => {
+                    .All(attr =>
+                    {
                         var name = attr.GetType().Name;
                         return !IgnoreAttributesNamed.Contains(name);
                     }))

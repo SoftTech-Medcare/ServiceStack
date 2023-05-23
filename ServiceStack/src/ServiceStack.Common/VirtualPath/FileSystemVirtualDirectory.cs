@@ -1,10 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ServiceStack.IO;
+using ServiceStack.Logging;
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System.IO;
 using System.Linq;
 using ServiceStack.IO;
 using ServiceStack.Logging;
 using ServiceStack.Text;
+After:
+using ServiceStack.Text;
+using System;
+using System.Collections.IO;
+using System.IO;
+using System.Text;
+*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ServiceStack.VirtualPath
 {
@@ -88,7 +101,7 @@ namespace ServiceStack.VirtualPath
         }
 
         protected override IEnumerable<IVirtualFile> GetMatchingFilesInDir(string globPattern)
-        { 
+        {
             try
             {
                 if (globPattern.IndexOf('/') >= 0)
@@ -104,7 +117,7 @@ namespace ServiceStack.VirtualPath
 
                         return matchingFilesInBackingDir;
                     }
-                    
+
                     return TypeConstants<IVirtualFile>.EmptyArray;
                 }
                 else

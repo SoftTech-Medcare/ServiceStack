@@ -12,19 +12,19 @@
 
 namespace ServiceStack.Redis
 {
-	public class RedisResponseException
-		: RedisException
-	{
-		public RedisResponseException(string message)
-			: base(message)
-		{
-		}
+    public class RedisResponseException
+        : RedisException
+    {
+        public RedisResponseException(string message)
+            : base(message)
+        {
+        }
 
-		public RedisResponseException(string message, string code) : base(message)
-		{
-			Code = code;
-		}
+        public RedisResponseException(string message, string code) : base(message)
+        {
+            Code = code;
+        }
 
-		public string Code { get; private set; }
-	}
+        public string Code { get; private set; }
+    }
 }

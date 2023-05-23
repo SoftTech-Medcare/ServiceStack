@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using ServiceStack.Redis;
+﻿using ServiceStack.Redis;
+using System.Collections.Generic;
 
 /// <summary>
 /// Resolver strategy for resolving hosts and creating clients

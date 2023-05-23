@@ -1,3 +1,7 @@
+using ServiceStack.Configuration;
+using ServiceStack.IO;
+using ServiceStack.Logging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,10 +11,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Configuration;
-using ServiceStack.IO;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack.Script
 {
@@ -23,11 +23,11 @@ namespace ServiceStack.Script
     {
         void Configure(PageResult pageResult);
     }
-    
+
     public partial class ScriptContext : IDisposable
     {
         public List<PageFormat> PageFormats { get; set; } = new();
-        
+
         public string IndexPage { get; set; } = "index";
 
         public string DefaultLayoutPage { get; set; } = "_layout";
@@ -61,17 +61,17 @@ namespace ServiceStack.Script
         /// Allow scripting of Types from specified Assemblies
         /// </summary>
         public List<Assembly> ScriptAssemblies { get; set; } = new();
-        
+
         /// <summary>
         /// Allow scripting of the specified Types
         /// </summary>
         public List<Type> ScriptTypes { get; set; } = new();
-        
+
         /// <summary>
         /// Lookup Namespaces for resolving Types in Scripts
         /// </summary>
         public List<string> ScriptNamespaces { get; set; } = new();
-        
+
         /// <summary>
         /// Allow scripting of all Types in loaded Assemblies 
         /// </summary>
@@ -80,23 +80,23 @@ namespace ServiceStack.Script
         /// <summary>
         /// Register short Type name accessible from scripts. (Advanced, use ScriptAssemblies/ScriptTypes first)
         /// </summary>
-        public Dictionary<string, Type> ScriptTypeNameMap { get; } = new(); 
+        public Dictionary<string, Type> ScriptTypeNameMap { get; } = new();
         /// <summary>
         /// Register long qualified Type name accessible from scripts. (Advanced, use ScriptAssemblies/ScriptTypes first)
         /// </summary>
-        public Dictionary<string, Type> ScriptTypeQualifiedNameMap { get; } = new(); 
+        public Dictionary<string, Type> ScriptTypeQualifiedNameMap { get; } = new();
 
         public IContainer Container { get; set; } = new SimpleContainer();
-        
+
         public IAppSettings AppSettings { get; set; } = new SimpleAppSettings();
-        
-        public List<Func<string,string>> Preprocessors { get; } = new();
-        
+
+        public List<Func<string, string>> Preprocessors { get; } = new();
+
         public ScriptLanguage DefaultScriptLanguage { get; set; }
 
-        public List<ScriptLanguage> ScriptLanguages { get; } = new(); 
+        public List<ScriptLanguage> ScriptLanguages { get; } = new();
 
-        internal ScriptLanguage[] ScriptLanguagesArray { get; private set; } 
+        internal ScriptLanguage[] ScriptLanguagesArray { get; private set; }
 
         public List<ScriptMethods> ScriptMethods { get; } = new();
 
@@ -113,13 +113,13 @@ namespace ServiceStack.Script
         public List<ScriptBlock> InsertScriptBlocks { get; } = new();
 
         public Dictionary<string, Type> CodePages { get; } = new();
-        
+
         public HashSet<string> ExcludeFiltersNamed { get; } = new();
 
-        private readonly Dictionary<string, ScriptLanguage> scriptLanguagesMap = new(); 
+        private readonly Dictionary<string, ScriptLanguage> scriptLanguagesMap = new();
         public ScriptLanguage GetScriptLanguage(string name) => scriptLanguagesMap.TryGetValue(name, out var block) ? block : null;
 
-        private readonly Dictionary<string, ScriptBlock> blocksMap = new(); 
+        private readonly Dictionary<string, ScriptBlock> blocksMap = new();
         public ScriptBlock GetBlock(string name) => blocksMap.TryGetValue(name, out var block) ? block : null;
 
         public ConcurrentDictionary<string, object> Cache { get; } = new();
@@ -127,7 +127,7 @@ namespace ServiceStack.Script
         public ConcurrentDictionary<ReadOnlyMemory<char>, object> CacheMemory { get; } = new();
 
         public ConcurrentDictionary<string, Tuple<DateTime, object>> ExpiringCache { get; } = new();
-        
+
         public ConcurrentDictionary<ReadOnlyMemory<char>, JsToken> JsTokenCache { get; } = new();
 
         public ConcurrentDictionary<string, Action<ScriptScopeContext, object, object>> AssignExpressionCache { get; } = new();
@@ -135,16 +135,16 @@ namespace ServiceStack.Script
         public ConcurrentDictionary<Type, Tuple<MethodInfo, MethodInvoker>> CodePageInvokers { get; } = new();
 
         public ConcurrentDictionary<string, string> PathMappings { get; } = new();
-       
+
         public List<IScriptPlugin> Plugins { get; } = new();
 
         /// <summary>
         /// Insert plugins at the start of Plugins so they're registered first
         /// </summary>
         public List<IScriptPlugin> InsertPlugins { get; } = new();
-        
+
         public HashSet<string> FileFilterNames { get; } = new() { "includeFile", "fileContents" };
-        
+
         /// <summary>
         /// Available transformers that can transform context filter stream outputs
         /// </summary>
@@ -159,12 +159,12 @@ namespace ServiceStack.Script
         /// How long in between checking for modified pages
         /// </summary>
         public TimeSpan? CheckForModifiedPagesAfter { get; set; }
-        
+
         /// <summary>
         /// Existing caches and pages created prior to specified date should be invalidated 
         /// </summary>
         public DateTime? InvalidateCachesBefore { get; set; }
-        
+
         /// <summary>
         /// Render render filter exceptions in-line where filter is located
         /// </summary>
@@ -174,7 +174,7 @@ namespace ServiceStack.Script
         /// What argument to assign Exceptions to
         /// </summary>
         public string AssignExceptionsTo { get; set; }
-        
+
         /// <summary>
         /// Whether to skip executing expressions if an Exception was thrown
         /// </summary>
@@ -197,12 +197,12 @@ namespace ServiceStack.Script
 
         private ILog log;
         public ILog Log => log ??= LogManager.GetLogger(GetType());
-        
+
         public HashSet<string> RemoveNewLineAfterFiltersNamed { get; set; } = new();
         public HashSet<string> OnlyEvaluateFiltersWhenSkippingPageFilterExecution { get; set; } = new();
-        
+
         public Dictionary<string, ScriptLanguage> ParseAsLanguage { get; set; } = new();
-        
+
         public Func<PageVariableFragment, ReadOnlyMemory<byte>> OnUnhandledExpression { get; set; }
         public Action<PageResult, Exception> OnRenderException { get; set; }
 
@@ -218,17 +218,17 @@ namespace ServiceStack.Script
         public DefaultScripts DefaultMethods => ScriptMethods.FirstOrDefault(x => x is DefaultScripts) as DefaultScripts;
         public ProtectedScripts ProtectedMethods => ScriptMethods.FirstOrDefault(x => x is ProtectedScripts) as ProtectedScripts;
 
-        public ProtectedScripts AssertProtectedMethods() => ProtectedMethods ?? 
+        public ProtectedScripts AssertProtectedMethods() => ProtectedMethods ??
             throw new NotSupportedException("ScriptContext is not configured with ProtectedScripts");
-        
+
         public HtmlScripts HtmlMethods => ScriptMethods.FirstOrDefault(x => x is HtmlScripts) as HtmlScripts;
 
         public void GetPage(string fromVirtualPath, string virtualPath, out SharpPage page, out SharpCodePage codePage)
         {
             if (!TryGetPage(fromVirtualPath, virtualPath, out page, out codePage))
-                throw new FileNotFoundException($"Page at path was not found: '{virtualPath}'");            
+                throw new FileNotFoundException($"Page at path was not found: '{virtualPath}'");
         }
-        
+
         public bool TryGetPage(string fromVirtualPath, string virtualPath, out SharpPage page, out SharpCodePage codePage)
         {
             var pathMapKey = nameof(GetPage) + ">" + fromVirtualPath;
@@ -264,7 +264,7 @@ namespace ServiceStack.Script
                     return true;
                 }
             }
-            
+
             //otherwise find closest match from page.VirtualPath
             var parentPath = fromVirtualPath.IndexOf('/') >= 0
                 ? fromVirtualPath.LastLeftPart('/')
@@ -291,7 +291,7 @@ namespace ServiceStack.Script
 
                 if (parentPath == "")
                     break;
-                    
+
                 parentPath = parentPath.IndexOf('/') >= 0
                     ? parentPath.LastLeftPart('/')
                     : "";
@@ -304,36 +304,38 @@ namespace ServiceStack.Script
         }
 
         private SharpPage emptyPage;
-        public SharpPage EmptyPage => emptyPage ??= OneTimePage(""); 
+        public SharpPage EmptyPage => emptyPage ??= OneTimePage("");
 
-        
+
         private static InMemoryVirtualFile emptyFile;
         public InMemoryVirtualFile EmptyFile =>
-            emptyFile ??= new InMemoryVirtualFile(SharpPages.TempFiles, SharpPages.TempDir) {
-                FilePath = "empty", TextContents = ""
-            }; 
-        
-        public SharpPage OneTimePage(string contents, string ext=null) 
+            emptyFile ??= new InMemoryVirtualFile(SharpPages.TempFiles, SharpPages.TempDir)
+            {
+                FilePath = "empty",
+                TextContents = ""
+            };
+
+        public SharpPage OneTimePage(string contents, string ext = null)
             => Pages.OneTimePage(contents, ext ?? PageFormats.First().Extension);
 
         public SharpCodePage GetCodePage(string virtualPath)
         {
-            var sanitizePath = virtualPath.Replace('\\','/').TrimPrefixes("/").LastLeftPart('.');
+            var sanitizePath = virtualPath.Replace('\\', '/').TrimPrefixes("/").LastLeftPart('.');
 
             var isIndexPage = sanitizePath == string.Empty || sanitizePath.EndsWith("/");
             var lookupPath = !isIndexPage
                 ? sanitizePath
                 : sanitizePath + IndexPage;
-            
-            if (!CodePages.TryGetValue(lookupPath, out Type type)) 
+
+            if (!CodePages.TryGetValue(lookupPath, out Type type))
                 return null;
-            
-            var instance = (SharpCodePage) Container.Resolve(type);
+
+            var instance = (SharpCodePage)Container.Resolve(type);
             instance.Init();
             return instance;
         }
 
-        public string SetPathMapping(string prefix, string mapPath, string toPath) 
+        public string SetPathMapping(string prefix, string mapPath, string toPath)
         {
             if (!DebugMode && toPath != null && mapPath != toPath)
                 PathMappings[prefix + ">" + mapPath] = toPath;
@@ -341,7 +343,7 @@ namespace ServiceStack.Script
             return toPath;
         }
 
-        public void RemovePathMapping(string prefix, string mapPath) 
+        public void RemovePathMapping(string prefix, string mapPath)
         {
             if (DebugMode)
                 return;
@@ -372,11 +374,11 @@ namespace ServiceStack.Script
             FilterTransformers[ScriptConstants.HtmlEncode] = HtmlPageFormat.HtmlEncodeTransformer;
             FilterTransformers["end"] = stream => (TypeConstants.EmptyByteArray.InMemoryStream() as Stream).InTask();
             FilterTransformers["buffer"] = stream => stream.InTask();
-            
+
             DefaultScriptLanguage = SharpScript.Language;
             ScriptLanguages.Add(ScriptTemplate.Language);
             ScriptLanguages.Add(ScriptCode.Language);
-            
+
             Args[nameof(ScriptConfig.DefaultCulture)] = ScriptConfig.CreateCulture();
             Args[nameof(ScriptConfig.DefaultDateFormat)] = ScriptConfig.DefaultDateFormat;
             Args[nameof(ScriptConfig.DefaultDateTimeFormat)] = ScriptConfig.DefaultDateTimeFormat;
@@ -408,7 +410,7 @@ namespace ServiceStack.Script
             Plugins.RemoveAll(match);
             return this;
         }
-        
+
         public Action<ScriptContext> OnAfterPlugins { get; set; }
 
         public bool HasInit { get; private set; }
@@ -425,7 +427,7 @@ namespace ServiceStack.Script
                 ScriptBlocks.InsertRange(0, InsertScriptBlocks);
             if (InsertPlugins.Count > 0)
                 Plugins.InsertRange(0, InsertPlugins);
-            
+
             foreach (var assembly in ScanAssemblies.Safe())
             {
                 foreach (var type in assembly.GetTypes())
@@ -441,9 +443,9 @@ namespace ServiceStack.Script
                     }
                 }
             }
-            
+
             Args[ScriptConstants.Debug] = DebugMode;
-            
+
             Container.AddSingleton(() => this);
             Container.AddSingleton(() => Pages);
 
@@ -451,7 +453,7 @@ namespace ServiceStack.Script
             foreach (var scriptLanguage in ScriptLanguagesArray)
             {
                 scriptLanguagesMap[scriptLanguage.Name] = scriptLanguage;
-                
+
                 if (scriptLanguage is IConfigureScriptContext init)
                     init.Configure(this);
             }
@@ -465,7 +467,7 @@ namespace ServiceStack.Script
             {
                 plugin.Register(this);
             }
-            
+
             OnAfterPlugins?.Invoke(this);
 
             foreach (var type in ScanTypes)
@@ -493,7 +495,7 @@ namespace ServiceStack.Script
             }
 
             ScriptNamespaces = ScriptNamespaces.Distinct().ToList();
-            
+
             var allTypes = new List<Type>(ScriptTypes);
             foreach (var asm in ScriptAssemblies)
             {
@@ -578,7 +580,7 @@ namespace ServiceStack.Script
                     }
                 }
             }
-            
+
             return this;
         }
 
@@ -601,7 +603,7 @@ namespace ServiceStack.Script
 
         public void Dispose()
         {
-            using (Container as IDisposable) {}
+            using (Container as IDisposable) { }
         }
     }
 
@@ -620,7 +622,7 @@ namespace ServiceStack.Script
     public static class ScriptContextUtils
     {
         public static string ErrorNoReturn = "Script did not return a value. Use EvaluateScript() to return script output instead";
-        
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowNoReturn() => throw new NotSupportedException("Script did not return a value");
 
@@ -634,12 +636,12 @@ namespace ServiceStack.Script
                 underlyingEx = se.InnerException;
             if (underlyingEx is TargetInvocationException te)
                 underlyingEx = te.InnerException;
-            
+
 #if DEBUG
             var logEx = underlyingEx.GetInnerMostException();
             Logging.LogManager.GetLogger(typeof(ScriptContextUtils)).Error(logEx.Message + "\n" + logEx.StackTrace, logEx);
 #endif
-            
+
             if (underlyingEx is ScriptException)
                 return underlyingEx;
 
@@ -700,8 +702,8 @@ namespace ServiceStack.Script
 
         public static void RenderToStream(this PageResult pageResult, Stream stream)
         {
-            try 
-            { 
+            try
+            {
                 try
                 {
                     if (pageResult.ResultOutput != null)
@@ -734,8 +736,8 @@ namespace ServiceStack.Script
 
         public static async Task RenderToStreamAsync(this PageResult pageResult, Stream stream)
         {
-            try 
-            { 
+            try
+            {
                 if (pageResult.ResultOutput != null)
                 {
                     if (pageResult.LastFilterError != null)
@@ -792,7 +794,7 @@ namespace ServiceStack.Script
             }
         }
 
-        public static ScriptScopeContext CreateScope(this ScriptContext context, Dictionary<string, object> args = null, 
+        public static ScriptScopeContext CreateScope(this ScriptContext context, Dictionary<string, object> args = null,
             ScriptMethods functions = null, ScriptBlock blocks = null)
         {
             var pageContext = new PageResult(context.EmptyPage);

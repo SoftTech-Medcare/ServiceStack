@@ -1,7 +1,7 @@
+using ServiceStack.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Redis.Pipeline
 {

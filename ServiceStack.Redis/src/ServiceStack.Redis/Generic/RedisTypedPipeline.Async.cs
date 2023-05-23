@@ -1,11 +1,11 @@
-﻿using System;
+﻿using ServiceStack.Redis.Generic;
+using ServiceStack.Redis.Pipeline;
+using ServiceStack.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Redis.Generic;
-using ServiceStack.Redis.Pipeline;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {

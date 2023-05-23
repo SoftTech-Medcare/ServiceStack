@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace ServiceStack
@@ -55,7 +54,7 @@ namespace ServiceStack
 
             return RequestAttributes.FormatOther;
         }
-        
+
         public static readonly Dictionary<string, string> ContentTypeAliases = new()
         {
             { MimeTypes.JsonText, MimeTypes.Json },
@@ -135,8 +134,19 @@ namespace ServiceStack
             if (format == Format.Soap11)
                 return "soap11";
             if (format == Format.Soap12)
+
+                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                Before:
+                                return "soap12";
+
+                            var formatStr = format.ToString().ToLowerInvariant();
+                After:
+                                return "soap12";
+
+                            var formatStr = format.ToString().ToLowerInvariant();
+                */
                 return "soap12";
-            
+
             var formatStr = format.ToString().ToLowerInvariant();
             return format == Format.MsgPack || format == Format.ProtoBuf
                 ? "x-" + formatStr
@@ -149,7 +159,7 @@ namespace ServiceStack
                 return "soap11";
             if (contentType == MimeTypes.Soap12)
                 return "soap12";
-            
+
             return contentType?.RightPart('/');
         }
 
@@ -192,7 +202,7 @@ namespace ServiceStack
                     return null;
             }
         }
-        
+
         public static RequestAttributes GetRequestAttribute(string httpMethod)
         {
             switch (httpMethod.ToUpper())

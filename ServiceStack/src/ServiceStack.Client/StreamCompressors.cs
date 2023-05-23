@@ -1,12 +1,12 @@
 #nullable enable
 
+using ServiceStack.Caching;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using ServiceStack.Caching;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
@@ -27,8 +27,19 @@ public static class StreamCompressors
     /// Register a new compressor for a specific encoding (defaults: gzip, deflate, br*) .NET6+ 
     /// </summary>
     public static void Set(string encoding, IStreamCompressor compressor) =>
+
+        /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+        Before:
+                Compressors[encoding] = compressor;
+
+            /// <summary>
+        After:
+                Compressors[encoding] = compressor;
+
+            /// <summary>
+        */
         Compressors[encoding] = compressor;
-    
+
     /// <summary>
     /// Is there a compressor registered with this encoding?
     /// </summary>
@@ -39,8 +50,19 @@ public static class StreamCompressors
     /// </summary>
     public static IStreamCompressor? Get(string? encoding) => encoding != null && Compressors.TryGetValue(encoding, out var compressor)
         ? compressor
+
+        /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+        Before:
+                : null;
+
+            /// <summary>
+        After:
+                : null;
+
+            /// <summary>
+        */
         : null;
-    
+
     /// <summary>
     /// Assert there exists a IStreamCompressor for this encoding
     /// </summary>
@@ -73,7 +95,7 @@ public class BrotliCompressor : IStreamCompressor
         return ms.ToArray();
     }
 
-    public Stream Compress(Stream outputStream, bool leaveOpen=false) => 
+    public Stream Compress(Stream outputStream, bool leaveOpen = false) =>
         new BrotliStream(outputStream, CompressionMode.Compress, leaveOpen);
 
     public string Decompress(byte[] zipBuffer, Encoding? encoding = null)
@@ -85,7 +107,7 @@ public class BrotliCompressor : IStreamCompressor
         return uncompressedStream.ReadToEnd(encoding ?? System.Text.Encoding.UTF8);
     }
 
-    public Stream Decompress(Stream gzStream, bool leaveOpen=false) => 
+    public Stream Decompress(Stream gzStream, bool leaveOpen = false) =>
         new BrotliStream(gzStream, CompressionMode.Decompress, leaveOpen);
 
     public byte[] DecompressBytes(byte[] zipBuffer)
@@ -98,9 +120,9 @@ public class BrotliCompressor : IStreamCompressor
 
 public class ZLibCompressor : IStreamCompressor
 {
-    public string Encoding => CompressionTypes.Deflate; 
+    public string Encoding => CompressionTypes.Deflate;
     public static ZLibCompressor Instance { get; } = new();
-        
+
     public byte[] Compress(string text, Encoding? encoding = null) => Compress((encoding ?? System.Text.Encoding.UTF8).GetBytes(text));
 
     public byte[] Compress(byte[] bytes)
@@ -115,7 +137,7 @@ public class ZLibCompressor : IStreamCompressor
         return ms.ToArray();
     }
 
-    public Stream Compress(Stream outputStream, bool leaveOpen=false) => 
+    public Stream Compress(Stream outputStream, bool leaveOpen = false) =>
         new ZLibStream(outputStream, CompressionMode.Compress, leaveOpen);
 
     public string Decompress(byte[] zipBuffer, Encoding? encoding = null)
@@ -127,7 +149,7 @@ public class ZLibCompressor : IStreamCompressor
         return uncompressedStream.ReadToEnd(encoding ?? System.Text.Encoding.UTF8);
     }
 
-    public Stream Decompress(Stream zipBuffer, bool leaveOpen=false) => 
+    public Stream Decompress(Stream zipBuffer, bool leaveOpen = false) =>
         new ZLibStream(zipBuffer, CompressionMode.Decompress, leaveOpen);
 
     public byte[] DecompressBytes(byte[] zipBuffer)
@@ -141,9 +163,9 @@ public class ZLibCompressor : IStreamCompressor
 
 public class DeflateCompressor : IStreamCompressor
 {
-    public string Encoding => CompressionTypes.Deflate; 
+    public string Encoding => CompressionTypes.Deflate;
     public static DeflateCompressor Instance { get; } = new();
-        
+
     public byte[] Compress(string text, Encoding? encoding = null) => Compress((encoding ?? System.Text.Encoding.UTF8).GetBytes(text));
 
     public byte[] Compress(byte[] bytes)
@@ -158,7 +180,7 @@ public class DeflateCompressor : IStreamCompressor
         return ms.ToArray();
     }
 
-    public Stream Compress(Stream outputStream, bool leaveOpen=false) => 
+    public Stream Compress(Stream outputStream, bool leaveOpen = false) =>
         new DeflateStream(outputStream, CompressionMode.Compress, leaveOpen);
 
     public string Decompress(byte[] zipBuffer, Encoding? encoding = null)
@@ -170,7 +192,7 @@ public class DeflateCompressor : IStreamCompressor
         return uncompressedStream.ReadToEnd(encoding ?? System.Text.Encoding.UTF8);
     }
 
-    public Stream Decompress(Stream zipBuffer, bool leaveOpen=false) => 
+    public Stream Decompress(Stream zipBuffer, bool leaveOpen = false) =>
         new DeflateStream(zipBuffer, CompressionMode.Decompress, leaveOpen);
 
     public byte[] DecompressBytes(byte[] zipBuffer)
@@ -183,7 +205,7 @@ public class DeflateCompressor : IStreamCompressor
 
 public class GZipCompressor : IStreamCompressor
 {
-    public string Encoding => CompressionTypes.GZip; 
+    public string Encoding => CompressionTypes.GZip;
     public static GZipCompressor Instance { get; } = new();
     public byte[] Compress(string text, Encoding? encoding = null) => Compress((encoding ?? System.Text.Encoding.UTF8).GetBytes(text));
 
@@ -197,7 +219,7 @@ public class GZipCompressor : IStreamCompressor
         return ms.ToArray();
     }
 
-    public Stream Compress(Stream outputStream, bool leaveOpen=false) => 
+    public Stream Compress(Stream outputStream, bool leaveOpen = false) =>
         new GZipStream(outputStream, CompressionMode.Compress, leaveOpen);
 
     public string Decompress(byte[] gzBuffer, Encoding? encoding = null)
@@ -216,6 +238,6 @@ public class GZipCompressor : IStreamCompressor
         return zipStream.ReadFully();
     }
 
-    public Stream Decompress(Stream gzStream, bool leaveOpen=false) => 
+    public Stream Decompress(Stream gzStream, bool leaveOpen = false) =>
         new GZipStream(gzStream, CompressionMode.Decompress, leaveOpen);
 }

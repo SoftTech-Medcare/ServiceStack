@@ -10,20 +10,33 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text;
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Json;
+using ServiceStack.Text.Jsv;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Text;
 using System.Threading;
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
-using ServiceStack.Text.Jsv;
+After:
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using ServiceStack.Text;
+*/
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace ServiceStack
 {
@@ -165,7 +178,7 @@ namespace ServiceStack
                 foreach (var key in map.Keys)
                 {
                     var dictionaryValue = map[key];
-                    if (dictionaryValue == null) 
+                    if (dictionaryValue == null)
                         continue;
 
                     if (writeKeyFn == null)
@@ -177,7 +190,7 @@ namespace ServiceStack
                     if (writeValueFn == null || isObjectDictionary)
                     {
                         writeValueFn = dictionaryValue is string
-                            ? (w,x) => w.Write(((string)x).UrlEncode())
+                            ? (w, x) => w.Write(((string)x).UrlEncode())
                             : Serializer.GetWriteFn(dictionaryValue.GetType());
                     }
 

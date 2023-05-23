@@ -163,7 +163,8 @@ namespace ServiceStack
 
         public static Format ToFormat(this Feature feature)
         {
-            return feature switch {
+            return feature switch
+            {
                 Feature.Xml => Format.Xml,
                 Feature.Json => Format.Json,
                 Feature.Jsv => Format.Jsv,
@@ -179,7 +180,8 @@ namespace ServiceStack
 
         public static Feature ToFeature(this Format format)
         {
-            return format switch {
+            return format switch
+            {
                 Format.Xml => Feature.Xml,
                 Format.Json => Feature.Json,
                 Format.Jsv => Feature.Jsv,
@@ -195,7 +197,8 @@ namespace ServiceStack
 
         public static RequestAttributes ToRequestAttribute(this Format format)
         {
-            return format switch {
+            return format switch
+            {
                 Format.Xml => RequestAttributes.Xml,
                 Format.Json => RequestAttributes.Json,
                 Format.Jsv => RequestAttributes.Jsv,
@@ -214,7 +217,7 @@ namespace ServiceStack
             if ((RequestAttributes.Soap11 & attributes) == RequestAttributes.Soap11)
                 return Feature.Soap11;
             if ((RequestAttributes.Soap12 & attributes) == RequestAttributes.Soap12)
-                return Feature.Soap12;            
+                return Feature.Soap12;
             return Feature.None;
         }
     }

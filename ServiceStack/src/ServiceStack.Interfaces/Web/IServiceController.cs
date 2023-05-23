@@ -1,6 +1,13 @@
+
+/* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+Before:
 using System;
-using System.Threading.Tasks;
+After:
 using ServiceStack.Messaging;
+using System;
+*/
+using ServiceStack.Messaging;
+using System.Threading.Tasks;
 
 namespace ServiceStack.Web
 {

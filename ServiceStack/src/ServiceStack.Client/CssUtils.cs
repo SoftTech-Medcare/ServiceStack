@@ -29,7 +29,7 @@ public static class CssUtils
             => status?.FieldError(fieldName) == null
                 ? valid ?? "bg-white dark:bg-black focus-within:ring-indigo-600 border-gray-300 dark:border-gray-700 focus-within:border-indigo-600"
                 : invalid ?? "bg-white dark:bg-black border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500";
-        
+
         public static string Input(string cls) => Input(false, cls);
         public static string Input(bool invalid, string cls)
         {
@@ -45,7 +45,7 @@ public static class CssUtils
 
     public static string Selected(bool condition) => condition ? "selected" : "";
     public static string Active(bool condition) => condition ? "active" : "";
-    
+
     public static string ClassNames(params string?[] classes)
     {
         var sb = new StringBuilder();

@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+/* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+Before:
 using System.Linq;
+After:
+using System.Reflection;
+*/
+
 
 namespace ServiceStack.Messaging
 {

@@ -1,18 +1,26 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Logging;
+using ServiceStack.Text;
+using ServiceStack.Web;
+using System;
+*/
+using ServiceStack.Text;
+using ServiceStack.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Logging;
-using ServiceStack.Text;
-using ServiceStack.Web;
 
 namespace ServiceStack.Script
 {
-    public interface IPageResult {}
+    public interface IPageResult { }
 
     // Render a Template Page to the Response OutputStream
     public class PageResult : IPageResult, IStreamWriterAsync, IHasOptions, IDisposable
@@ -21,22 +29,22 @@ namespace ServiceStack.Script
         /// The Page to Render
         /// </summary>
         public SharpPage Page { get; }
-        
+
         /// <summary>
         /// The Code Page to Render
         /// </summary>
         public SharpCodePage CodePage { get; }
-        
+
         /// <summary>
         /// Use specified Layout 
         /// </summary>
         public SharpPage LayoutPage { get; set; }
-        
+
         /// <summary>
         /// Use Layout with specified name
         /// </summary>
         public string Layout { get; set; }
-        
+
         /// <summary>
         /// Render without any Layout
         /// </summary>
@@ -65,7 +73,7 @@ namespace ServiceStack.Script
         public List<ScriptBlock> ScriptBlocks { get; set; }
 
         [Obsolete("Use ScriptBlocks")] public List<ScriptBlock> TemplateBlocks => ScriptBlocks;
-        
+
         /// <summary>
         /// Add additional partials available to all pages
         /// </summary>
@@ -99,7 +107,7 @@ namespace ServiceStack.Script
         /// Available transformers that can transform context filter stream outputs
         /// </summary>
         public Dictionary<string, Func<Stream, Task<Stream>>> FilterTransformers { get; set; }
-        
+
         /// <summary>
         /// Don't allow access to specified filters
         /// </summary>
@@ -109,12 +117,12 @@ namespace ServiceStack.Script
         /// The last error thrown by a filter
         /// </summary>
         public Exception LastFilterError { get; set; }
-        
+
         /// <summary>
         /// The StackTrace where the Last Error Occured 
         /// </summary>
         public string[] LastFilterStackTrace { get; set; }
-        
+
         /// <summary>
         /// What argument errors should be binded to
         /// </summary>
@@ -134,7 +142,7 @@ namespace ServiceStack.Script
         /// Overrides Context to specify whether to Ignore or Continue executing filters on error 
         /// </summary>
         public bool? SkipExecutingFiltersIfError { get; set; }
-        
+
         /// <summary>
         /// Whether to always rethrow Exceptions
         /// </summary>
@@ -149,17 +157,17 @@ namespace ServiceStack.Script
         /// Whether to disable buffering output and render directly to OutputStream
         /// </summary>
         public bool DisableBuffering { get; set; }
-        
+
         /// <summary>
         /// The Return value of the page (if any)
         /// </summary>
         public ReturnValue ReturnValue { get; set; }
-        
+
         /// <summary>
         /// The Current StackDepth
         /// </summary>
         public int StackDepth { get; internal set; }
-        
+
         /// <summary>
         /// The Current StackDepth of rendering partials
         /// </summary>
@@ -169,18 +177,18 @@ namespace ServiceStack.Script
         /// Can be used to track number of Evaluations
         /// </summary>
         public long Evaluations { get; private set; }
-        
+
         /// <summary>
         /// Can be used to track number of Evaluations
         /// </summary>
         internal bool PageProcessed { get; set; }
-        
+
         public void AssertNextEvaluation()
         {
             if (Evaluations++ >= Context.MaxEvaluations)
                 throw new NotSupportedException($"Exceeded Max Evaluations of {Context.MaxEvaluations}. \nMaxEvaluations can be changed in `ScriptContext.MaxEvaluations`.");
         }
-        
+
         public void AssertNextPartial()
         {
             if (PartialStackDepth++ >= Context.MaxStackDepth)
@@ -188,7 +196,7 @@ namespace ServiceStack.Script
         }
 
         public void ResetIterations() => Evaluations = 0;
-        
+
         private readonly Stack<string> stackTrace = new Stack<string>();
 
         private PageResult(PageFormat format)
@@ -256,7 +264,7 @@ namespace ServiceStack.Script
             using (var ms = MemoryStreamFactory.GetStream())
             {
                 stackTrace.Push("OutputTransformer");
-                
+
                 await WriteToAsyncInternal(ms, token).ConfigAwait();
                 Stream stream = ms;
 
@@ -285,7 +293,7 @@ namespace ServiceStack.Script
                 if (LayoutPage != null)
                 {
                     await LayoutPage.Init().ConfigAwait();
-                
+
                     if (CodePage != null)
                         InitIfNewPage(CodePage);
 
@@ -334,7 +342,7 @@ namespace ServiceStack.Script
             {
                 // sync impl with WriteFragmentsAsync
                 stackTrace.Push("Layout: " + LayoutPage.VirtualPath);
-                
+
                 foreach (var fragment in LayoutPage.PageFragments)
                 {
                     if (HaltExecution)
@@ -362,7 +370,7 @@ namespace ServiceStack.Script
 
                 await WritePageFragmentAsync(scope, fragment, token).ConfigAwait();
             }
-            
+
             stackTrace.Pop();
         }
 
@@ -372,7 +380,7 @@ namespace ServiceStack.Script
             {
                 if (ShouldSkipFilterExecution(fragment))
                     return;
-                
+
                 if (await scriptLanguage.WritePageFragmentAsync(scope, fragment, token).ConfigAwait())
                     break;
             }
@@ -387,11 +395,11 @@ namespace ServiceStack.Script
             }
             finally
             {
-                
+
                 stackTrace.Pop();
             }
         }
-        
+
         public async Task WriteStatementsAsync(ScriptScopeContext scope, IEnumerable<JsStatement> blockStatements, CancellationToken token)
         {
             foreach (var statement in blockStatements)
@@ -409,18 +417,18 @@ namespace ServiceStack.Script
 
         public bool ShouldSkipFilterExecution(PageVariableFragment var)
         {
-            return HaltExecution || SkipFilterExecution && (var.Binding != null 
+            return HaltExecution || SkipFilterExecution && (var.Binding != null
                ? !Context.OnlyEvaluateFiltersWhenSkippingPageFilterExecution.Contains(var.Binding)
-               : var.InitialExpression?.Name == null || 
+               : var.InitialExpression?.Name == null ||
                  !Context.OnlyEvaluateFiltersWhenSkippingPageFilterExecution.Contains(var.InitialExpression.Name));
         }
 
-        public bool ShouldSkipFilterExecution(PageFragment fragment) => !(fragment is PageStringFragment) 
-            && (fragment is PageVariableFragment var 
+        public bool ShouldSkipFilterExecution(PageFragment fragment) => !(fragment is PageStringFragment)
+            && (fragment is PageVariableFragment var
                 ? ShouldSkipFilterExecution(var)
                 : HaltExecution || SkipFilterExecution);
 
-        public bool ShouldSkipFilterExecution(JsStatement statement) => HaltExecution || SkipFilterExecution; 
+        public bool ShouldSkipFilterExecution(JsStatement statement) => HaltExecution || SkipFilterExecution;
 
         public ScriptContext Context => Page?.Context ?? CodePage.Context;
         public PageFormat Format => Page?.Format ?? CodePage.Format;
@@ -481,7 +489,7 @@ namespace ServiceStack.Script
                     ? Context.Pages.ResolveLayoutPage(Page, Layout)
                     : Context.Pages.ResolveLayoutPage(CodePage, Layout);
             }
-            
+
             hasInit = true;
 
             return this;
@@ -496,8 +504,8 @@ namespace ServiceStack.Script
             }
         }
 
-        private Task InitIfNewPage(SharpPage page) => page != Page 
-            ? (Task) page.Init() 
+        private Task InitIfNewPage(SharpPage page) => page != Page
+            ? (Task)page.Init()
             : TypeConstants.EmptyTask;
 
         private void InitIfNewPage(SharpCodePage page)
@@ -518,7 +526,7 @@ namespace ServiceStack.Script
             try
             {
                 AssertNextPartial();
-                
+
                 if (page != null)
                     return WritePageAsync(page, scope, token);
 
@@ -629,9 +637,9 @@ namespace ServiceStack.Script
                 stackTrace.Push("Expression (filter): " + var.InitialExpression.Name);
             else if (var.InitialValue != null)
                 stackTrace.Push($"Expression ({var.InitialValue.GetType().Name}): " + toDebugString(var.InitialValue).SubstringWithEllipsis(0, 200));
-            else 
+            else
                 stackTrace.Push($"{var.Expression.GetType().Name}: " + var.Expression.ToRawString().SubstringWithEllipsis(0, 200));
-            
+
             var value = await EvaluateAsync(var, scope, token).ConfigAwait();
             if (value != IgnoreResult.Value)
             {
@@ -679,7 +687,7 @@ namespace ServiceStack.Script
 
         private ScriptScopeContext CreatePageContext(PageVariableFragment var, Stream outputStream) => new ScriptScopeContext(this, outputStream, GetPageParams(var));
 
-        private async Task<object> EvaluateAsync(PageVariableFragment var, ScriptScopeContext scope, CancellationToken token=default(CancellationToken))
+        private async Task<object> EvaluateAsync(PageVariableFragment var, ScriptScopeContext scope, CancellationToken token = default(CancellationToken))
         {
             scope.ScopedParams[nameof(PageVariableFragment)] = var;
 
@@ -688,7 +696,7 @@ namespace ServiceStack.Script
             {
                 var handlesUnknownValue = Context.OnUnhandledExpression == null &&
                     var.FilterExpressions.Length > 0;
-                
+
                 if (!handlesUnknownValue)
                 {
                     if (var.Expression is JsMemberExpression memberExpr)
@@ -726,7 +734,7 @@ namespace ServiceStack.Script
                 value = null;
 
             value = EvaluateIfToken(value, scope);
-            
+
             for (var i = 0; i < var.FilterExpressions.Length; i++)
             {
                 if (HaltExecution || value == StopExecution.Value)
@@ -822,7 +830,7 @@ namespace ServiceStack.Script
                                                 args[1 + cmdIndex] = varValue;
                                             }
 
-                                            await ((Task) contextBlockInvoker(filter, args)).ConfigAwait();
+                                            await ((Task)contextBlockInvoker(filter, args)).ConfigAwait();
                                         }
                                         else
                                         {
@@ -867,7 +875,7 @@ namespace ServiceStack.Script
                 {
                     var stopEx = ex as StopFilterExecutionException;
                     var useEx = stopEx?.InnerException ?? ex;
-                    
+
                     LastFilterError = useEx;
                     LastFilterStackTrace = stackTrace.ToArray();
 
@@ -875,7 +883,7 @@ namespace ServiceStack.Script
 
                     if (RethrowExceptions)
                         throw useEx;
-                    
+
                     var skipExecutingFilters = SkipExecutingFiltersIfError.GetValueOrDefault(Context.SkipExecutingFiltersIfError);
                     if (skipExecutingFilters)
                         this.SkipFilterExecution = true;
@@ -910,17 +918,17 @@ namespace ServiceStack.Script
                         {
                             if (CatchExceptionsIn != null)
                                 ResetError();
-                            
+
                             scope.ScopedParams[errorBinding] = useEx;
                             scope.ScopedParams[errorBinding + "StackTrace"] = stackTrace.Map(x => "   at " + x).Join(Environment.NewLine);
                             return string.Empty;
                         }
                     }
-                    
+
                     //continueExecutingFiltersOnError == false / skipExecutingFiltersOnError == true 
                     if (SkipExecutingFiltersIfError.HasValue || Context.SkipExecutingFiltersIfError)
                         return string.Empty;
-                    
+
                     // rethrow exceptions which aren't handled
                     var exResult = Format.OnExpressionException(this, ex);
                     if (exResult != null)
@@ -1055,14 +1063,14 @@ namespace ServiceStack.Script
                 {
                     throw new Exception($"Invalid literal: {literal.ToString()} in '{var.OriginalText}'", e);
                 }
-                
+
                 throw;
             }
         }
 
         private readonly Dictionary<string, ScriptBlock> blocksMap = new Dictionary<string, ScriptBlock>();
 
-        public ScriptBlock TryGetBlock(string name) => blocksMap.TryGetValue(name, out var block) ? block : Context.GetBlock(name); 
+        public ScriptBlock TryGetBlock(string name) => blocksMap.TryGetValue(name, out var block) ? block : Context.GetBlock(name);
         public ScriptBlock GetBlock(string name)
         {
             var block = TryGetBlock(name);
@@ -1070,9 +1078,9 @@ namespace ServiceStack.Script
                 throw new NotSupportedException($"Block in '{VirtualPath}' named '{name}' was not found.");
 
             return block;
-        }       
+        }
 
-        public ScriptScopeContext CreateScope(Stream outputStream=null) => 
+        public ScriptScopeContext CreateScope(Stream outputStream = null) =>
             new ScriptScopeContext(this, outputStream ?? MemoryStreamFactory.GetStream(), null);
 
         internal MethodInvoker GetFilterInvoker(string name, int argsCount, out ScriptMethods filter) => GetInvoker(name, argsCount, InvokerType.Filter, out filter);
@@ -1138,12 +1146,12 @@ namespace ServiceStack.Script
                                     ? obj
                                     : Context.Args.TryGetValue(name, out obj)
                                         ? obj
-                                        : argsOnly 
+                                        : argsOnly
                                             ? null
                                             : (invoker = GetFilterAsBinding(name, out var filter)) != null
                                                 ? InvokeFilter(invoker, filter, new object[0], name)
                                                 : (invoker = GetContextFilterAsBinding(name, out filter)) != null
-                                                    ? InvokeFilter(invoker, filter, new object[] {scope}, name)
+                                                    ? InvokeFilter(invoker, filter, new object[] { scope }, name)
                                                     // ReSharper disable once ExpressionIsAlwaysNull
                                                     // ReSharper disable once ConditionalTernaryEqualBranch
 #pragma warning disable CS0665
@@ -1151,16 +1159,16 @@ namespace ServiceStack.Script
 #pragma warning restore CS0665
             return ret;
         }
-        
+
         internal object GetValue(string name, ScriptScopeContext scope)
         {
-            TryGetValue(name, scope, argsOnly:false, out var value);
+            TryGetValue(name, scope, argsOnly: false, out var value);
             return value;
         }
 
         internal object GetArgument(string name, ScriptScopeContext scope)
         {
-            TryGetValue(name, scope, argsOnly:true, out var value);
+            TryGetValue(name, scope, argsOnly: true, out var value);
             return value;
         }
 
@@ -1175,7 +1183,7 @@ namespace ServiceStack.Script
                 {
                     if (resultOutput != null)
                         return resultOutput;
-    
+
                     Init().Wait();
                     resultOutput = this.RenderToStringAsync().Result;
                     return resultOutput;
@@ -1216,7 +1224,7 @@ namespace ServiceStack.Script
         public string Expression { get; }
         public string Member { get; }
 
-        public BindingExpressionException(string message, string member, string expression, Exception inner=null)
+        public BindingExpressionException(string message, string member, string expression, Exception inner = null)
             : base(message, inner)
         {
             Expression = expression;

@@ -57,7 +57,7 @@ public class MessageHandlerStats : IMessageHandlerStats
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"STATS for {Name}:").AppendLine();            
+        sb.AppendLine($"STATS for {Name}:").AppendLine();
         sb.AppendLine($"  TotalNormalMessagesReceived:    {TotalNormalMessagesReceived}");
         sb.AppendLine($"  TotalPriorityMessagesReceived:  {TotalPriorityMessagesReceived}");
         sb.AppendLine($"  TotalProcessed:                 {TotalMessagesProcessed}");

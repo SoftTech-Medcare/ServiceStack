@@ -1,14 +1,33 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.IO;
+using ServiceStack.Text;
+using ServiceStack.VirtualPath;
+using System;
+*/
+using ServiceStack.IO;
+using ServiceStack.Text;
+using ServiceStack.VirtualPath;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading;
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System.Threading.Tasks;
 using ServiceStack.IO;
 using ServiceStack.Text;
 using ServiceStack.VirtualPath;
+After:
+using System.Threading.Tasks;
+*/
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ServiceStack.VirtualPath
 {
@@ -27,7 +46,7 @@ namespace ServiceStack.VirtualPath
         public virtual string RealPath => GetRealPathToRoot();
         public virtual bool IsDirectory => false;
         public abstract DateTime LastModified { get; }
-        
+
         public abstract long Length { get; }
 
         protected AbstractVirtualFileBase(IVirtualPathProvider owningProvider, IVirtualDirectory directory)
@@ -112,7 +131,7 @@ namespace ServiceStack.VirtualPath
         }
 
         public virtual void Refresh()
-        {            
+        {
         }
 
         public virtual async Task WritePartialToAsync(Stream toStream, long start, long end, CancellationToken token = default)
@@ -135,8 +154,19 @@ namespace ServiceStack
                     return true;
             }
             return false;
+
+            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+            Before:
+                    }
+
+                    public static IVirtualDirectory[] GetAllRootDirectories(this IVirtualPathProvider vfs) => vfs is MultiVirtualFiles mvfs
+            After:
+                    }
+
+                    public static IVirtualDirectory[] GetAllRootDirectories(this IVirtualPathProvider vfs) => vfs is MultiVirtualFiles mvfs
+            */
         }
-        
+
         public static IVirtualDirectory[] GetAllRootDirectories(this IVirtualPathProvider vfs) => vfs is MultiVirtualFiles mvfs
             ? mvfs.ChildProviders.Select(x => x.RootDirectory).ToArray()
             : new[] { vfs.RootDirectory };
@@ -148,7 +178,7 @@ namespace ServiceStack
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MemoryVirtualFiles GetMemoryVirtualFiles(this IVirtualPathProvider vfs) =>
             vfs.GetVirtualFileSource<MemoryVirtualFiles>();
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static FileSystemVirtualFiles GetFileSystemVirtualFiles(this IVirtualPathProvider vfs) =>
             vfs.GetVirtualFileSource<FileSystemVirtualFiles>();
@@ -190,7 +220,7 @@ namespace ServiceStack
             if (file is InMemoryVirtualFile m)
                 return m.ByteContents ?? MemoryProvider.Instance.ToUtf8Bytes(m.TextContents.AsSpan());
             if (file is GistVirtualFile g && g.Stream != null)
-                return ((MemoryStream) g.Stream).GetBufferAsBytes();
+                return ((MemoryStream)g.Stream).GetBufferAsBytes();
 
             var contents = file.GetContents();
             var bytes = contents is ReadOnlyMemory<byte> rom
@@ -204,5 +234,5 @@ namespace ServiceStack
         }
 
     }
-    
+
 }

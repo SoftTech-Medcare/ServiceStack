@@ -12,7 +12,7 @@ namespace ServiceStack.MiniProfiler.Data
         /// </summary>
         public static ProfiledProviderFactory Instance = new ProfiledProviderFactory();
 
-        protected ProfiledProviderFactory() {}
+        protected ProfiledProviderFactory() { }
 
         protected IDbProfiler Profiler { get; private set; }
         protected DbProviderFactory WrappedFactory { get; private set; }
@@ -55,25 +55,25 @@ namespace ServiceStack.MiniProfiler.Data
         /// <summary>
         /// proxy
         /// </summary>
-        public override DbCommand CreateCommand() => 
+        public override DbCommand CreateCommand() =>
             new ProfiledCommand(WrappedFactory.CreateCommand(), null, Profiler);
 
         /// <summary>
         /// proxy
         /// </summary>
-        public override DbConnection CreateConnection() => 
+        public override DbConnection CreateConnection() =>
             new ProfiledConnection(WrappedFactory.CreateConnection(), Profiler);
 
         /// <summary>
         /// proxy
         /// </summary>
-        public override DbParameter CreateParameter() => 
+        public override DbParameter CreateParameter() =>
             WrappedFactory.CreateParameter();
 
         /// <summary>
         /// proxy
         /// </summary>
-        public override DbConnectionStringBuilder CreateConnectionStringBuilder() => 
+        public override DbConnectionStringBuilder CreateConnectionStringBuilder() =>
             WrappedFactory.CreateConnectionStringBuilder();
 
 #if !NETCORE

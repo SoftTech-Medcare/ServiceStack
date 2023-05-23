@@ -10,19 +10,38 @@
 //
 //#define DEBUG
 
-using System;
-using System.Globalization;
-using System.IO;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Security;
-using System.Net.Sockets;
-using System.Threading;
 using ServiceStack.Logging;
 using ServiceStack.Redis.Pipeline;
 using ServiceStack.Text;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System.Net.Security;
+using System.Net.Sockets;
+After:
+using System.IO;
+using System.Linq;
+*/
+using System.Linq;
+using System.Net.Security;
+using System.
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using ServiceStack.Logging;
+using ServiceStack.Redis.Pipeline;
+using ServiceStack.Text;
+After:
+using ServiceStack.Security;
+using System.Net.Sockets;
+using System.Security.Text;
+*/
+Net.Sockets;
 using System.Security.Authentication;
+using System.Threading;
 
 namespace ServiceStack.Redis
 {
@@ -66,7 +85,7 @@ namespace ServiceStack.Redis
 
         protected Socket socket;
         internal Socket Socket => socket;
-        
+
         [Obsolete("The direct stream is no longer directly available", true)] // API BREAKING CHANGE since exposed
         protected BufferedStream Bstream;
         protected SslStream sslStream;
@@ -2271,7 +2290,7 @@ namespace ServiceStack.Redis
                 to.Add(new RedisGeo
                 {
                     Longitude = children[0].ToDouble(),
-                    Latitude  = children[1].ToDouble(),
+                    Latitude = children[1].ToDouble(),
                     Member = members[i],
                 });
             }
@@ -2502,7 +2521,7 @@ namespace ServiceStack.Redis
             try
             {
                 id = Diagnostics.Redis.WriteConnectionCloseBefore(this);
-                
+
                 // workaround for a .net bug: http://support.microsoft.com/kb/821625
                 bufferedReader?.Close();
             }
@@ -2521,7 +2540,7 @@ namespace ServiceStack.Redis
             bufferedReader = null;
             sslStream = null;
             socket = null;
-            
+
             if (e != null)
                 Diagnostics.Redis.WriteConnectionCloseError(id, this, e);
             else

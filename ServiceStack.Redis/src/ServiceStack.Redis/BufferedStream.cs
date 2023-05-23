@@ -1,7 +1,6 @@
 #if NETCORE
 using System;
 using System.IO;
-using System.Net.Sockets;
 
 namespace ServiceStack.Redis
 {
@@ -15,7 +14,7 @@ namespace ServiceStack.Redis
         Stream networkStream;
 
         public BufferedStream(Stream stream)
-            : this(stream, 0) {}
+            : this(stream, 0) { }
 
         public BufferedStream(Stream stream, int bufferSize)
         {

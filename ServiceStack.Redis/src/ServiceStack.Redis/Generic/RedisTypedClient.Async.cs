@@ -132,7 +132,7 @@ namespace ServiceStack.Redis.Generic
 
         async Task IEntityStoreAsync<T>.DeleteAllAsync(CancellationToken token)
         {
-            await DeleteAllAsync(0,RedisConfig.CommandKeysBatchSize, token).ConfigureAwait(false);
+            await DeleteAllAsync(0, RedisConfig.CommandKeysBatchSize, token).ConfigureAwait(false);
         }
 
         private async Task DeleteAllAsync(ulong cursor, int batchSize, CancellationToken token)

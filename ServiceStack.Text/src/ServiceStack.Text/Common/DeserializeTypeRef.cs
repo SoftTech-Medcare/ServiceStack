@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading;
-using ServiceStack.Text.Support;
 
 namespace ServiceStack.Text.Common
 {
@@ -49,7 +46,8 @@ namespace ServiceStack.Text.Common
             do
             {
                 snapshot = TypeAccessorsCache;
-                newCache = new Dictionary<Type, KeyValuePair<string, TypeAccessor>[]>(TypeAccessorsCache) {
+                newCache = new Dictionary<Type, KeyValuePair<string, TypeAccessor>[]>(TypeAccessorsCache)
+                {
                     [type] = typeAccessors
                 };
             } while (!ReferenceEquals(
@@ -64,7 +62,7 @@ namespace ServiceStack.Text.Common
 
             var propertyInfos = type.GetAllSerializableProperties();
             var fieldInfos = type.GetSerializableFields();
-            if (propertyInfos.Length == 0 && fieldInfos.Length == 0) 
+            if (propertyInfos.Length == 0 && fieldInfos.Length == 0)
                 return default;
 
             var accessors = new KeyValuePair<string, TypeAccessor>[propertyInfos.Length + fieldInfos.Length];
@@ -88,7 +86,7 @@ namespace ServiceStack.Text.Common
 
             if (fieldInfos.Length != 0)
             {
-                for (var j=0; j < fieldInfos.Length; j++)
+                for (var j = 0; j < fieldInfos.Length; j++)
                 {
                     var fieldInfo = fieldInfos[j];
                     var fieldName = fieldInfo.Name;
@@ -101,11 +99,11 @@ namespace ServiceStack.Text.Common
                     accessors[i + j] = new KeyValuePair<string, TypeAccessor>(fieldName, TypeAccessor.Create(serializer, typeConfig, fieldInfo));
                 }
             }
-            
-            Array.Sort(accessors, (x,y) => string.Compare(x.Key, y.Key, StringComparison.OrdinalIgnoreCase));
+
+            Array.Sort(accessors, (x, y) => string.Compare(x.Key, y.Key, StringComparison.OrdinalIgnoreCase));
             return accessors;
         }
-   }
+    }
 
     //The same class above but JSON-specific to enable inlining in this hot class.
 }

@@ -1,7 +1,7 @@
+using ServiceStack.Caching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ServiceStack.Caching;
 
 namespace ServiceStack.Redis
 {

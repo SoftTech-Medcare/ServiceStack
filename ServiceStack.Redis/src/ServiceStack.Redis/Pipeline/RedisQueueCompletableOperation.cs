@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ServiceStack.Redis.Pipeline;
+using System;
 using System.Collections.Generic;
-using ServiceStack.Redis.Pipeline;
 
 namespace ServiceStack.Redis
 {

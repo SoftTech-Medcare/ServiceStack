@@ -121,11 +121,12 @@ namespace ServiceStack.Redis
 
         Task<T> ICacheClientAsync.GetAsync<T>(string key, CancellationToken token)
         {
-            return ExecAsync(async r => {
+            return ExecAsync(async r =>
+            {
                 if (typeof(T) == typeof(byte[]))
                 {
-                    var ret = await ((IRedisNativeClientAsync) r).GetAsync(key, token).ConfigureAwait(false);
-                    return (T) (object) ret;
+                    var ret = await ((IRedisNativeClientAsync)r).GetAsync(key, token).ConfigureAwait(false);
+                    return (T)(object)ret;
                 }
                 else
                 {
@@ -680,7 +681,7 @@ namespace ServiceStack.Redis
         {
             await DeleteAllAsync<T>(0, RedisConfig.CommandKeysBatchSize, token).ConfigureAwait(false);
         }
-        
+
         private async Task DeleteAllAsync<T>(ulong cursor, int batchSize, CancellationToken token)
         {
             var typeIdsSetKey = this.GetTypeIdsSetKey<T>();
@@ -1226,7 +1227,7 @@ namespace ServiceStack.Redis
             return topScoreItemBytes[0].FromUtf8Bytes();
         }
 
-       async ValueTask<string> IRedisClientAsync.PopItemWithHighestScoreFromSortedSetAsync(string setId, CancellationToken token)
+        async ValueTask<string> IRedisClientAsync.PopItemWithHighestScoreFromSortedSetAsync(string setId, CancellationToken token)
         {
             //TODO: this should be atomic
             var topScoreItemBytes = await NativeAsync.ZRevRangeAsync(setId, FirstElement, 1, token).ConfigureAwait(false);

@@ -1,11 +1,18 @@
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Common.Support;
+using System;
+*/
+using ServiceStack.Common.Support;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
-using ServiceStack.Common.Support;
 
 namespace ServiceStack.Text
 {
@@ -32,8 +39,8 @@ namespace ServiceStack.Text
             if (type == null)
             {
                 var typeDef = new AssemblyTypeDefinition(typeName);
-                type = !string.IsNullOrEmpty(typeDef.AssemblyName) 
-                    ? FindType(typeDef.TypeName, typeDef.AssemblyName) 
+                type = !string.IsNullOrEmpty(typeDef.AssemblyName)
+                    ? FindType(typeDef.TypeName, typeDef.AssemblyName)
                     : FindTypeFromLoadedAssemblies(typeDef.TypeName);
             }
 

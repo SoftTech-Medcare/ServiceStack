@@ -12,24 +12,24 @@ public class ReferenceFieldAttribute : AttributeBase
     /// Foreign Key Table name
     /// </summary>
     public Type Model { get; set; }
-    
+
     /// <summary>
     /// The Field name on current Model to use for the Foreign Key Table Lookup 
     /// </summary>
     public string Id { get; set; }
-    
+
     /// <summary>
     /// Specify Field to reference (if different from property name)
     /// </summary>
     public string Field { get; set; }
 
-    public ReferenceFieldAttribute() {}
+    public ReferenceFieldAttribute() { }
     public ReferenceFieldAttribute(Type model, string id)
     {
         Model = model;
         Id = id;
     }
-    
+
     public ReferenceFieldAttribute(Type model, string id, string field)
     {
         Model = model;

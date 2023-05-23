@@ -1,6 +1,16 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System;
 using System.Text;
 using ServiceStack.Text;
+After:
+using ServiceStack.Text;
+using System;
+using System.Text;
+*/
+using ServiceStack.Text;
+using System;
 
 namespace ServiceStack
 {

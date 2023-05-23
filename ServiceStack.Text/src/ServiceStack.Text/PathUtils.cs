@@ -2,13 +2,13 @@
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
 
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -126,7 +126,7 @@ namespace ServiceStack
         {
             if (string.IsNullOrEmpty(path) || chars == null || chars.Length == 0)
                 return path;
-                
+
             var lastChar = path[path.Length - 1];
             foreach (var c in chars)
             {
@@ -145,7 +145,7 @@ namespace ServiceStack
             var startPath = path.TrimEndIf(Slashes);
             return startPath + (withPath[0] == '/' ? withPath : "/" + withPath);
         }
-        
+
         public static string CombineWith(this string path, params string[] thesePaths)
         {
             if (path == null)
@@ -223,7 +223,7 @@ namespace ServiceStack
                 list.Add(converter(item));
             }
             return list;
-        }    
+        }
     }
 
 }

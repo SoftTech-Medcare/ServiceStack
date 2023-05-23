@@ -1,6 +1,6 @@
+using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
-using ServiceStack.DataAnnotations;
 
 namespace ServiceStack.Auth;
 
@@ -55,7 +55,7 @@ public class UserAuthBase : IUserAuth
     public virtual string Nickname { get; set; }
     public virtual string PostalCode { get; set; }
     public virtual string TimeZone { get; set; }
-        
+
     public virtual string PrimaryEmail { get; set; }
     public virtual string Salt { get; set; }
     public virtual string PasswordHash { get; set; }
@@ -74,7 +74,7 @@ public class UserAuthBase : IUserAuth
     public virtual DateTime ModifiedDate { get; set; }
     public virtual Dictionary<string, string> Meta { get; set; }
 }
-    
+
 public interface IUserAuthDetails : IAuthTokens, IMeta
 {
     int Id { get; set; }
@@ -123,7 +123,7 @@ public interface IAuthTokens : IUserAuthDetailsExtended
     string RequestTokenSecret { get; set; }
     Dictionary<string, string> Items { get; set; }
 }
-    
+
 public class UserAuthDetailsBase : IUserAuthDetails
 {
     [AutoIncrement]

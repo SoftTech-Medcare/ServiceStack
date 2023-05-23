@@ -1,12 +1,25 @@
-﻿using System.Reflection;
+﻿
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
+using System.Reflection;
+After:
+using ServiceStack.Text;
+*/
+using ServiceStack.Text;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using static System.String;
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using System.Collections.Concurrent;
 using ServiceStack.Text;
+After:
+using System.Text;
+using static System.String;
+*/
+
 
 namespace ServiceStack
 {
@@ -40,7 +53,7 @@ namespace ServiceStack
 
         public static string ToGetUrl(this object requestDto)
         {
-            return requestDto.ToUrl(HttpMethods.Get, formatFallbackToPredefinedRoute:"json");
+            return requestDto.ToUrl(HttpMethods.Get, formatFallbackToPredefinedRoute: "json");
         }
 
         public static string ToPostUrl(this object requestDto)
@@ -55,7 +68,7 @@ namespace ServiceStack
 
         public static string ToDeleteUrl(this object requestDto)
         {
-            return requestDto.ToUrl(HttpMethods.Delete, formatFallbackToPredefinedRoute:"json");
+            return requestDto.ToUrl(HttpMethods.Delete, formatFallbackToPredefinedRoute: "json");
         }
 
         public static string ToOneWayUrlOnly(this object requestDto, string format = "json")
@@ -109,18 +122,18 @@ namespace ServiceStack
 
             string fullname = type.FullName;
             int genericPrefixIndex = type.IsGenericParameter ? 1 : 0;
-                
+
             if (fullname == null)
                 return genericPrefixIndex > 0 ? "'" + type.Name : type.Name;
 
-            int startIndex = type.Namespace != null ? type.Namespace.Length + 1: 0; //trim namespace + "."
+            int startIndex = type.Namespace != null ? type.Namespace.Length + 1 : 0; //trim namespace + "."
             int endIndex = fullname.IndexOf("[[", startIndex, StringComparison.Ordinal);  //Generic Fullname
             if (endIndex == -1)
                 endIndex = fullname.Length;
 
             char[] op = new char[endIndex - startIndex + genericPrefixIndex];
 
-            for(int i = startIndex; i < endIndex; i++)
+            for (int i = startIndex; i < endIndex; i++)
             {
                 var cur = fullname[i];
                 op[i - startIndex + genericPrefixIndex] = cur != '+' ? cur : '.';
@@ -128,7 +141,7 @@ namespace ServiceStack
 
             if (genericPrefixIndex > 0)
                 op[0] = '\'';
-            
+
             return new string(op);
         }
 
@@ -188,7 +201,7 @@ namespace ServiceStack
             requestDto.ToUrl(httpMethod, formatFallbackToPredefinedRoute != null
                 ? t => $"/{formatFallbackToPredefinedRoute}/reply/{t.GetOperationName()}"
                 : null);
-        
+
         public static string ToUrl(this object requestDto, string httpMethod, Func<Type, string> fallback)
         {
             httpMethod = httpMethod.ToUpper();
@@ -488,8 +501,8 @@ namespace ServiceStack
 
                 sb.AppendQueryParam(queryProperty.Key, value);
             }
-            
-            if (request is IHasQueryParams { QueryParams: {} } qs)
+
+            if (request is IHasQueryParams { QueryParams: { } } qs)
             {
                 foreach (var entry in qs.QueryParams)
                 {

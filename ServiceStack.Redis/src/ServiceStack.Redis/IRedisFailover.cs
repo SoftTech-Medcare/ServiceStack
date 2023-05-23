@@ -5,7 +5,7 @@ namespace ServiceStack.Redis
 {
     public interface IRedisFailover
     {
-        List<Action<IRedisClientsManager>> OnFailover { get; } 
+        List<Action<IRedisClientsManager>> OnFailover { get; }
 
         void FailoverTo(params string[] readWriteHosts);
 

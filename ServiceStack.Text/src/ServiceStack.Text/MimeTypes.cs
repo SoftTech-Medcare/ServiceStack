@@ -67,7 +67,7 @@ public static class MimeTypes
 
         throw new NotSupportedException("Unknown mimeType: " + mimeType);
     }
-        
+
     //Lower cases and trims left part of content-type prior ';'
     public static string GetRealContentType(string contentType)
     {
@@ -76,7 +76,7 @@ public static class MimeTypes
 
         int start = -1, end = -1;
 
-        for(int i=0; i < contentType.Length; i++)
+        for (int i = 0; i < contentType.Length; i++)
         {
             if (!char.IsWhiteSpace(contentType[i]))
             {
@@ -90,9 +90,9 @@ public static class MimeTypes
             }
         }
 
-        return start != -1 
+        return start != -1
             ? contentType.Substring(start, end - start + 1).ToLowerInvariant()
-            :  null;
+            : null;
     }
 
     /// <summary>
@@ -102,20 +102,20 @@ public static class MimeTypes
     {
         if (contentType == null || matchesContentType == null)
             return false;
-            
+
         int start = -1, matchStart = -1, matchEnd = -1;
 
-        for (var i=0; i < contentType.Length; i++)
+        for (var i = 0; i < contentType.Length; i++)
         {
-            if (char.IsWhiteSpace(contentType[i])) 
+            if (char.IsWhiteSpace(contentType[i]))
                 continue;
             start = i;
             break;
         }
 
-        for (var i=0; i < matchesContentType.Length; i++)
+        for (var i = 0; i < matchesContentType.Length; i++)
         {
-            if (char.IsWhiteSpace(matchesContentType[i])) 
+            if (char.IsWhiteSpace(matchesContentType[i]))
                 continue;
             if (matchesContentType[i] == ';')
                 break;
@@ -123,13 +123,13 @@ public static class MimeTypes
                 matchStart = i;
             matchEnd = i;
         }
-            
+
         return start != -1 && matchStart != -1 && matchEnd != -1
                && string.Compare(contentType, start,
                    matchesContentType, matchStart, matchEnd - matchStart + 1,
                    StringComparison.OrdinalIgnoreCase) == 0;
     }
-        
+
     public static Func<string, bool?> IsBinaryFilter { get; set; }
 
     public static bool IsBinary(string contentType)
@@ -137,7 +137,7 @@ public static class MimeTypes
         var userFilter = IsBinaryFilter?.Invoke(contentType);
         if (userFilter != null)
             return userFilter.Value;
-            
+
         var realContentType = GetRealContentType(contentType);
         switch (realContentType)
         {
@@ -217,7 +217,7 @@ public static class MimeTypes
 
             case "svg":
                 return ImageSvg;
-                
+
             case "ico":
                 return "image/x-icon";
 
@@ -237,7 +237,7 @@ public static class MimeTypes
                 return Csv;
             case "css":
                 return Css;
-                    
+
             case "cs":
                 return "text/x-csharp";
             case "fs":
@@ -258,7 +258,7 @@ public static class MimeTypes
             case "groovy":
             case "gradle":
                 return "text/x-groovy";
-                
+
             case "yml":
             case "yaml":
                 return YamlText;
@@ -288,7 +288,7 @@ public static class MimeTypes
             case "au":
             case "snd":
                 return "audio/basic";
-                
+
             case "aac":
             case "ac3":
             case "aiff":
@@ -359,7 +359,7 @@ public static class MimeTypes
 
             case "mdb":
                 return "application/vnd.ms-access";
-                
+
             case "cer":
             case "crt":
             case "der":
@@ -381,7 +381,7 @@ public static class MimeTypes
                 return "application/pkcs7-signature";
             case "sst":
                 return "application/vnd.ms-pki.certstore";
-                
+
             case "gz":
             case "tgz":
             case "zip":
@@ -400,7 +400,7 @@ public static class MimeTypes
                 return "application/font-woff";
             case "woff2":
                 return "application/font-woff2";
-                
+
             case "jar":
                 return Jar;
 
@@ -441,10 +441,10 @@ public static class MimeTypes
             case "xsn":
             case "xtp":
                 return Binary;
-                    
+
             case "wasm":
                 return WebAssembly;
-                
+
             case "dmg":
                 return Dmg;
             case "pkg":

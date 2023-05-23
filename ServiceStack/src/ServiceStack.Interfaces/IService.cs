@@ -30,7 +30,7 @@ namespace ServiceStack
     {
         Task<object> OnExceptionAsync(object requestDto, System.Exception ex);
     }
-    public interface IServiceFilters : IServiceBeforeFilter, IServiceAfterFilter, IServiceErrorFilter {}
+    public interface IServiceFilters : IServiceBeforeFilter, IServiceAfterFilter, IServiceErrorFilter { }
 
     public interface IReturn { }
     public interface IReturn<T> : IReturn { }
@@ -40,7 +40,7 @@ namespace ServiceStack
     //Not used or needed, here in-case someone wants to know what the correct signatures should be
 
     //Empty marker interfaces to enforce correct mappings
-    public interface IVerb {}
+    public interface IVerb { }
     public interface IGet : IVerb { }
     public interface IPost : IVerb { }
     public interface IPut : IVerb { }

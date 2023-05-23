@@ -14,7 +14,7 @@ namespace ServiceStack.DataAnnotations
         {
             Unique = unique;
         }
-        
+
         public string Name { get; set; }
 
         public bool Unique { get; set; }

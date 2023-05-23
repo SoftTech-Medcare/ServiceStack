@@ -1,7 +1,15 @@
-using System.IO;
-using System.Threading.Tasks;
 using ServiceStack.Text;
 using ServiceStack.Web;
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using ServiceStack.Text;
+using ServiceStack.Web;
+After:
+using ServiceStack.IO;
+using System.Threading.Web;
+*/
+using System.Threading.Tasks;
 
 namespace ServiceStack
 {

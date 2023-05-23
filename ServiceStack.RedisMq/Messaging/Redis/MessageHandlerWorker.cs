@@ -1,8 +1,18 @@
+
+/* Unmerged change from project 'ServiceStack.RedisMq (netstandard2.0)'
+Before:
 using System;
 using System.Threading;
 using ServiceStack.Logging;
+After:
+using ServiceStack.Logging;
 using ServiceStack.Redis;
 using ServiceStack.Text;
+*/
+using ServiceStack.Logging;
+using ServiceStack.Redis;
+using System;
+using System.Threading;
 
 namespace ServiceStack.Messaging.Redis
 {
@@ -52,7 +62,7 @@ namespace ServiceStack.Messaging.Redis
         public void NotifyNewMessage()
         {
             Interlocked.Increment(ref msgNotificationsReceived);
-            
+
             if (Interlocked.CompareExchange(ref status, 0, 0) == WorkerStatus.Started)
             {
                 if (Monitor.TryEnter(msgLock))
@@ -81,7 +91,8 @@ namespace ServiceStack.Messaging.Redis
                 Log.Debug("Starting MQ Handler Worker: {0}...".Fmt(QueueName));
 
                 //Should only be 1 thread past this point
-                bgThread = new Thread(Run) {
+                bgThread = new Thread(Run)
+                {
                     Name = "{0}: {1}".Fmt(GetType().Name, QueueName),
                     IsBackground = true,
                 };
@@ -112,14 +123,14 @@ namespace ServiceStack.Messaging.Redis
                         {
                             var msgsProcessedThisTime = messageHandler.ProcessQueue(mqClient, QueueName,
                                 () => Interlocked.CompareExchange(ref status, 0, 0) == WorkerStatus.Started);
-                            
+
                             totalMessagesProcessed += msgsProcessedThisTime;
 
                             if (msgsProcessedThisTime > 0)
                                 lastMsgProcessed = DateTime.UtcNow;
                         }
 
-                        if (!receivedNewMsgs) 
+                        if (!receivedNewMsgs)
                             Monitor.Wait(msgLock);
                     }
                 }

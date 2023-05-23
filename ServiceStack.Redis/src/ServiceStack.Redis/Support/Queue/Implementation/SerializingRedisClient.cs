@@ -8,20 +8,20 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
         private ISerializer serializer = new ObjectSerializer();
 
         public SerializingRedisClient(string host)
-            : base(host) {}
+            : base(host) { }
 
         public SerializingRedisClient(RedisEndpoint config)
-            : base(config) {}
-   
+            : base(config) { }
+
         public SerializingRedisClient(string host, int port)
-            : base(host, port) {}
-        
+            : base(host, port) { }
+
         /// <summary>
         /// customize the client serializer
         /// </summary>
         public ISerializer Serializer
         {
-            set{ serializer = value;}
+            set { serializer = value; }
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
         /// </summary>
         /// <param name="value">serializable object</param>
         /// <returns></returns>
-        public  byte[] Serialize(object value)
+        public byte[] Serialize(object value)
         {
             return serializer.Serialize(value);
         }
@@ -56,7 +56,7 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
         /// </summary>
         /// <param name="someBytes">byte array to deserialize</param>
         /// <returns></returns>
-        public  object Deserialize(byte[] someBytes)
+        public object Deserialize(byte[] someBytes)
         {
             return serializer.Deserialize(someBytes);
         }

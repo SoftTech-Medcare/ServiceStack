@@ -1,10 +1,10 @@
 #nullable enable
 
+using ServiceStack.Logging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
@@ -61,7 +61,7 @@ public class AppTasks
     public static int? RanAsTask()
     {
         var argsMap = Environment.GetCommandLineArgs().Select(a => a.Split('='))
-            .ToDictionary(a => a[0].TrimPrefixes("/","--"), a => a.Length == 2 ? a[1] : null);
+            .ToDictionary(a => a[0].TrimPrefixes("/", "--"), a => a.Length == 2 ? a[1] : null);
         if (argsMap.TryGetValue(nameof(AppTasks), out var appTasksStr))
         {
             var tasks = Instance.Tasks;
@@ -75,7 +75,7 @@ public class AppTasks
                     var args = appTaskWithArgs.IndexOf(':') >= 0
                         ? appTaskWithArgs.RightPart(':').Split(',')
                         : Array.Empty<string>();
-                    
+
                     if (!tasks.TryGetValue(appTask, out var taskFn))
                     {
                         Instance.Log.Warn($"Unknown AppTask '{appTask}' was not registered with this App, ignoring...");
@@ -105,7 +105,7 @@ public class AppTasks
         return null;
     }
 
-    public static void Run(Action? onExit=null)
+    public static void Run(Action? onExit = null)
     {
         var exitCode = RanAsTask();
         if (exitCode != null)
@@ -130,5 +130,5 @@ public class AppTasks
         var desc = nextRun.GetDescription() ?? nextRun.FirstAttribute<NotesAttribute>()?.Notes;
         return desc;
     }
-    
+
 }

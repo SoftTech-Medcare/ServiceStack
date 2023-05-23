@@ -23,14 +23,14 @@ namespace ServiceStack.Text
             {
                 IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
                 IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-                IsOSX  = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+                IsOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
                 IsNetCore3 = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core 3");
-                
+
                 var fxDesc = RuntimeInformation.FrameworkDescription;
                 IsMono = fxDesc.Contains("Mono");
                 IsNetCore = fxDesc.StartsWith(".NET Core", StringComparison.OrdinalIgnoreCase);
             }
-            catch (Exception) {} //throws PlatformNotSupportedException in AWS lambda
+            catch (Exception) { } //throws PlatformNotSupportedException in AWS lambda
             IsUnix = IsOSX || IsLinux;
             HasMultiplePlatformTargets = true;
             IsUWP = IsRunningAsUwp();
@@ -87,12 +87,12 @@ namespace ServiceStack.Text
                         var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
                         //iOS detection no longer trustworthy so assuming iOS based on some current heuristics. TODO: improve iOS detection
                         IsIOS = runtimeDir.StartsWith("/private/var") ||
-                                runtimeDir.Contains("/CoreSimulator/Devices/"); 
+                                runtimeDir.Contains("/CoreSimulator/Devices/");
                     }
                 }
-                catch (Exception) {}
+                catch (Exception) { }
             }
-            
+
             SupportsExpressions = true;
             SupportsEmit = !(IsUWP || IsIOS);
 
@@ -103,8 +103,8 @@ namespace ServiceStack.Text
 
             VersionString = ServiceStackVersion.ToString(CultureInfo.InvariantCulture);
 
-            __releaseDate = new DateTime(2001,01,01);
-            
+            __releaseDate = new DateTime(2001, 01, 01);
+
             UpdateServerUserAgent();
         }
 
@@ -150,7 +150,7 @@ namespace ServiceStack.Text
         public static bool IsNetFramework { get; set; }
 
         public static bool IsNetCore { get; set; }
-        
+
         public static bool IsNetCore3 { get; set; }
 
         public static bool SupportsExpressions { get; private set; }
@@ -175,7 +175,7 @@ namespace ServiceStack.Text
         {
             return __releaseDate;
         }
-        
+
         private static string referenceAssemblyPath;
 
         public static string ReferenceAssemblyPath
@@ -201,7 +201,7 @@ namespace ServiceStack.Text
                         {
                             var winPath = PclExport.Instance.GetEnvironmentVariable("SYSTEMROOT") ?? @"C:\Windows";
                             var gacPath = winPath + @"\Microsoft.NET\Framework\";
-                            v4Dirs = PclExport.Instance.GetDirectoryNames(gacPath, "v4*");                            
+                            v4Dirs = PclExport.Instance.GetDirectoryNames(gacPath, "v4*");
                         }
                         if (v4Dirs.Length > 0)
                         {
@@ -228,10 +228,10 @@ namespace ServiceStack.Text
                 IsNetNative = RuntimeInformation.FrameworkDescription.StartsWith(".NET Native", StringComparison.OrdinalIgnoreCase);
                 return IsInAppContainer || IsNetNative;
             }
-            catch (Exception) {}
+            catch (Exception) { }
             return false;
         }
-        
+
         private static bool IsWindows7OrLower
         {
             get
@@ -241,8 +241,8 @@ namespace ServiceStack.Text
                 double version = versionMajor + (double)versionMinor / 10;
                 return version <= 6.1;
             }
-        } 
-        
+        }
+
         // From: https://github.com/dotnet/corefx/blob/master/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.Windows.cs
         private static int s_isInAppContainer = -1;
         private static bool IsInAppContainer
@@ -305,12 +305,12 @@ namespace ServiceStack.Text
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
- #endif
+#endif
 
         public const bool ContinueOnCapturedContext = false;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ConfiguredTaskAwaitable ConfigAwait(this Task task) => 
+        public static ConfiguredTaskAwaitable ConfigAwait(this Task task) =>
             task.ConfigureAwait(ContinueOnCapturedContext);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -341,11 +341,11 @@ namespace ServiceStack.Text
 
 #if NETCORE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ConfiguredValueTaskAwaitable ConfigAwait(this ValueTask task) => 
+        public static ConfiguredValueTaskAwaitable ConfigAwait(this ValueTask task) =>
             task.ConfigureAwait(ContinueOnCapturedContext);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ConfiguredValueTaskAwaitable<T> ConfigAwait<T>(this ValueTask<T> task) => 
+        public static ConfiguredValueTaskAwaitable<T> ConfigAwait<T>(this ValueTask<T> task) =>
             task.ConfigureAwait(ContinueOnCapturedContext);
 #endif
 

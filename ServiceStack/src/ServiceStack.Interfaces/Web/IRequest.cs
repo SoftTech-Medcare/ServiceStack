@@ -1,12 +1,12 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading.Tasks;
-using ServiceStack.Configuration;
 
 namespace ServiceStack.Web
 {

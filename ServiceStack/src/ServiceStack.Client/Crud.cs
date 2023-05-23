@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ServiceStack;
 
-public static class Crud 
+public static class Crud
 {
     const string Query = "IQueryDb`1";
     const string QueryInto = "IQueryDb`2";

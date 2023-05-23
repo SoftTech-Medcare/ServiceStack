@@ -1,11 +1,30 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+After:
+using ServiceStack.DataAnnotations;
+*/
+using ServiceStack.DataAnnotations;
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
+using ServiceStack.Model;
+After:
+using System;
+*/
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using ServiceStack.DataAnnotations;
 using ServiceStack.Model;
+After:
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+*/
+
 
 namespace ServiceStack;
 
@@ -13,7 +32,7 @@ namespace ServiceStack;
 [DataContract]
 public class Authenticate : IPost, IReturn<AuthenticateResponse>, IMeta
 {
-    public Authenticate() {}
+    public Authenticate() { }
     public Authenticate(string provider) => this.provider = provider;
 
     [Description("AuthProvider, e.g. credentials")]
@@ -54,8 +73,8 @@ public class AuthenticateResponse : IMeta, IHasResponseStatus, IHasSessionId, IH
     [DataMember(Order = 6)] public string BearerToken { get; set; }
     [DataMember(Order = 7)] public string RefreshToken { get; set; }
     [DataMember(Order = 8)] public string ProfileUrl { get; set; }
-    [DataMember(Order = 9)] public List<string> Roles { get; set; } 
-    [DataMember(Order = 10)] public List<string> Permissions { get; set; } 
+    [DataMember(Order = 9)] public List<string> Roles { get; set; }
+    [DataMember(Order = 10)] public List<string> Permissions { get; set; }
 
     [DataMember(Order = 11)] public ResponseStatus ResponseStatus { get; set; }
     [DataMember(Order = 12)] public Dictionary<string, string> Meta { get; set; }
@@ -88,8 +107,8 @@ public class RegisterResponse : IMeta, IHasResponseStatus, IHasSessionId, IHasBe
     [DataMember(Order = 4)] public string ReferrerUrl { get; set; }
     [DataMember(Order = 5)] public string BearerToken { get; set; }
     [DataMember(Order = 6)] public string RefreshToken { get; set; }
-    [DataMember(Order = 7)] public List<string> Roles { get; set; } 
-    [DataMember(Order = 8)] public List<string> Permissions { get; set; } 
+    [DataMember(Order = 7)] public List<string> Roles { get; set; }
+    [DataMember(Order = 8)] public List<string> Permissions { get; set; }
 
     [DataMember(Order = 9)] public ResponseStatus ResponseStatus { get; set; }
     [DataMember(Order = 10)] public Dictionary<string, string> Meta { get; set; }
@@ -198,7 +217,7 @@ public class CancelRequestResponse : IHasResponseStatus, IMeta
     public TimeSpan Elapsed { get; set; }
 
     [DataMember(Order = 3)] public Dictionary<string, string> Meta { get; set; }
-        
+
     [DataMember(Order = 4)]
     public ResponseStatus ResponseStatus { get; set; }
 }
@@ -293,7 +312,7 @@ public class ConvertSessionToTokenResponse : IMeta
     [DataMember(Order = 4)]
     public ResponseStatus ResponseStatus { get; set; }
 }
-    
+
 [DataContract, ExcludeMetadata]
 public partial class GetAccessToken : IPost, IReturn<GetAccessTokenResponse>, IMeta
 {
@@ -355,16 +374,16 @@ public class FileContent
 {
     [DataMember(Order = 1)]
     public string Name { get; set; }
-        
+
     [DataMember(Order = 2)]
     public string Type { get; set; }
-        
+
     [DataMember(Order = 3)]
     public int Length { get; set; }
-        
+
     [DataMember(Order = 4)]
     public byte[] Body { get; set; }
-        
+
     [DataMember(Order = 5)]
     public ResponseStatus ResponseStatus { get; set; }
 }
@@ -391,7 +410,7 @@ public class StreamServerEventsResponse
     public long EventId { get; set; }
     [DataMember(Order = 2)]
     public string Channel { get; set; }
-//        [DataMember(Order = 3)] //ignore returning Data body
+    //        [DataMember(Order = 3)] //ignore returning Data body
     public string Data { get; set; }
     [DataMember(Order = 4)]
     public string Selector { get; set; }
@@ -419,7 +438,7 @@ public class StreamServerEventsResponse
     public string[] Channels { get; set; }
     [DataMember(Order = 15)]
     public long CreatedAt { get; set; }
-        
+
     //ServerEventConnect
     [DataMember(Order = 21)]
     public string Id { get; set; }
@@ -433,7 +452,7 @@ public class StreamServerEventsResponse
     public long HeartbeatIntervalMs { get; set; }
     [DataMember(Order = 26)]
     public long IdleTimeoutMs { get; set; }
-        
+
     [DataMember(Order = 30)]
     public ResponseStatus ResponseStatus { get; set; }
 }
@@ -444,7 +463,7 @@ public class DynamicRequest
     [DataMember(Order = 1)]
     public Dictionary<string, string> Params { get; set; }
 }
-    
+
 //Validation Rules
 [DataContract, ExcludeMetadata, Tag(TagNames.Admin)]
 public class GetValidationRules : IReturn<GetValidationRulesResponse>
@@ -478,11 +497,11 @@ public class ModifyValidationRules : IReturnVoid
 
     [DataMember(Order = 5)]
     public int[] UnsuspendRuleIds { get; set; }
-        
+
     [DataMember(Order = 6)]
     public bool? ClearCache { get; set; }
 }
-    
+
 //CrudEvents
 [DataContract, ExcludeMetadata, Tag("locode")]
 public partial class GetCrudEvents : QueryDb<CrudEvent>
@@ -505,7 +524,7 @@ public partial class CheckCrudEvents : IReturn<CheckCrudEventsResponse>
     [DataMember(Order = 3)]
     public List<string> Ids { get; set; }
 }
-    
+
 [DataContract]
 public class CheckCrudEventsResponse : IHasResponseStatus
 {
@@ -614,14 +633,14 @@ public abstract class AdminUserBase : IMeta
     [DataMember(Order = 8)] public Dictionary<string, string> UserAuthProperties { get; set; }
     [DataMember(Order = 9)] public Dictionary<string, string> Meta { get; set; }
 }
-    
+
 [DataContract, ExcludeMetadata, Tag(TagNames.Admin)]
 public partial class AdminCreateUser : AdminUserBase, IPost, IReturn<AdminUserResponse>
 {
     [DataMember(Order = 10)] public List<string> Roles { get; set; }
     [DataMember(Order = 11)] public List<string> Permissions { get; set; }
 }
-    
+
 [DataContract, ExcludeMetadata, Tag(TagNames.Admin)]
 public partial class AdminUpdateUser : AdminUserBase, IPut, IReturn<AdminUserResponse>
 {
@@ -633,13 +652,13 @@ public partial class AdminUpdateUser : AdminUserBase, IPut, IReturn<AdminUserRes
     [DataMember(Order = 15)] public List<string> AddPermissions { get; set; }
     [DataMember(Order = 16)] public List<string> RemovePermissions { get; set; }
 }
-    
+
 [DataContract, ExcludeMetadata, Tag(TagNames.Admin)]
 public partial class AdminGetUser : IGet, IReturn<AdminUserResponse>
 {
     [DataMember(Order = 10)] public string Id { get; set; }
 }
-    
+
 [DataContract, ExcludeMetadata, Tag(TagNames.Admin)]
 public partial class AdminDeleteUser : IDelete, IReturn<AdminDeleteUserResponse>
 {
@@ -657,11 +676,11 @@ public class AdminDeleteUserResponse : IHasResponseStatus
 public partial class AdminUserResponse : IHasResponseStatus
 {
     [DataMember(Order = 1)] public string Id { get; set; }
-    [DataMember(Order = 2)] public Dictionary<string,object> Result { get; set; }
-    [DataMember(Order = 3)] public List<Dictionary<string,object>> Details { get; set; }
+    [DataMember(Order = 2)] public Dictionary<string, object> Result { get; set; }
+    [DataMember(Order = 3)] public List<Dictionary<string, object>> Details { get; set; }
     [DataMember(Order = 4)] public ResponseStatus ResponseStatus { get; set; }
 }
-    
+
 [DataContract, ExcludeMetadata, Tag(TagNames.Admin)]
 public partial class AdminQueryUsers : IGet, IReturn<AdminUsersResponse>
 {
@@ -674,7 +693,7 @@ public partial class AdminQueryUsers : IGet, IReturn<AdminUsersResponse>
 [DataContract]
 public class AdminUsersResponse : IHasResponseStatus
 {
-    [DataMember(Order = 1)] public List<Dictionary<string,object>> Results { get; set; }
+    [DataMember(Order = 1)] public List<Dictionary<string, object>> Results { get; set; }
     [DataMember(Order = 2)] public ResponseStatus ResponseStatus { get; set; }
 }
 

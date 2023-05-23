@@ -1,11 +1,27 @@
-﻿using System;
+﻿
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Logging;
+using ServiceStack.Text;
+using System;
+*/
+using ServiceStack.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System.Threading.Tasks;
 using ServiceStack.Logging;
 using ServiceStack.Text;
+After:
+using System.Threading.Tasks;
+*/
+
 
 namespace ServiceStack.Redis
 {
@@ -42,7 +58,7 @@ namespace ServiceStack.Redis
             ResetSlaves(replicas.ToList());
             ClientFactory = RedisConfig.ClientFactory;
         }
-        
+
         public IRedisClient CreateClient(string host)
         {
             var redis = ClientFactory(host.ToRedisEndpoint());
@@ -112,7 +128,7 @@ namespace ServiceStack.Redis
         object oLock = new object();
         private string lastInvalidMasterHost = null;
         private long lastValidMasterTicks = DateTime.UtcNow.Ticks;
- 
+
         private DateTime lastValidMasterFromSentinelAt
         {
             get => new DateTime(Interlocked.Read(ref lastValidMasterTicks), DateTimeKind.Utc);

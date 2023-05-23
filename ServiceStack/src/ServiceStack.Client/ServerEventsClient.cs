@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using ServiceStack.Messaging;
+using ServiceStack.Text;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -8,9 +11,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Logging;
-using ServiceStack.Messaging;
-using ServiceStack.Text;
 
 #if NET6_0_OR_GREATER
 using System.Net.Http;
@@ -177,7 +177,7 @@ namespace ServiceStack
         /// </summary>
         public Action<HttpRequestMessage> AllRequestFilters { get; set; }
         HttpClient httpClient;
-        public Func<IServiceClient,HttpClientHandler> HttpClientHandlerFactory { get; set; } = client => new()
+        public Func<IServiceClient, HttpClientHandler> HttpClientHandlerFactory { get; set; } = client => new()
         {
             UseCookies = true,
             CookieContainer = ((IHasCookieContainer)client).CookieContainer,
@@ -233,9 +233,9 @@ namespace ServiceStack
                 Interlocked.Increment(ref timesStarted);
 
 #if NET6_0_OR_GREATER
-                httpClient = new HttpClient(HttpClientHandlerFactory(ServiceClient), disposeHandler:true);
+                httpClient = new HttpClient(HttpClientHandlerFactory(ServiceClient), disposeHandler: true);
                 httpClient.Timeout = Timeout.InfiniteTimeSpan;
-                
+
                 var httpReq = new HttpRequestMessage(HttpMethod.Get, EventStreamUri)
                     .With(c => c.Accept = MimeTypes.Json);
 
@@ -301,7 +301,7 @@ namespace ServiceStack
 #else
             this.httpReq != null;
 #endif
-        
+
         private void UnsetClient()
         {
 #if NET6_0_OR_GREATER
@@ -341,7 +341,7 @@ namespace ServiceStack
         {
             return messageTcs.Task;
         }
-        
+
         protected void OnConnectReceived()
         {
             if (log.IsDebugEnabled)
@@ -395,7 +395,8 @@ namespace ServiceStack
             EnsureSynchronizationContext();
 
 #if NET6_0_OR_GREATER
-            var taskString = httpClient.SendStringToUrlAsync(ConnectionInfo.HeartbeatUrl, method:HttpMethods.Get, requestFilter: req => {
+            var taskString = httpClient.SendStringToUrlAsync(ConnectionInfo.HeartbeatUrl, method: HttpMethods.Get, requestFilter: req =>
+            {
                 HeartbeatRequestFilter?.Invoke(req);
                 AllRequestFilters?.Invoke(req);
 
@@ -403,19 +404,42 @@ namespace ServiceStack
                     log.Debug("[SSE-CLIENT] Sending Heartbeat...");
             });
 #else
-            var taskString = ConnectionInfo.HeartbeatUrl.GetStringFromUrlAsync(requestFilter: req => {
-                    var hold = httpReq;
-                    if (hold != null)
-                        req.CookieContainer = hold.CookieContainer;
+            var taskString = ConnectionInfo.HeartbeatUrl.GetStringFromUrlAsync(requestFilter: req =>
+            {
+                var hold = httpReq;
+                if (hold != null)
+                    req.CookieContainer = hold.CookieContainer;
 
-                    HeartbeatRequestFilter?.Invoke(req);
-                    AllRequestFilters?.Invoke(req);
+                HeartbeatRequestFilter?.Invoke(req);
+                AllRequestFilters?.Invoke(req);
 
-                    if (log.IsDebugEnabled)
-                        log.Debug("[SSE-CLIENT] Sending Heartbeat...");
-                });
+                if (log.IsDebugEnabled)
+                    log.Debug("[SSE-CLIENT] Sending Heartbeat...");
+            });
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 #endif
-            
+
+            taskString.Success(t =>
+After:
+#endif
+
+                        taskString.Success(t =>
+*/
+#endif
+
+            taskString.Success(t =>
+            After:
+            #endif
+
+                        taskString.Success(t =>
+            */
+#endif
+
             taskString.Success(t =>
                 {
                     if (cancel.IsCancellationRequested)
@@ -596,8 +620,19 @@ namespace ServiceStack
         public void ProcessResponse(Stream stream)
         {
             if (Interlocked.CompareExchange(ref status, 0, 0) != WorkerStatus.Started)
+
+                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                Before:
+                                return;
+
+                            if (!stream.CanRead) return;
+                After:
+                                return;
+
+                            if (!stream.CanRead) return;
+                */
                 return;
-            
+
             if (!stream.CanRead) return;
 
             var task = stream.ReadAsync(buffer, 0, BufferSize, cancel.Token);
@@ -676,7 +711,7 @@ namespace ServiceStack
 
         public void ProcessLine(string line)
         {
-            if (line == null) 
+            if (line == null)
                 return;
 
             if (currentMsg == null)
@@ -756,11 +791,22 @@ namespace ServiceStack
             }
 
             return e;
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                    }
+
+                    void ProcessEventMessage(ServerEventMessage e)
+            After:
+                    }
+
+                    void ProcessEventMessage(ServerEventMessage e)
+            */
         }
-        
+
         void ProcessEventMessage(ServerEventMessage e)
         {
-            var validMsg = e.Data.IndexOf(' ') >= 0;  
+            var validMsg = e.Data.IndexOf(' ') >= 0;
             if (!validMsg) // If it was not a valid msg sent with a Server Events client just fire event + return
             {
                 OnMessageReceived(e);
@@ -855,13 +901,14 @@ namespace ServiceStack
             if (ConnectionInfo?.UnRegisterUrl != null)
             {
                 EnsureSynchronizationContext();
-                try {
+                try
+                {
 #if NET6_0_OR_GREATER
-                    httpClient.SendStringToUrl(ConnectionInfo.UnRegisterUrl, method:HttpMethods.Get, requestFilter: req =>
+                    httpClient.SendStringToUrl(ConnectionInfo.UnRegisterUrl, method: HttpMethods.Get, requestFilter: req =>
                     {
                         if (log.IsDebugEnabled)
                             log.Debug("[SSE-CLIENT] Unregistering...");
-                        
+
                         UnRegisterRequestFilter?.Invoke(req);
                         AllRequestFilters?.Invoke(req);
                     });
@@ -874,12 +921,13 @@ namespace ServiceStack
 
                         if (log.IsDebugEnabled)
                             log.Debug("[SSE-CLIENT] Unregistering...");
-                        
+
                         UnRegisterRequestFilter?.Invoke(req);
                         AllRequestFilters?.Invoke(req);
                     });
 #endif
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
             }
 
             ConnectionInfo = null;
@@ -1050,7 +1098,7 @@ namespace ServiceStack
                 request.Id = client.ConnectionInfo.Id;
             client.ServiceClient.Post(request);
 
-            client.Update(subscribe:request.SubscribeChannels, unsubscribe:request.UnsubscribeChannels);
+            client.Update(subscribe: request.SubscribeChannels, unsubscribe: request.UnsubscribeChannels);
         }
 
         public static Task UpdateSubscriberAsync(this ServerEventsClient client, UpdateEventSubscriber request)
@@ -1058,8 +1106,9 @@ namespace ServiceStack
             if (request.Id == null)
                 request.Id = client.ConnectionInfo.Id;
             return client.ServiceClient.PostAsync(request)
-                .Then(x => {
-                    client.Update(subscribe:request.SubscribeChannels, unsubscribe:request.UnsubscribeChannels);
+                .Then(x =>
+                {
+                    client.Update(subscribe: request.SubscribeChannels, unsubscribe: request.UnsubscribeChannels);
                     return null;
                 });
         }
@@ -1067,14 +1116,15 @@ namespace ServiceStack
         public static void SubscribeToChannels(this ServerEventsClient client, params string[] channels)
         {
             client.ServiceClient.Post(new UpdateEventSubscriber { Id = client.ConnectionInfo.Id, SubscribeChannels = channels.ToArray() });
-            client.Update(subscribe:channels);
+            client.Update(subscribe: channels);
         }
 
         public static Task SubscribeToChannelsAsync(this ServerEventsClient client, params string[] channels)
         {
             return client.ServiceClient.PostAsync(new UpdateEventSubscriber { Id = client.ConnectionInfo.Id, SubscribeChannels = channels.ToArray() })
-                .Then(x => {
-                    client.Update(subscribe:channels);
+                .Then(x =>
+                {
+                    client.Update(subscribe: channels);
                     return null;
                 });
         }
@@ -1082,14 +1132,15 @@ namespace ServiceStack
         public static void UnsubscribeFromChannels(this ServerEventsClient client, params string[] channels)
         {
             client.ServiceClient.Post(new UpdateEventSubscriber { Id = client.ConnectionInfo.Id, UnsubscribeChannels = channels.ToArray() });
-            client.Update(unsubscribe:channels);
+            client.Update(unsubscribe: channels);
         }
 
         public static Task UnsubscribeFromChannelsAsync(this ServerEventsClient client, params string[] channels)
         {
             return client.ServiceClient.PostAsync(new UpdateEventSubscriber { Id = client.ConnectionInfo.Id, UnsubscribeChannels = channels.ToArray() })
-                .Then(x => {
-                    client.Update(unsubscribe:channels);
+                .Then(x =>
+                {
+                    client.Update(unsubscribe: channels);
                     return null;
                 });
         }
@@ -1119,7 +1170,7 @@ namespace ServiceStack
 
             foreach (var entry in map)
             {
-                if (entry.Key == "userId" || entry.Key == "displayName" || 
+                if (entry.Key == "userId" || entry.Key == "displayName" ||
                     entry.Key == "profileUrl" || entry.Key == "channels")
                     continue;
 
@@ -1130,7 +1181,7 @@ namespace ServiceStack
             }
 
             return to;
-        } 
+        }
 
         public static T Populate<T>(this T dst, ServerEventMessage src, Dictionary<string, string> msg) where T : ServerEventMessage
         {

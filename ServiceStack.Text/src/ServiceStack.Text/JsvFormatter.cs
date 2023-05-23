@@ -11,10 +11,24 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System;
-using System.Collections.Generic;
+After:
+using ServiceStack.Text.Common;
+using System;
+*/
+using ServiceStack.Text.Common;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Text;
 using ServiceStack.Text.Common;
+After:
+using System.Text;
+*/
+using System.Text;
 
 namespace ServiceStack.Text
 {

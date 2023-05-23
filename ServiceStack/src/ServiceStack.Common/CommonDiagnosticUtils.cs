@@ -1,7 +1,14 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System;
+After:
+using ServiceStack.Messaging;
+using System;
+*/
+using ServiceStack.Messaging;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using ServiceStack.Messaging;
 
 namespace ServiceStack;
 

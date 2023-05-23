@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ServiceStack.IO;
+using System;
 using System.IO;
 using System.Reflection;
-using ServiceStack.IO;
 
 namespace ServiceStack.VirtualPath
 {
@@ -9,7 +9,7 @@ namespace ServiceStack.VirtualPath
     {
         protected readonly Assembly BackingAssembly;
         protected readonly string FileName;
-        
+
         public override string Name => FileName;
 
         public override string VirtualPath => GetVirtualPathToRoot();

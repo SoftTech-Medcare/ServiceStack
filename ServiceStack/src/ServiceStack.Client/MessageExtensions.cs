@@ -1,8 +1,8 @@
+using ServiceStack.Messaging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using ServiceStack.Messaging;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -28,7 +28,8 @@ namespace ServiceStack
             do
             {
                 snapshot = ToMessageFnCache;
-                newCache = new Dictionary<Type, ToMessageDelegate>(ToMessageFnCache) {
+                newCache = new Dictionary<Type, ToMessageDelegate>(ToMessageFnCache)
+                {
                     [type] = toMessageFn
                 };
 
@@ -107,7 +108,7 @@ namespace ServiceStack
     {
         public static IMessage ConvertToMessage(object oBytes)
         {
-            var bytes = (byte[]) oBytes;
+            var bytes = (byte[])oBytes;
             return bytes.ToMessage<T>();
         }
     }

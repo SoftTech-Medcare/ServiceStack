@@ -29,7 +29,7 @@ namespace ServiceStack.Logging
 
         public static void Configure(bool debugEnabled = true)
         {
-            LogManager.LogFactory = new ConsoleLogFactory(); 
+            LogManager.LogFactory = new ConsoleLogFactory();
         }
     }
 }

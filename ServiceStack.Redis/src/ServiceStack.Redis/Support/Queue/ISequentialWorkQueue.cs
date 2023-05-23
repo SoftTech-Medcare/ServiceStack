@@ -1,11 +1,16 @@
-﻿using System;
+﻿/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System.Collections.Generic;
 using ServiceStack.Redis.Support.Queue.Implementation;
+After:
+using System;
+using System.Collections.Generic;
+*/
 
 namespace ServiceStack.Redis.Support.Queue
 {
-	public interface ISequentialWorkQueue<T> : IDisposable where T : class
-	{
+    public interface ISequentialWorkQueue<T> : IDisposable where T : class
+    {
 
         /// <summary>
         /// Enqueue item in priority queue corresponding to workItemId identifier
@@ -38,6 +43,6 @@ namespace ServiceStack.Redis.Support.Queue
         /// <param name="newWorkItem"></param>
 	    void Update(string workItemId, int index, T newWorkItem);
 
-	    bool HarvestZombies();
+        bool HarvestZombies();
     }
 }

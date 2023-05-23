@@ -1,6 +1,6 @@
+using ServiceStack.Text.Json;
 using System;
 using System.Collections.Generic;
-using ServiceStack.Text.Json;
 
 namespace ServiceStack.Text.Common
 {
@@ -28,7 +28,7 @@ namespace ServiceStack.Text.Common
                 throw DeserializeTypeRef.CreateSerializationError(type, strType.ToString());
 
             index++;
-            if (JsonTypeSerializer.IsEmptyMap(strType, index)) 
+            if (JsonTypeSerializer.IsEmptyMap(strType, index))
                 return ctorFn();
 
             var config = JsConfig.GetConfig();
@@ -42,7 +42,7 @@ namespace ServiceStack.Text.Common
 
             while (index < strTypeLength)
             {
-                var propertyName = JsonTypeSerializer.UnescapeJsString(strType, JsonUtils.QuoteChar, removeQuotes:true, ref index);
+                var propertyName = JsonTypeSerializer.UnescapeJsString(strType, JsonUtils.QuoteChar, removeQuotes: true, ref index);
 
                 //Serializer.EatMapKeySeperator(strType, ref index);
                 for (; index < strTypeLength; index++) { if (!JsonUtils.IsWhiteSpace(buffer[index])) break; } //Whitespace inline

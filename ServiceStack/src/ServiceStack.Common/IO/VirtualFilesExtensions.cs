@@ -1,11 +1,19 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System;
+using System.Collections.Generic;
+After:
+using ServiceStack.IO;
+using ServiceStack.Collections.Generic;
+*/
+using ServiceStack.Text;
+using ServiceStack.VirtualPath;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.IO;
-using ServiceStack.Text;
-using ServiceStack.VirtualPath;
 
 namespace ServiceStack.IO
 {
@@ -197,7 +205,7 @@ namespace ServiceStack.IO
             writableFs.WriteFiles(srcFiles, toPath);
         }
 
-        public static void CopyFrom(this IVirtualPathProvider pathProvider, IEnumerable<IVirtualFile> srcFiles, Func<IVirtualFile, string> toPath=null)
+        public static void CopyFrom(this IVirtualPathProvider pathProvider, IEnumerable<IVirtualFile> srcFiles, Func<IVirtualFile, string> toPath = null)
         {
             foreach (var file in srcFiles)
             {
@@ -232,7 +240,7 @@ namespace ServiceStack.IO
         {
             return dir.Directories;
         }
-        
+
         /// <summary>
         /// Get All Files in current and all sub directories
         /// </summary>
@@ -253,7 +261,7 @@ namespace ServiceStack.IO
                 yield return file;
             }
         }
-        
+
         // VFS Async providers only need implement, which all async APIs are routed to:
         // Task WriteFileAsync(string filePath, object contents, CancellationToken token=default);
         // E.g. see FileSystemVirtualFiles.WriteFileAsync()

@@ -280,7 +280,7 @@ namespace ServiceStack
             while (node != null)
             {
                 if (node.NodeType == XmlNodeType.Element)
-                    return (XElement) node;
+                    return (XElement)node;
 
                 node = node.NextNode;
             }

@@ -1,7 +1,17 @@
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using System;
 using System.IO;
 using ServiceStack.Text;
+After:
+using ServiceStack.Text;
 using ServiceStack.Web;
+using System;
+*/
+using ServiceStack.Text;
+using ServiceStack.Web;
+using System.IO;
 
 namespace ServiceStack
 {
@@ -10,14 +20,14 @@ namespace ServiceStack
     {
         public override string Format => "csv";
 
-        public CsvServiceClient() {}
+        public CsvServiceClient() { }
 
-        public CsvServiceClient(string baseUri) 
+        public CsvServiceClient(string baseUri)
         {
             SetBaseUri(baseUri);
         }
 
-        public CsvServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri) 
+        public CsvServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri)
             : base(syncReplyBaseUri, asyncOneWayBaseUri)
         {
         }

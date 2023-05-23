@@ -5,14 +5,32 @@
 // Upon a s_down event, the RedisClientsManager will be failed over to the new set of masters/replicas
 //
 
-using System;
-using System.Collections.Generic;
+using ServiceStack;
+using ServiceStack.Logging;
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ServiceStack;
-using ServiceStack.Logging;
+After:
 using ServiceStack.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using ServiceStack.Text;
+After:
+using System.Threading.Tasks;
+*/
+
 
 namespace ServiceStack.Redis
 {
@@ -172,7 +190,7 @@ namespace ServiceStack.Redis
 
                 if (this.RedisManager == null || sentinelWorker == null)
                     throw new Exception("Unable to resolve sentinels!");
-                    
+
                 return this.RedisManager;
             }
         }
@@ -287,7 +305,7 @@ namespace ServiceStack.Redis
             return redisManager;
         }
 
-        public IRedisClientsManager GetRedisManager() => 
+        public IRedisClientsManager GetRedisManager() =>
             RedisManager ??= CreateRedisManager(GetSentinelInfo());
 
         private RedisSentinelWorker GetValidSentinelWorker()
@@ -318,7 +336,8 @@ namespace ServiceStack.Redis
                 {
                     if (Log.IsDebugEnabled)
                     {
-                        var name = step switch {
+                        var name = step switch
+                        {
                             0 => "GetNextSentinel()",
                             1 => "GetRedisManager()",
                             2 => "BeginListeningForConfigurationChanges()",
@@ -326,7 +345,7 @@ namespace ServiceStack.Redis
                         };
                         Log.Debug($"Failed to {name}: {ex.Message}");
                     }
-                    
+
                     if (OnWorkerError != null)
                         OnWorkerError(ex);
 
@@ -390,7 +409,7 @@ namespace ServiceStack.Redis
 
                     if (++sentinelIndex >= SentinelEndpoints.Length)
                         sentinelIndex = 0;
-                    
+
                     if (Log.IsDebugEnabled)
                         Log.Debug($"Attempt to connect to next sentinel '{SentinelEndpoints[sentinelIndex]}'...");
 

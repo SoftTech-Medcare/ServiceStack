@@ -1,11 +1,11 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text.Common;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using ServiceStack.Text.Common;
 
 namespace ServiceStack.Text.Json
 {
@@ -27,7 +27,7 @@ namespace ServiceStack.Text.Json
                 return parseFactoryFn();
 
             var genericType = typeof(JsonReader<>).MakeGenericType(type);
-            var mi = genericType.GetStaticMethod(nameof(GetParseStringSpanFn));    
+            var mi = genericType.GetStaticMethod(nameof(GetParseStringSpanFn));
             parseFactoryFn = (ParseFactoryDelegate)mi.MakeDelegate(typeof(ParseFactoryDelegate));
 
             Dictionary<Type, ParseFactoryDelegate> snapshot, newCache;
@@ -75,13 +75,13 @@ namespace ServiceStack.Text.Json
             JsConfig.AddUniqueType(typeof(T));
         }
 
-        public static ParseStringDelegate GetParseFn() => ReadFn != null 
-            ? (ParseStringDelegate)(v => ReadFn(v.AsSpan())) 
+        public static ParseStringDelegate GetParseFn() => ReadFn != null
+            ? (ParseStringDelegate)(v => ReadFn(v.AsSpan()))
             : Parse;
 
         public static ParseStringSpanDelegate GetParseStringSpanFn() => ReadFn ?? Parse;
 
-        public static object Parse(string value) => value != null 
+        public static object Parse(string value) => value != null
             ? Parse(value.AsSpan())
             : null;
 
@@ -90,7 +90,7 @@ namespace ServiceStack.Text.Json
             TypeConfig<T>.Init();
 
             value = value.WithoutBom();
-            
+
             if (ReadFn == null)
             {
                 if (typeof(T).IsAbstract || typeof(T).IsInterface)

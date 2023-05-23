@@ -157,16 +157,16 @@ namespace ServiceStack.Text.Pools
     internal sealed class Helpers
     {
         private Helpers() { }
-        
+
         [System.Diagnostics.Conditional("DEBUG")]
         internal static void DebugAssert(bool condition)
         {
 #if DEBUG   
-            if (!condition && System.Diagnostics.Debugger.IsAttached) 
+            if (!condition && System.Diagnostics.Debugger.IsAttached)
                 System.Diagnostics.Debugger.Break();
             System.Diagnostics.Debug.Assert(condition);
 #endif
         }
-        
+
     }
 }

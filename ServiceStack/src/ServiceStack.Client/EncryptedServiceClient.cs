@@ -1,11 +1,11 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -34,7 +34,7 @@ namespace ServiceStack
         public string KeyId { get; set; }
 
         public EncryptedServiceClient(IJsonServiceClient client, string publicKeyXml)
-            : this(client, publicKeyXml.ToPublicRSAParameters()) {}
+            : this(client, publicKeyXml.ToPublicRSAParameters()) { }
 
         public EncryptedServiceClient(IJsonServiceClient client, RSAParameters publicKey)
         {
@@ -79,7 +79,7 @@ namespace ServiceStack
 
         public TResponse Send<TResponse>(string httpMethod, IReturn<TResponse> request)
         {
-            return Send<TResponse>(httpMethod, (object) request);
+            return Send<TResponse>(httpMethod, (object)request);
         }
 
         public List<TResponse> SendAll<TResponse>(IEnumerable<object> requests)
@@ -165,14 +165,14 @@ namespace ServiceStack
                 EncryptedSymmetricKey = Convert.ToBase64String(authRsaEncCryptAuthKeys),
                 EncryptedBody = Convert.ToBase64String(authEncryptedBytes),
             };
-            
+
             return encryptedMessage;
         }
 
         public WebServiceException DecryptedException(WebServiceException ex, byte[] cryptKey, byte[] authKey)
         {
             //Encrypted Message Exceptions are always written with 400 BadRequest
-            if (ex.StatusCode != (int) HttpStatusCode.BadRequest)
+            if (ex.StatusCode != (int)HttpStatusCode.BadRequest)
             {
                 if (ex.ResponseStatus == null)
                     ex.ResponseDto = ex.ResponseBody.FromJson<ErrorResponse>();

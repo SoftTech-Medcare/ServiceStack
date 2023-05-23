@@ -18,7 +18,7 @@ public class MediaRuleCreator
     }
     public string Size { get; }
 
-    public MediaRule Show<T>(Expression<Func<T,object?>> expr)
+    public MediaRule Show<T>(Expression<Func<T, object?>> expr)
     {
         var fieldNames = expr.GetFieldNames();
         return new() { Rule = nameof(Show), Size = Size, ApplyTo = fieldNames };
@@ -57,7 +57,7 @@ public static class MediaRules
             if (rule.ApplyTo.Contains(target))
                 return rule.Size;
         }
-        
+
         // Otherwise return the next size that wasn't defined
         var maxSizeIndex = sortedRules.Select(x => Array.IndexOf(MediaSizes.All, x.Size)).Max();
         return maxSizeIndex + 1 < MediaSizes.All.Length ? MediaSizes.All[maxSizeIndex + 1] : MediaSizes.ExtraLarge2x;

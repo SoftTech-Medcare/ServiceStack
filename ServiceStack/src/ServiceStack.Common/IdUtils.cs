@@ -1,9 +1,20 @@
-using System;
+using ServiceStack.Model;
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System.Linq;
 using System.Reflection;
 using ServiceStack.Model;
 using ServiceStack.Reflection;
 using ServiceStack.Text;
+After:
+using ServiceStack.Reflection;
+using System.Text;
+using System;
+using System.Linq;
+using System.Reflection;
+*/
+using System;
+using System.Reflection;
 
 namespace ServiceStack
 {
@@ -16,7 +27,7 @@ namespace ServiceStack
 
 #if !SL5 && !IOS && !XBOX
 #if NETCORE
-            var hasIdInterfaces = typeof(T).GetTypeInfo().ImplementedInterfaces.Where(t => t.GetTypeInfo().IsGenericType 
+            var hasIdInterfaces = typeof(T).GetTypeInfo().ImplementedInterfaces.Where(t => t.GetTypeInfo().IsGenericType
                 && t.GetTypeInfo().GetGenericTypeDefinition() == typeof(IHasId<>)).ToArray();
 #else
             var hasIdInterfaces = typeof(T).FindInterfaces(
@@ -40,7 +51,7 @@ namespace ServiceStack
                 }
 
                 var piId = typeof(T).GetIdProperty();
-                if (piId?.GetGetMethod(nonPublic:true) != null)
+                if (piId?.GetGetMethod(nonPublic: true) != null)
                 {
                     CanGetId = HasPropertyId<T>.GetId;
                     return;
@@ -52,7 +63,7 @@ namespace ServiceStack
                 CanGetId = x =>
                 {
                     var piId = x.GetType().GetIdProperty();
-                    if (piId?.GetGetMethod(nonPublic:true) != null)
+                    if (piId?.GetGetMethod(nonPublic: true) != null)
                         return x.GetObjectId();
 
                     return x.GetHashCode();
@@ -96,7 +107,7 @@ namespace ServiceStack
             GetIdFn = HasPropertyId<TEntity>.GetId;
 #else
 #if NETCORE
-            var hasIdInterfaces = typeof(TEntity).GetTypeInfo().ImplementedInterfaces.Where(t => t.GetTypeInfo().IsGenericType 
+            var hasIdInterfaces = typeof(TEntity).GetTypeInfo().ImplementedInterfaces.Where(t => t.GetTypeInfo().IsGenericType
                 && t.GetTypeInfo().GetGenericTypeDefinition() == typeof(IHasId<>)).ToArray();
 #else
             var hasIdInterfaces = typeof(TEntity).FindInterfaces(
@@ -142,7 +153,7 @@ namespace ServiceStack
 
         public static object GetObjectId(this object entity)
         {
-            return entity.GetType().GetIdProperty().GetGetMethod(nonPublic:true).Invoke(entity, TypeConstants.EmptyObjectArray);
+            return entity.GetType().GetIdProperty().GetGetMethod(nonPublic: true).Invoke(entity, TypeConstants.EmptyObjectArray);
         }
 
         public static object ToId<T>(this T entity)

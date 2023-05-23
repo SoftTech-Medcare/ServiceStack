@@ -9,24 +9,29 @@
 // Licensed under the same terms of Redis: new BSD license.
 //
 
+using ServiceStack.Text;
+using ServiceStack.Text.Pools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
-using System.Security.Authentication;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading;
+using System.Threading
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System.Threading.Tasks;
 using ServiceStack.Text;
 using ServiceStack.Text.Pools;
+After:
+using System.Threading.Tasks;
+*/
+;
 
 namespace ServiceStack.Redis
 {
@@ -147,9 +152,9 @@ namespace ServiceStack.Redis
 
                     if (SslProtocols != null)
                     {
-                        sslStream.AuthenticateAsClient(Host, new X509CertificateCollection(), 
+                        sslStream.AuthenticateAsClient(Host, new X509CertificateCollection(),
                             SslProtocols ?? System.Security.Authentication.SslProtocols.None, checkCertificateRevocation: true);
-                    } 
+                    }
                     else
                     {
                         sslStream.AuthenticateAsClient(Host);
@@ -224,8 +229,19 @@ namespace ServiceStack.Redis
             {
 #if DEBUG
                 DebugAllowSync = oldDebugAllowSync;
+
+                /* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+                Before:
+                #endif
+
+                                if (e != null)
+                After:
+                #endif
+
+                                if (e != null)
+                */
 #endif
-                
+
                 if (e != null)
                     Diagnostics.Redis.WriteConnectionOpenError(id, this, e);
                 else
@@ -420,10 +436,21 @@ namespace ServiceStack.Redis
             foreach (var safeBinaryValue in cmdWithBinaryArgs)
             {
                 bytes = bytes.Combine(GetCmdBytes('$', safeBinaryValue.Length), safeBinaryValue, endData);
+
+                /* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+                Before:
+                            }
+
+                            if (log.IsDebugEnabled && RedisConfig.EnableVerboseLogging)
+                After:
+                            }
+
+                            if (log.IsDebugEnabled && RedisConfig.EnableVerboseLogging)
+                */
             }
-            
+
             if (log.IsDebugEnabled && RedisConfig.EnableVerboseLogging)
-                logDebug("stream.Write: " + Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 50)).Replace("\r\n"," ").SafeSubstring(0,50));
+                logDebug("stream.Write: " + Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 50)).Replace("\r\n", " ").SafeSubstring(0, 50));
 
             SendDirectToSocket(new ArraySegment<byte>(bytes, 0, bytes.Length));
 
@@ -512,12 +539,12 @@ namespace ServiceStack.Redis
                         {
                             if (sb.Length > 50)
                                 break;
-                            
+
                             sb.Append(Encoding.UTF8.GetString(cmd.Array, cmd.Offset, cmd.Count));
                         }
-                        logDebug("socket.Send: " + StringBuilderCache.ReturnAndFree(sb.Replace("\r\n", " ")).SafeSubstring(0,50));
+                        logDebug("socket.Send: " + StringBuilderCache.ReturnAndFree(sb.Replace("\r\n", " ")).SafeSubstring(0, 50));
                     }
-                    
+
                     socket.Send(cmdBuffer); //Optimized for Windows
                 }
                 else
@@ -546,7 +573,7 @@ namespace ServiceStack.Redis
         /// <summary>
         /// Called before returning pooled client/socket  
         /// </summary>
-        internal void Activate(bool newClient=false, [CallerMemberName] string operation = "")
+        internal void Activate(bool newClient = false, [CallerMemberName] string operation = "")
         {
             if (!newClient)
             {
@@ -599,7 +626,7 @@ namespace ServiceStack.Redis
 
             if (log.IsDebugEnabled && RedisConfig.EnableVerboseLogging)
                 logDebug(name + "()");
-        
+
             return bufferedReader.ReadByte();
         }
 
@@ -628,12 +655,12 @@ namespace ServiceStack.Redis
                 if (TrackThread.Value.ThreadId != Thread.CurrentThread.ManagedThreadId)
                     throw new InvalidAccessException(TrackThread.Value.ThreadId, TrackThread.Value.StackTrace);
             }
-            
+
             var i = 0;
             var didWriteToBuffer = false;
             Exception originalEx = null;
             Exception wasError = null;
-            Guid id = Guid.Empty; 
+            Guid id = Guid.Empty;
 
             var firstAttempt = DateTime.UtcNow;
 
@@ -1052,7 +1079,7 @@ namespace ServiceStack.Redis
 
             if (r == "*0")
                 return Array.Empty<byte>();
-            
+
             throw CreateResponseError("Unexpected reply: " + r);
         }
 

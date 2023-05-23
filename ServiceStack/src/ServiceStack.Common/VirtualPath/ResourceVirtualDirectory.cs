@@ -1,11 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using ServiceStack.IO;
+﻿using ServiceStack.IO;
 using ServiceStack.Logging;
 using ServiceStack.Text;
+using System;
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System.Reflection;
+using ServiceStack.IO;
+After:
+using System.Collections.Generic;
+using System.IO;
+*/
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace ServiceStack.VirtualPath
 {
@@ -31,25 +39,26 @@ namespace ServiceStack.VirtualPath
 
         internal Assembly BackingAssembly => backingAssembly;
 
-        public ResourceVirtualDirectory(IVirtualPathProvider owningProvider, 
-            IVirtualDirectory parentDir, 
-            Assembly backingAsm, 
+        public ResourceVirtualDirectory(IVirtualPathProvider owningProvider,
+            IVirtualDirectory parentDir,
+            Assembly backingAsm,
             DateTime lastModified,
             string rootNamespace)
-        : this(owningProvider, 
-            parentDir, 
-            backingAsm, 
+        : this(owningProvider,
+            parentDir,
+            backingAsm,
             lastModified,
             rootNamespace,
-            rootNamespace, 
-            GetResourceNames(backingAsm, rootNamespace)) { }
+            rootNamespace,
+            GetResourceNames(backingAsm, rootNamespace))
+        { }
 
-        public ResourceVirtualDirectory(IVirtualPathProvider owningProvider, 
-            IVirtualDirectory parentDir, 
-            Assembly backingAsm, 
+        public ResourceVirtualDirectory(IVirtualPathProvider owningProvider,
+            IVirtualDirectory parentDir,
+            Assembly backingAsm,
             DateTime lastModified,
-            string rootNamespace, 
-            string directoryName, 
+            string rootNamespace,
+            string directoryName,
             List<string> manifestResourceNames)
             : base(owningProvider, parentDir)
         {
@@ -162,9 +171,10 @@ namespace ServiceStack.VirtualPath
         {
             var useGlob = globPattern.TrimStart('/');
             var useGlobTranslate = TranslatePath(useGlob);
-            return Files.Where(f => {
+            return Files.Where(f =>
+            {
                 return useGlob.IndexOf('/') >= 0
-                    ? f.VirtualPath.Glob(useGlob) || f.VirtualPath.Glob(useGlobTranslate) 
+                    ? f.VirtualPath.Glob(useGlob) || f.VirtualPath.Glob(useGlobTranslate)
                     : f.Name.Glob(useGlob) || f.Name.Glob(useGlobTranslate);
             });
         }

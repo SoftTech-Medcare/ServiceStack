@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ServiceStack.Text;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 public static class ServiceGatewayExtensions
@@ -96,7 +96,8 @@ public static class ServiceGatewayExtensions
             do
             {
                 snapshot = LateBoundSendAsyncFns;
-                newCache = new Dictionary<Type, Func<IServiceGateway, object, CancellationToken, Task<object>>>(LateBoundSendAsyncFns) {
+                newCache = new Dictionary<Type, Func<IServiceGateway, object, CancellationToken, Task<object>>>(LateBoundSendAsyncFns)
+                {
                     [responseType] = sendFn
                 };
 
@@ -233,7 +234,7 @@ public static class ServiceGatewayAsyncWrappers
             ? nativeAsync.PublishAllAsync(requestDtos, token)
             : Task.Factory.StartNew(() => client.PublishAll(requestDtos), token);
     }
-    
+
     /* IServiceClientAsync signatures cannot match IServiceGateway APIs to make them unambiguous */
 
     public static async Task<ApiResult<TResponse>> Api<TResponse>(this IServiceClientAsync client, IReturn<TResponse> requestDto, CancellationToken token = default)

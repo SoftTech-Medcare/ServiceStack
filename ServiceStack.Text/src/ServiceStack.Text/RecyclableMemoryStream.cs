@@ -21,11 +21,11 @@
 // ---------------------------------------------------------------------
 
 using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Tracing;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -55,17 +55,17 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
         {
             return UseRecyclableMemoryStream
                 ? RecyclableInstance.GetStream(nameof(MemoryStreamFactory), bytes, 0, bytes.Length)
-                : new MemoryStream(bytes, 0, bytes.Length, writable:true, publiclyVisible:true);
+                : new MemoryStream(bytes, 0, bytes.Length, writable: true, publiclyVisible: true);
         }
 
         public static MemoryStream GetStream(byte[] bytes, int index, int count)
         {
             return UseRecyclableMemoryStream
                 ? RecyclableInstance.GetStream(nameof(MemoryStreamFactory), bytes, index, count)
-                : new MemoryStream(bytes, index, count, writable:true, publiclyVisible:true);
+                : new MemoryStream(bytes, index, count, writable: true, publiclyVisible: true);
         }
     }
-    
+
 #if !NETCORE
     public enum EventLevel
     {
@@ -115,7 +115,7 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
         }
     }
 #endif
-    
+
     public sealed partial class RecyclableMemoryStreamManager
     {
         /// <summary>
@@ -1010,7 +1010,7 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
                 throw;
             }
         }
-				
+
         /// <summary>
         /// Retrieve a new MemoryStream object with the contents copied from the provided
         /// buffer. The provided buffer is not wrapped or used after construction.
@@ -1613,7 +1613,7 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
         public override byte[] ToArray()
         {
             this.CheckDisposed();
-            
+
             string stack = this.memoryManager.GenerateCallStacks ? Environment.StackTrace : null;
             RecyclableMemoryStreamManager.Events.Writer.MemoryStreamToArray(this.id, this.tag, stack, this.length);
 
@@ -1976,17 +1976,17 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
             int newPosition;
             switch (loc)
             {
-            case SeekOrigin.Begin:
-                newPosition = (int)offset;
-                break;
-            case SeekOrigin.Current:
-                newPosition = (int)offset + this.position;
-                break;
-            case SeekOrigin.End:
-                newPosition = (int)offset + this.length;
-                break;
-            default:
-                throw new ArgumentException("Invalid seek origin", nameof(loc));
+                case SeekOrigin.Begin:
+                    newPosition = (int)offset;
+                    break;
+                case SeekOrigin.Current:
+                    newPosition = (int)offset + this.position;
+                    break;
+                case SeekOrigin.End:
+                    newPosition = (int)offset + this.length;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid seek origin", nameof(loc));
             }
             if (newPosition < 0)
             {
@@ -2052,9 +2052,9 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
             }
 
         }
-#endregion
+        #endregion
 
-#region Helper Methods
+        #region Helper Methods
         private bool Disposed => Interlocked.Read(ref this.disposedState) != 0;
 
         [MethodImpl((MethodImplOptions)256)]
@@ -2213,6 +2213,6 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
 
             this.largeBuffer = null;
         }
-#endregion
+        #endregion
     }
 }

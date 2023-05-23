@@ -1,12 +1,12 @@
+using ServiceStack.Text;
 using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using ServiceStack.Text;
 
 namespace ServiceStack.Serialization
 {
-    public partial class JsonDataContractSerializer 
+    public partial class JsonDataContractSerializer
     {
         public object DeserializeFromString(string json, Type returnType)
         {

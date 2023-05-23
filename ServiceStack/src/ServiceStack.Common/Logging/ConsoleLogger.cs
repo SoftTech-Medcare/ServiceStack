@@ -30,8 +30,8 @@ namespace ServiceStack.Logging
         }
 
         public bool IsDebugEnabled { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Logs the specified message.
         /// </summary>
         private static void Log(object message, Exception exception)

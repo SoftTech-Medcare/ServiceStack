@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ServiceStack.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using ServiceStack.IO;
 
 namespace ServiceStack.VirtualPath
 {
@@ -24,7 +24,7 @@ namespace ServiceStack.VirtualPath
             if (alias == null)
                 throw new ArgumentNullException(nameof(alias));
 
-            if (alias.IndexOfAny(new []{ '/', '\\' }) >= 0)
+            if (alias.IndexOfAny(new[] { '/', '\\' }) >= 0)
                 throw new ArgumentException($"Alias '{alias}' cannot contain directory separators");
 
             this.Alias = alias;

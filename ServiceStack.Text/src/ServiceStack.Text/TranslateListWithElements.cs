@@ -10,13 +10,33 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Text.Common;
+using System;
+*/
+using ServiceStack.Text.Common;
 using System;
 using System.Collections;
-using System.Collections.Generic;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Reflection;
-using System.Threading;
+After:
+using System.Linq;
+*/
+using System.Collections.Generic;
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Linq;
 using ServiceStack.Text.Common;
+After:
+using System.Threading;
+*/
+
 
 namespace ServiceStack.Text
 {
@@ -38,7 +58,8 @@ namespace ServiceStack.Text
             do
             {
                 snapshot = TranslateICollectionCache;
-                newCache = new Dictionary<Type, ConvertInstanceDelegate>(TranslateICollectionCache) {
+                newCache = new Dictionary<Type, ConvertInstanceDelegate>(TranslateICollectionCache)
+                {
                     [elementType] = translateToFn
                 };
 
@@ -66,7 +87,8 @@ namespace ServiceStack.Text
             do
             {
                 snapshot = TranslateConvertibleICollectionCache;
-                newCache = new Dictionary<ConvertibleTypeKey, ConvertInstanceDelegate>(TranslateConvertibleICollectionCache) {
+                newCache = new Dictionary<ConvertibleTypeKey, ConvertInstanceDelegate>(TranslateConvertibleICollectionCache)
+                {
                     [typeKey] = translateToFn
                 };
 

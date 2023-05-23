@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 
 namespace ServiceStack.Messaging
 {
@@ -9,7 +8,7 @@ namespace ServiceStack.Messaging
     /// <typeparam name="T"></typeparam>
     public static class QueueNames<T>
     {
-        static QueueNames() 
+        static QueueNames()
         {
             Priority = QueueNames.ResolveQueueNameFn(typeof(T).Name, ".priorityq");
             In = QueueNames.ResolveQueueNameFn(typeof(T).Name, ".inq");
@@ -64,7 +63,7 @@ namespace ServiceStack.Messaging
 
         public static bool IsTempQueue(string queueName)
         {
-            return queueName != null 
+            return queueName != null
                 && queueName.StartsWith(TempMqPrefix, StringComparison.OrdinalIgnoreCase);
         }
 

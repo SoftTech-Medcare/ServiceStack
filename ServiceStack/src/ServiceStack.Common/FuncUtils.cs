@@ -1,5 +1,5 @@
-using System;
 using ServiceStack.Logging;
+using System;
 
 namespace ServiceStack
 {
@@ -52,7 +52,7 @@ namespace ServiceStack
             while (condition())
             {
                 TaskUtils.Sleep(millsecondPollPeriod);
-                
+
                 if (timer.ElapsedMilliseconds > millisecondTimeout)
                     throw new TimeoutException("Timed out waiting for condition function.");
             }

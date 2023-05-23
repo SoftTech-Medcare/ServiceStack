@@ -1,8 +1,14 @@
+using ServiceStack;
 using System;
-using System.IO;
-using System.Text;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using ServiceStack.Text;
 using ServiceStack;
+After:
+using System.IO;
+using System.Text;
+*/
+
 
 namespace ServiceStack.Redis.Support
 {
@@ -123,7 +129,7 @@ namespace ServiceStack.Redis.Support
 
                 default:
 #if NETCORE
-        		    data = new byte[0];
+                    data = new byte[0];
                     length = 0;
 #else
                     using (var ms = new MemoryStream())
@@ -232,7 +238,7 @@ namespace ServiceStack.Redis.Support
                     using (var ms = new MemoryStream(data, offset, count))
                     {
 #if NETCORE
-	            		return null;
+                        return null;
 #else
                         return bf.Deserialize(ms);
 #endif

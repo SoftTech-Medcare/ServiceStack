@@ -10,14 +10,14 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Model;
+using ServiceStack.Redis.Pipeline;
+using ServiceStack.Text;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServiceStack.Model;
-using ServiceStack.Redis.Pipeline;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis.Generic
 {
@@ -186,7 +186,7 @@ namespace ServiceStack.Redis.Generic
 
         public bool SetValueIfExists(string key, T entity)
         {
-            var success = client.Set(key, SerializeValue(entity), exists:true);
+            var success = client.Set(key, SerializeValue(entity), exists: true);
             if (success) client.RegisterTypeId(entity);
             return success;
         }
@@ -483,10 +483,10 @@ namespace ServiceStack.Redis.Generic
 
             this.RemoveEntry(this.TypeIdsSetKey);
         }
-        
+
         public void DeleteAll()
         {
-            DeleteAll(0,RedisConfig.CommandKeysBatchSize);
+            DeleteAll(0, RedisConfig.CommandKeysBatchSize);
         }
 
         #endregion

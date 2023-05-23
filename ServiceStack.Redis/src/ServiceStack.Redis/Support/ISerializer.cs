@@ -5,6 +5,6 @@
 
         byte[] Serialize(object value);
         object Deserialize(byte[] someBytes);
-      
+
     }
 }

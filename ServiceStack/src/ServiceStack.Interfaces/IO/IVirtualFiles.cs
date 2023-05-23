@@ -8,7 +8,7 @@ namespace ServiceStack.IO
 {
     public interface IVirtualFiles : IVirtualPathProvider
     {
-        Task WriteFileAsync(string filePath, object contents, CancellationToken token=default);
+        Task WriteFileAsync(string filePath, object contents, CancellationToken token = default);
 
         void WriteFile(string filePath, string textContents);
 

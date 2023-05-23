@@ -9,12 +9,13 @@ namespace ServiceStack.Html;
 
 public static class InspectUtils
 {
-    public static Expression? FindMember(Expression e) => e switch {
+    public static Expression? FindMember(Expression e) => e switch
+    {
         UnaryExpression ue => FindMember(ue.Operand),
         MemberExpression me => me,
         _ => null
     };
-    
+
     public static PropertyInfo? PropertyFromExpression<TModel>(Expression<Func<TModel, object?>> expr)
     {
         var memberExpr = FindMember(expr.Body) as MemberExpression;

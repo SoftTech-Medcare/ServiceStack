@@ -1,8 +1,8 @@
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -18,8 +18,9 @@ namespace ServiceStack
         /// </summary>
         public static ProcessStartInfo ConvertToCmdExec(this ProcessStartInfo startInfo)
         {
-            var to = new ProcessStartInfo {
-                FileName = Env.IsWindows 
+            var to = new ProcessStartInfo
+            {
+                FileName = Env.IsWindows
                     ? "cmd.exe"
                     : "/bin/bash",
                 WorkingDirectory = startInfo.WorkingDirectory,
@@ -42,7 +43,7 @@ namespace ServiceStack
                     StartInfo =
                     {
                         UseShellExecute = false,
-                        FileName = Env.IsWindows 
+                        FileName = Env.IsWindows
                             ? "where"  //Win 7/Server 2003+
                             : "which", //macOS / Linux
                         Arguments = exeName,
@@ -63,21 +64,21 @@ namespace ServiceStack
                     }
                 }
             }
-            catch {}               
+            catch { }
             return null;
         }
-        
+
         /// <summary>
         /// Run the command with the OS's command runner 
         /// </summary>
-        public static string RunShell(string arguments, string workingDir=null)
+        public static string RunShell(string arguments, string workingDir = null)
         {
             if (string.IsNullOrEmpty(arguments))
                 throw new ArgumentNullException(nameof(arguments));
 
             if (Env.IsWindows)
             {
-                var cmdArgs = "/C " + arguments; 
+                var cmdArgs = "/C " + arguments;
                 return Run("cmd.exe", cmdArgs, workingDir);
             }
             else
@@ -87,11 +88,11 @@ namespace ServiceStack
                 return Run("/bin/bash", cmdArgs, workingDir);
             }
         }
-        
+
         /// <summary>
         /// Run the process and return the Standard Output, any Standard Error output will throw an Exception
         /// </summary>
-        public static string Run(string fileName, string arguments=null, string workingDir=null)
+        public static string Run(string fileName, string arguments = null, string workingDir = null)
         {
             var process = CreateProcess(fileName, arguments, workingDir);
             using (process)
@@ -131,19 +132,19 @@ namespace ServiceStack
                 process.StartInfo.WorkingDirectory = workingDir;
             return process;
         }
-        
+
         /// <summary>
         /// Run the command with the OS's command runner 
         /// </summary>
-        public static async Task RunShellAsync(string arguments, string workingDir=null, int? timeoutMs = null,
-            Action<string> onOut=null, Action<string> onError=null)
+        public static async Task RunShellAsync(string arguments, string workingDir = null, int? timeoutMs = null,
+            Action<string> onOut = null, Action<string> onError = null)
         {
             if (string.IsNullOrEmpty(arguments))
                 throw new ArgumentNullException(nameof(arguments));
 
             if (Env.IsWindows)
             {
-                var cmdArgs = "/C " + arguments; 
+                var cmdArgs = "/C " + arguments;
                 await RunAsync(CreateProcess("cmd.exe", cmdArgs, workingDir).StartInfo, timeoutMs, onOut, onError);
             }
             else
@@ -158,23 +159,24 @@ namespace ServiceStack
         /// Run a Process asynchronously, returning  entire captured process output, whilst streaming stdOut, stdErr callbacks
         /// </summary>
         public static async Task<ProcessResult> RunAsync(ProcessStartInfo startInfo, int? timeoutMs = null,
-            Action<string> onOut=null, Action<string> onError=null)
+            Action<string> onOut = null, Action<string> onError = null)
         {
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
-            
-            using var process = new Process 
+
+            using var process = new Process
             {
-                StartInfo = startInfo, 
+                StartInfo = startInfo,
                 EnableRaisingEvents = true,
             };
-            
+
             // List of tasks to wait for a whole process exit
             var processTasks = new List<Task>();
 
             // === EXITED Event handling ===
             var processExitEvent = new TaskCompletionSource<object>();
-            process.Exited += (sender, args) => {
+            process.Exited += (sender, args) =>
+            {
                 processExitEvent.TrySetResult(true);
             };
             processTasks.Add(processExitEvent.Task);
@@ -184,7 +186,8 @@ namespace ServiceStack
             // === STDOUT handling ===
             var stdOutBuilder = StringBuilderCache.Allocate();
             var stdOutCloseEvent = new TaskCompletionSource<bool>();
-            process.OutputDataReceived += (s, e) => {
+            process.OutputDataReceived += (s, e) =>
+            {
                 if (e.Data == null)
                 {
                     stdOutCloseEvent.TrySetResult(true);
@@ -206,7 +209,8 @@ namespace ServiceStack
             // === STDERR handling ===
             var stdErrBuilder = StringBuilderCacheAlt.Allocate();
             var stdErrCloseEvent = new TaskCompletionSource<bool>();
-            process.ErrorDataReceived += (s, e) => {
+            process.ErrorDataReceived += (s, e) =>
+            {
                 if (e.Data == null)
                 {
                     stdErrCloseEvent.TrySetResult(true);
@@ -227,7 +231,8 @@ namespace ServiceStack
 
             // === START OF PROCESS ===
             var sw = Stopwatch.StartNew();
-            var result = new ProcessResult {
+            var result = new ProcessResult
+            {
                 StartAt = DateTime.UtcNow,
             };
             if (!process.Start())
@@ -287,7 +292,8 @@ namespace ServiceStack
         }
         public static ProcessResult CreateErrorResult(Exception e)
         {
-            return new ProcessResult {
+            return new ProcessResult
+            {
                 StartAt = DateTime.UtcNow,
                 EndAt = DateTime.UtcNow,
                 DurationMs = 0,
@@ -297,7 +303,7 @@ namespace ServiceStack
             };
         }
     }
-    
+
     /// <summary>
     /// Run process result
     /// </summary>
@@ -318,22 +324,22 @@ namespace ServiceStack
         /// Standard output stream
         /// </summary>
         public string StdOut { get; set; }
-            
+
         /// <summary>
         /// UTC Start
         /// </summary>
         public DateTime StartAt { get; set; }
-            
+
         /// <summary>
         /// UTC End
         /// </summary>
         public DateTime EndAt { get; set; }
-            
+
         /// <summary>
         /// Duration (ms)
         /// </summary>
         public long DurationMs { get; set; }
-            
+
         /// <summary>
         /// Duration (ms)
         /// </summary>

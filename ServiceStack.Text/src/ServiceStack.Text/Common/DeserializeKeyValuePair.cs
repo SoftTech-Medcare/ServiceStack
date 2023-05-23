@@ -10,11 +10,11 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
-using ServiceStack.Text.Json;
 
 namespace ServiceStack.Text.Common
 {

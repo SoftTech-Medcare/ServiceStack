@@ -21,7 +21,7 @@ public class FieldAttribute : InputAttributeBase
     public string InputCss { get; set; }
     public string LabelCss { get; set; }
 
-    public FieldAttribute(){}
+    public FieldAttribute() { }
     public FieldAttribute(string name) => Name = name;
 }
 
@@ -39,16 +39,16 @@ public class InputAttributeBase : MetadataAttributeBase
     public bool Required { get; set; }
     public bool Disabled { get; set; }
     public string Autocomplete { get; set; }
-    public string Autofocus  { get; set; }
+    public string Autofocus { get; set; }
     public string Min { get; set; }
     public string Max { get; set; }
     public int Step { get; set; } = int.MinValue;
     public int MinLength { get; set; } = int.MinValue;
     public int MaxLength { get; set; } = int.MinValue;
-    public string Accept  { get; set; }
-    public string Capture  { get; set; }
+    public string Accept { get; set; }
+    public string Capture { get; set; }
     public bool Multiple { get; set; }
     public string[] AllowableValues { get; set; }
-    public string Options  { get; set; }
+    public string Options { get; set; }
     public bool Ignore { get; set; }
 }

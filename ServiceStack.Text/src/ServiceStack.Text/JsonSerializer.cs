@@ -10,14 +10,22 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Json;
 using System;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Threading.Tasks;
 using ServiceStack.Text.Common;
-using ServiceStack.Text.Json;
+After:
+using System.Text;
+using System.Threading;
+*/
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ServiceStack.Text
 {
@@ -75,7 +83,7 @@ namespace ServiceStack.Text
         {
             return DeserializeFromString(reader.ReadToEnd(), type);
         }
-        
+
         public static string SerializeToString<T>(T value)
         {
             if (value == null || value is Delegate) return null;
@@ -174,7 +182,7 @@ namespace ServiceStack.Text
             }
             else
             {
-                var writer = new StreamWriter(stream, JsConfig.UTF8Encoding, BufferSize, leaveOpen:true);
+                var writer = new StreamWriter(stream, JsConfig.UTF8Encoding, BufferSize, leaveOpen: true);
                 WriteObjectToWriter(value, JsonWriter<T>.GetRootObjectWriteFn(value), writer);
                 writer.Flush();
             }
@@ -183,7 +191,7 @@ namespace ServiceStack.Text
         public static void SerializeToStream(object value, Type type, Stream stream)
         {
             OnSerialize?.Invoke(value);
-            var writer = new StreamWriter(stream, JsConfig.UTF8Encoding, BufferSize, leaveOpen:true);
+            var writer = new StreamWriter(stream, JsConfig.UTF8Encoding, BufferSize, leaveOpen: true);
             WriteObjectToWriter(value, JsonWriter.GetWriteFn(type), writer);
             writer.Flush();
         }
@@ -267,11 +275,11 @@ namespace ServiceStack.Text
 
     public class JsonStringSerializer : IStringSerializer
     {
-        public To DeserializeFromString<To>(string serializedText) => 
+        public To DeserializeFromString<To>(string serializedText) =>
             JsonSerializer.DeserializeFromString<To>(serializedText);
-        public object DeserializeFromString(string serializedText, Type type) => 
+        public object DeserializeFromString(string serializedText, Type type) =>
             JsonSerializer.DeserializeFromString(serializedText, type);
-        public string SerializeToString<TFrom>(TFrom @from) => 
+        public string SerializeToString<TFrom>(TFrom @from) =>
             JsonSerializer.SerializeToString(@from);
     }
 }

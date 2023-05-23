@@ -1,7 +1,5 @@
 ﻿using ServiceStack.Redis.Internal;
-using ServiceStack.Redis.Pipeline;
 using ServiceStack.Text;
-using ServiceStack.Text.Pools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -171,7 +169,7 @@ namespace ServiceStack.Redis
             var didWriteToBuffer = false;
             Exception originalEx = null;
             Exception wasError = null;
-            Guid id = Guid.Empty; 
+            Guid id = Guid.Empty;
 
             var firstAttempt = DateTime.UtcNow;
 
@@ -329,7 +327,7 @@ namespace ServiceStack.Redis
         }
 
 
-        private ValueTask<int> SafeReadByteAsync(in CancellationToken token, [CallerMemberName]string name = null)
+        private ValueTask<int> SafeReadByteAsync(in CancellationToken token, [CallerMemberName] string name = null)
         {
             AssertNotDisposed();
 
@@ -405,7 +403,7 @@ namespace ServiceStack.Redis
 
             if (r == "*0")
                 return Array.Empty<byte>();
-            
+
             throw CreateResponseError("Unexpected reply: " + r);
         }
 

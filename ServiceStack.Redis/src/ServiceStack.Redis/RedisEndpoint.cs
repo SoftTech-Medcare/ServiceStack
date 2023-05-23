@@ -1,10 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.IO;
+*/
+using ServiceStack.Text;
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System.ComponentModel;
 using System.Security.Authentication;
 using System.Text;
 using ServiceStack.IO;
 using ServiceStack.Text;
+After:
+using System;
+using System.Collections.Authentication;
+using System.ComponentModel;
+using System.Security.Authentication;
+using System.Text;
+*/
 
 namespace ServiceStack.Redis
 {
@@ -35,7 +51,7 @@ namespace ServiceStack.Redis
         public string Host { get; set; }
         public int Port { get; set; }
         public bool Ssl { get; set; }
-        public SslProtocols? SslProtocols {get; set;}
+        public SslProtocols? SslProtocols { get; set; }
         public int ConnectTimeout { get; set; }
         public int SendTimeout { get; set; }
         public int ReceiveTimeout { get; set; }
@@ -83,25 +99,36 @@ namespace ServiceStack.Redis
                 args.Add("NamespacePrefix=" + NamespacePrefix.UrlEncode());
 
             if (args.Count > 0)
+
+                /* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+                Before:
+                                sb.Append('?').Append(string.Join("&", args));
+
+                            return StringBuilderCache.ReturnAndFree(sb);
+                After:
+                                sb.Append('?').Append(string.Join("&", args));
+
+                            return StringBuilderCache.ReturnAndFree(sb);
+                */
                 sb.Append('?').Append(string.Join("&", args));
-            
+
             return StringBuilderCache.ReturnAndFree(sb);
         }
 
         protected bool Equals(RedisEndpoint other)
         {
-            return string.Equals(Host, other.Host) 
-                && Port == other.Port 
-                && Ssl.Equals(other.Ssl) 
+            return string.Equals(Host, other.Host)
+                && Port == other.Port
+                && Ssl.Equals(other.Ssl)
                 && SslProtocols.Equals(other.SslProtocols)
-                && ConnectTimeout == other.ConnectTimeout 
-                && SendTimeout == other.SendTimeout 
-                && ReceiveTimeout == other.ReceiveTimeout 
+                && ConnectTimeout == other.ConnectTimeout
+                && SendTimeout == other.SendTimeout
+                && ReceiveTimeout == other.ReceiveTimeout
                 && RetryTimeout == other.RetryTimeout
-                && IdleTimeOutSecs == other.IdleTimeOutSecs 
-                && Db == other.Db 
-                && string.Equals(Client, other.Client) 
-                && string.Equals(Password, other.Password) 
+                && IdleTimeOutSecs == other.IdleTimeOutSecs
+                && Db == other.Db
+                && string.Equals(Client, other.Client)
+                && string.Equals(Password, other.Password)
                 && string.Equals(NamespacePrefix, other.NamespacePrefix);
         }
 

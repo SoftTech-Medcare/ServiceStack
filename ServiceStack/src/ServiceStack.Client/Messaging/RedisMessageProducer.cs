@@ -1,9 +1,9 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
-using ServiceStack.Redis;
 
 namespace ServiceStack.Messaging
 {

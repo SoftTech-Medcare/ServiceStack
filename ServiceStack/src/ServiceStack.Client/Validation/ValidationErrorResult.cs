@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using ServiceStack.Text;
+After:
+using System.Collections.Generic;
+*/
 
 namespace ServiceStack.Validation
 {

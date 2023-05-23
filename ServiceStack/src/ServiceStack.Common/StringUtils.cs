@@ -1,6 +1,8 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Script;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,8 +10,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using ServiceStack.Script;
-using ServiceStack.Text;
 
 #if !NET6_0
 using ServiceStack.Extensions;
@@ -28,15 +28,15 @@ namespace ServiceStack
 
         public List<TextNode> Children { get; set; }
     }
-    
+
     public static class StringUtils
     {
         public static List<Command> ParseCommands(this string commandsString)
         {
             return commandsString.AsMemory().ParseCommands(',');
         }
-        
-        public static List<Command> ParseCommands(this ReadOnlyMemory<char> commandsString, 
+
+        public static List<Command> ParseCommands(this ReadOnlyMemory<char> commandsString,
             char separator = ',')
         {
             var to = new List<Command>();
@@ -114,7 +114,7 @@ namespace ServiceStack
                         var literalRemaining = ParseArguments(literal, out args);
                         cmd.Args = args;
                         var endPos = literal.Length - literalRemaining.Length;
-                        
+
                         i += endPos;
                         pos = i + 1;
                         continue;
@@ -169,7 +169,7 @@ namespace ServiceStack
 
             return to;
         }
-        
+
         // ( {args} , {args} )
         //   ^
         public static ReadOnlyMemory<char> ParseArguments(ReadOnlyMemory<char> argsString, out List<ReadOnlyMemory<char>> args)
@@ -261,26 +261,26 @@ namespace ServiceStack
                         inParens++;
                         continue;
                     case ',':
-                    {
-                        var arg = argsString.Slice(lastPos, i - lastPos).Trim();
-                        to.Add(arg);
-                        lastPos = i + 1;
-                        continue;
-                    }
-                    case ')':
-                    {
-                        var arg = argsString.Slice(lastPos, i - lastPos).Trim();
-                        if (!arg.IsNullOrEmpty())
                         {
+                            var arg = argsString.Slice(lastPos, i - lastPos).Trim();
                             to.Add(arg);
+                            lastPos = i + 1;
+                            continue;
                         }
+                    case ')':
+                        {
+                            var arg = argsString.Slice(lastPos, i - lastPos).Trim();
+                            if (!arg.IsNullOrEmpty())
+                            {
+                                to.Add(arg);
+                            }
 
-                        args = to;
-                        return argsString.Advance(i);
-                    }
+                            args = to;
+                            return argsString.Advance(i);
+                        }
                 }
             }
-            
+
             args = to;
             return TypeConstants.EmptyStringMemory;
         }
@@ -294,14 +294,14 @@ namespace ServiceStack
         {
             if (replaceStringsPairs.Length < 2 || replaceStringsPairs.Length % 2 != 0)
                 throw new ArgumentException("Replacement pairs must be an even number of old and new value pairs", nameof(replaceStringsPairs));
-            
-            for (var i = 0; i < replaceStringsPairs.Length; i+=2)
+
+            for (var i = 0; i < replaceStringsPairs.Length; i += 2)
             {
                 str = str.Replace(replaceStringsPairs[i], replaceStringsPairs[i + 1]);
             }
             return str;
         }
-        
+
         /// <summary>
         /// Replace string contents outside of string quotes 
         /// </summary>
@@ -321,7 +321,7 @@ namespace ServiceStack
                 var c = str[i];
                 if (i > 0 && c == '\\')
                 {
-                    switch (str[i-1]) 
+                    switch (str[i - 1])
                     {
                         case '"':
                         case '\'':
@@ -367,14 +367,14 @@ namespace ServiceStack
                     }
                     continue;
                 }
-                
-                switch (c) 
+
+                switch (c)
                 {
                     case '"':
                     case '\'':
                     case '`':
                     case '′':
-                        var prevChunk = str.Substring(chunkLastPos, i-chunkLastPos);
+                        var prevChunk = str.Substring(chunkLastPos, i - chunkLastPos);
                         sb.Append(ReplacePairs(prevChunk, replaceStringsPairs));
                         chunkLastPos = i;
                         quoteStartPos = i;
@@ -447,7 +447,7 @@ namespace ServiceStack
                     else
                     {
                         sb.Append(@"\u");
-                        sb.Append(((ushort) c).ToString("x4"));
+                        sb.Append(((ushort)c).ToString("x4"));
                     }
                 }
             }
@@ -459,7 +459,7 @@ namespace ServiceStack
         {
             if (string.IsNullOrEmpty(snakeCase))
                 return snakeCase;
-            
+
             var safeVarName = snakeCase.SafeVarName();
             if (safeVarName.IndexOf('_') >= 0)
             {
@@ -538,7 +538,7 @@ namespace ServiceStack
                 }
             }
 
-            return Convert.ToString((char) decimalValue, CultureInfo.InvariantCulture);
+            return Convert.ToString((char)decimalValue, CultureInfo.InvariantCulture);
         }
 
         public static string ToChar(this int codePoint)
@@ -546,7 +546,7 @@ namespace ServiceStack
             return Convert.ToString(Convert.ToChar(codePoint), CultureInfo.InvariantCulture);
         }
 
-        private static readonly char[] FieldSeparators = {',', ';'};
+        private static readonly char[] FieldSeparators = { ',', ';' };
         public static string[] SplitVarNames(string fields)
         {
             if (string.IsNullOrEmpty(fields))
@@ -555,7 +555,7 @@ namespace ServiceStack
             var sanitizedFields = fields.Trim().TrimEnd(FieldSeparators);
             if (string.IsNullOrEmpty(sanitizedFields))
                 return TypeConstants.EmptyStringArray;
-            
+
             return sanitizedFields
                 .Split(FieldSeparators, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim()).ToArray();
@@ -676,7 +676,7 @@ namespace ServiceStack
         }
 
         public static ReadOnlyMemory<char> NewLineMemory = Environment.NewLine.AsMemory();
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AppendLine(this StringBuilder sb, ReadOnlyMemory<char> line)
         {
@@ -686,7 +686,7 @@ namespace ServiceStack
             sb.AppendLine(line.ToString());
 #endif
         }
-        
+
         // http://www.w3.org/TR/html5/entities.json
         // TODO: conditional compilation for NET45 that uses ReadOnlyDictionary
         public static readonly IDictionary<string, string> HtmlCharacterCodes = new SortedDictionary<string, string> {

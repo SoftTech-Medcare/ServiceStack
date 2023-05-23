@@ -17,8 +17,8 @@ namespace ServiceStack.Redis
 {
     public partial class RedisClient
     {
-       internal partial class RedisClientSets
-            : IHasNamed<IRedisSetAsync>
+        internal partial class RedisClientSets
+             : IHasNamed<IRedisSetAsync>
         {
             IRedisSetAsync IHasNamed<IRedisSetAsync>.this[string setId]
             {

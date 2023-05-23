@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System.Collections.Generic;
 using ServiceStack.Text;
-
-
+After:
+using ServiceStack.Text;
+using System.Collections.Generic;
+*/
 namespace ServiceStack.Redis.Support.Queue.Implementation
 {
     /// <summary>
@@ -30,9 +35,10 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                 MaxWritePoolSize = maxWritePoolSize
             };
 
-            clientManager = new PooledRedisClientManager(new[] { host + ":" + port }, 
-                TypeConstants.EmptyStringArray, 
-                poolConfig) {
+            clientManager = new PooledRedisClientManager(new[] { host + ":" + port },
+                TypeConstants.EmptyStringArray,
+                poolConfig)
+            {
                 RedisResolver = new RedisResolver { ClientFactory = config => new SerializingRedisClient(config) }
             };
         }

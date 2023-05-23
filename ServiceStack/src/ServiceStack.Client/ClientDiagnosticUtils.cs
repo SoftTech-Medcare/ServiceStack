@@ -1,6 +1,6 @@
+using ServiceStack.Messaging;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using ServiceStack.Messaging;
 
 namespace ServiceStack;
 

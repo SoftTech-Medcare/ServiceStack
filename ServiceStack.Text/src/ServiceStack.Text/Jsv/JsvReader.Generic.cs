@@ -1,11 +1,11 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text.Common;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Runtime.CompilerServices;
-using ServiceStack.Text.Common;
+using System.Threading;
 
 namespace ServiceStack.Text.Jsv
 {
@@ -33,7 +33,8 @@ namespace ServiceStack.Text.Jsv
             do
             {
                 snapshot = ParseFnCache;
-                newCache = new Dictionary<Type, ParseFactoryDelegate>(ParseFnCache) {
+                newCache = new Dictionary<Type, ParseFactoryDelegate>(ParseFnCache)
+                {
                     [type] = parseFactoryFn
                 };
 
@@ -100,8 +101,8 @@ namespace ServiceStack.Text.Jsv
                 Refresh();
             }
 
-            return !value.IsEmpty 
-                ? ReadFn(value) 
+            return !value.IsEmpty
+                ? ReadFn(value)
                 : null;
         }
     }

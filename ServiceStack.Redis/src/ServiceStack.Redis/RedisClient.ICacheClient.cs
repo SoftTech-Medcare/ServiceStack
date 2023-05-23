@@ -10,12 +10,12 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Caching;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServiceStack.Caching;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -62,9 +62,9 @@ namespace ServiceStack.Redis
             { typeof(uint), true},
             { typeof(long), true},
             { typeof(ulong), true},
-	        { typeof(double), true},
-	        { typeof(float), true},
-	        { typeof(decimal), true}
+            { typeof(double), true},
+            { typeof(float), true},
+            { typeof(decimal), true}
         };
 
         private static byte[] ToBytes<T>(T value)

@@ -10,8 +10,8 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-using System.Collections.Generic;
 using ServiceStack.Model;
+using System.Collections.Generic;
 
 namespace ServiceStack.Redis
 {

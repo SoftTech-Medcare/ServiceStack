@@ -13,7 +13,7 @@ namespace ServiceStack
         public DateTime Created { get; set; }
         public string ETag { get; set; }
         public DateTime? LastModified { get; set; }
-        public bool MustRevalidate { get; set; } 
+        public bool MustRevalidate { get; set; }
         public bool NoCache { get; set; }
         public TimeSpan? Age { get; set; }
         public TimeSpan MaxAge { get; set; }
@@ -24,7 +24,7 @@ namespace ServiceStack
         public void SetMaxAge(TimeSpan maxAge)
         {
             MaxAge = maxAge;
-            Expires = maxAge > TimeSpan.Zero 
+            Expires = maxAge > TimeSpan.Zero
                 ? Created + maxAge
                 : Created - TimeSpan.FromSeconds(1); //auto expire
         }

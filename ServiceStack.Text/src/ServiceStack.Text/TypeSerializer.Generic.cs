@@ -10,10 +10,18 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text.Jsv;
 using System;
-using System.IO;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Text;
 using ServiceStack.Text.Jsv;
+After:
+using System.IO;
+using System.Text;
+*/
+using System.IO;
 
 namespace ServiceStack.Text
 {

@@ -10,14 +10,14 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text.Json;
+using ServiceStack.Text.Jsv;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using ServiceStack.Text.Json;
-using ServiceStack.Text.Jsv;
 
 namespace ServiceStack.Text.Common
 {
@@ -30,10 +30,10 @@ namespace ServiceStack.Text.Common
         internal static TypePropertyWriter[] PropertyWriters;
         private static readonly WriteObjectDelegate WriteTypeInfo;
 
-        private static bool IsIncluded => 
+        private static bool IsIncluded =>
             JsConfig<T>.IncludeTypeInfo.GetValueOrDefault(JsConfig.IncludeTypeInfo);
 
-        private static bool IsExcluded => 
+        private static bool IsExcluded =>
             JsConfig<T>.ExcludeTypeInfo.GetValueOrDefault(JsConfig.ExcludeTypeInfo);
 
         static WriteType()
@@ -118,7 +118,7 @@ namespace ServiceStack.Text.Common
 
         private static bool Init()
         {
-            if (!typeof(T).IsClass && !typeof(T).IsInterface && !JsConfig.TreatAsRefType(typeof(T))) 
+            if (!typeof(T).IsClass && !typeof(T).IsInterface && !JsConfig.TreatAsRefType(typeof(T)))
                 return false;
 
             var propertyInfos = TypeConfig<T>.Properties;
@@ -261,7 +261,7 @@ namespace ServiceStack.Text.Common
         {
             internal string GetPropertyName(Config config)
             {
-                switch (config.TextCase) 
+                switch (config.TextCase)
                 {
                     case TextCase.CamelCase:
                         return propertyNameCLSFriendly;
@@ -271,7 +271,7 @@ namespace ServiceStack.Text.Common
                         return propertyName;
                 }
             }
-            
+
             internal readonly Type PropertyType;
             internal readonly string propertyName;
             internal readonly int propertyOrder;
@@ -477,7 +477,7 @@ namespace ServiceStack.Text.Common
 
         internal static string GetPropertyName(string propertyName, Config config)
         {
-            switch (config.TextCase) 
+            switch (config.TextCase)
             {
                 case TextCase.CamelCase:
                     return propertyName.ToCamelCase();
@@ -502,7 +502,7 @@ namespace ServiceStack.Text.Common
                 for (var index = 0; index < len; index++)
                 {
                     var propertyWriter = PropertyWriters[index];
-                    if (propertyWriter.shouldSerialize != null && !propertyWriter.shouldSerialize(typedInstance)) 
+                    if (propertyWriter.shouldSerialize != null && !propertyWriter.shouldSerialize(typedInstance))
                         continue;
 
                     var propertyValue = instance != null ? propertyWriter.GetterFn(typedInstance) : null;
@@ -514,15 +514,15 @@ namespace ServiceStack.Text.Common
                         && !Serializer.IncludeNullValues)
                         continue;
 
-                    if (config.ExcludePropertyReferences != null && config.ExcludePropertyReferences.Contains(propertyWriter.propertyReferenceName)) 
+                    if (config.ExcludePropertyReferences != null && config.ExcludePropertyReferences.Contains(propertyWriter.propertyReferenceName))
                         continue;
 
                     if (i++ > 0)
                         writer.Write('&');
 
                     var propertyValueType = propertyValue?.GetType();
-                    if (propertyValueType != null && 
-                        propertyValueType.IsUserType() && 
+                    if (propertyValueType != null &&
+                        propertyValueType.IsUserType() &&
                         !propertyValueType.HasInterface(typeof(IEnumerable)))
                     {
                         //Nested Complex Type: legal_entity[dob][day]=1

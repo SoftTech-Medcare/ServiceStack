@@ -28,7 +28,7 @@ namespace ServiceStack
                 return false;
             if (pi.PropertyType == typeof(bool) && value == "false")
                 return false;
-            
+
             return true;
         }
     }

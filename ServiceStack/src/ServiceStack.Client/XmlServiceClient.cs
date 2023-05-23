@@ -1,9 +1,9 @@
 #if !LITE
-using System.IO;
-using System.Xml;
 using ServiceStack.Serialization;
 using ServiceStack.Text;
 using ServiceStack.Web;
+using System.IO;
+using System.Xml;
 
 namespace ServiceStack
 {
@@ -12,15 +12,15 @@ namespace ServiceStack
     {
         public override string Format => "xml";
 
-        public XmlServiceClient() {}
+        public XmlServiceClient() { }
 
-        public XmlServiceClient(string baseUri) 
+        public XmlServiceClient(string baseUri)
         {
             SetBaseUri(baseUri);
         }
 
-        public XmlServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri) 
-            : base(syncReplyBaseUri, asyncOneWayBaseUri) {}
+        public XmlServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri)
+            : base(syncReplyBaseUri, asyncOneWayBaseUri) { }
 
         public override string ContentType => $"application/{Format}";
 

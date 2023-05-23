@@ -31,7 +31,7 @@ namespace ServiceStack.Web
 
         StreamDeserializerDelegateAsync GetStreamDeserializerAsync(string contentType);
     }
-    
+
     public interface IContentTypeWriter
     {
         byte[] SerializeToBytes(IRequest req, object response);
@@ -57,6 +57,6 @@ namespace ServiceStack.Web
     public delegate Task<object> StreamDeserializerDelegateAsync(Type type, Stream fromStream);
 
     public delegate string StringSerializerDelegate(IRequest req, object dto);
-    
+
     public delegate object StringDeserializerDelegate(string contents, Type type);
 }

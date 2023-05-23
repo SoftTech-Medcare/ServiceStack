@@ -1,8 +1,8 @@
+using ServiceStack.Messaging;
+using ServiceStack.Web;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using ServiceStack.Messaging;
-using ServiceStack.Web;
 
 namespace ServiceStack;
 
@@ -110,14 +110,15 @@ internal static class ServiceStackDiagnostics
     //        }.Init(req));
     //    }
     //}
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Guid WriteMqRequestBefore(this DiagnosticListener listener, IMessage msg, [CallerMemberName] string operation = "")
     {
         if (listener.IsEnabled(Diagnostics.Events.ServiceStack.WriteMqRequestBefore))
         {
             var operationId = Guid.NewGuid();
-            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestBefore, new MqRequestDiagnosticEvent {
+            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestBefore, new MqRequestDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.ServiceStack.WriteMqRequestBefore,
                 Operation = operation,
                 Message = msg,
@@ -131,7 +132,8 @@ internal static class ServiceStackDiagnostics
     {
         if (listener.IsEnabled(Diagnostics.Events.ServiceStack.WriteMqRequestAfter))
         {
-            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestAfter, new MqRequestDiagnosticEvent {
+            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestAfter, new MqRequestDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.ServiceStack.WriteMqRequestAfter,
                 Operation = operation,
                 Message = msg,
@@ -144,7 +146,8 @@ internal static class ServiceStackDiagnostics
     {
         if (listener.IsEnabled(Diagnostics.Events.ServiceStack.WriteMqRequestError))
         {
-            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestError, new MqRequestDiagnosticEvent {
+            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestError, new MqRequestDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.ServiceStack.WriteMqRequestError,
                 Operation = operation,
                 Message = msg,
@@ -158,7 +161,8 @@ internal static class ServiceStackDiagnostics
     {
         if (listener.IsEnabled(Diagnostics.Events.ServiceStack.WriteMqRequestPublish))
         {
-            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestPublish, new MqRequestDiagnosticEvent {
+            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestPublish, new MqRequestDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.ServiceStack.WriteMqRequestPublish,
                 Operation = operation,
                 MqClient = replyClient,
@@ -172,7 +176,8 @@ internal static class ServiceStackDiagnostics
     {
         if (listener.IsEnabled(Diagnostics.Events.ServiceStack.WriteMqRequestPublish))
         {
-            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestPublish, new MqRequestDiagnosticEvent {
+            listener.Write(Diagnostics.Events.ServiceStack.WriteMqRequestPublish, new MqRequestDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.ServiceStack.WriteMqRequestPublish,
                 Operation = operation,
                 OneWayClient = replyClient,
@@ -204,7 +209,7 @@ public static class ServiceStackDiagnosticsUtils
     //    evt.Timestamp = Stopwatch.GetTimestamp();
     //    return evt;
     //}
-    
+
     public static MqRequestDiagnosticEvent Init(this MqRequestDiagnosticEvent evt, Guid operationId)
     {
         evt.OperationId = operationId;

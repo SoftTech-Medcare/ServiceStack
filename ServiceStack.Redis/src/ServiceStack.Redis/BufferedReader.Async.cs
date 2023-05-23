@@ -1,5 +1,4 @@
 ﻿using ServiceStack.Redis.Internal;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -81,7 +80,7 @@ namespace ServiceStack.Redis
 
             _available = pending.Result; // already checked status, this is fine
             return (_available > 0 ? ReadFromBuffer(buffer, offset, count) : 0).AsValueTaskResult();
-            
+
             static async ValueTask<int> Awaited(BufferedReader @this, Task<int> pending, byte[] buffer, int offset, int count)
             {
                 @this._available = await pending.ConfigureAwait(false);

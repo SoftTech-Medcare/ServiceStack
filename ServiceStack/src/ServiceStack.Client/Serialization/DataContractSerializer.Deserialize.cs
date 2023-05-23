@@ -1,8 +1,8 @@
 #if !LITE
+using ServiceStack.Text;
 using System;
 using System.IO;
 using System.Runtime.Serialization;
-using ServiceStack.Text;
 
 namespace ServiceStack.Serialization
 {

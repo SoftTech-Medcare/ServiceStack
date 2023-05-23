@@ -1,7 +1,7 @@
+using ServiceStack.IO;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using ServiceStack.IO;
 
 namespace ServiceStack.Script
 {
@@ -13,7 +13,7 @@ namespace ServiceStack.Script
         SharpPage TryGetPage(string path);
         SharpPage OneTimePage(string contents, string ext);
         SharpPage OneTimePage(string contents, string ext, Action<SharpPage> init);
-        
+
         SharpPage ResolveLayoutPage(SharpCodePage page, string layout);
         SharpCodePage GetCodePage(string virtualPath);
 
@@ -27,20 +27,20 @@ namespace ServiceStack.Script
         public SharpPages(ScriptContext context) => this.Context = context;
 
         public static string Layout = "layout";
-        
-        readonly ConcurrentDictionary<string, SharpPage> pageMap = new ConcurrentDictionary<string, SharpPage>(); 
+
+        readonly ConcurrentDictionary<string, SharpPage> pageMap = new ConcurrentDictionary<string, SharpPage>();
 
         public virtual SharpPage ResolveLayoutPage(SharpPage page, string layout)
         {
             if (page == null)
                 throw new ArgumentNullException(nameof(page));
-            
+
             if (!page.HasInit)
                 throw new ArgumentException($"Page {page.File.VirtualPath} has not been initialized");
 
             if (page.IsLayout)
                 return null;
-            
+
             var layoutWithoutExt = (layout ?? Context.DefaultLayoutPage).LeftPart('.');
 
             var dir = page.File.Directory;
@@ -57,14 +57,14 @@ namespace ServiceStack.Script
                     if (layoutFile != null)
                         return AddPage(layoutPath, layoutFile);
                 }
-                
+
                 if (dir.IsRoot)
                     break;
-                
+
                 dir = dir.ParentDirectory;
 
             } while (dir != null);
-            
+
             return null;
         }
 
@@ -72,7 +72,7 @@ namespace ServiceStack.Script
         {
             if (page == null)
                 throw new ArgumentNullException(nameof(page));
-            
+
             if (!page.HasInit)
                 throw new ArgumentException($"Page {page.VirtualPath} has not been initialized");
 
@@ -82,8 +82,8 @@ namespace ServiceStack.Script
             var dirPath = lastDirPos >= 0
                 ? page.VirtualPath.Substring(0, lastDirPos)
                 : null;
-            var dir = !string.IsNullOrEmpty(dirPath) 
-                ? Context.VirtualFiles.GetDirectory(dirPath) 
+            var dir = !string.IsNullOrEmpty(dirPath)
+                ? Context.VirtualFiles.GetDirectory(dirPath)
                 : Context.VirtualFiles.RootDirectory;
             do
             {
@@ -98,14 +98,14 @@ namespace ServiceStack.Script
                     if (layoutFile != null)
                         return AddPage(layoutPath, layoutFile);
                 }
-                
+
                 if (dir.IsRoot)
                     break;
-                
+
                 dir = dir.ParentDirectory;
 
             } while (dir != null);
-            
+
             return null;
         }
 
@@ -119,9 +119,9 @@ namespace ServiceStack.Script
 
         public virtual SharpPage TryGetPage(string path)
         {
-            var sanitizePath = path.Replace('\\','/').TrimPrefixes("/").LastLeftPart('.');
+            var sanitizePath = path.Replace('\\', '/').TrimPrefixes("/").LastLeftPart('.');
 
-            if (pageMap.TryGetValue(sanitizePath, out SharpPage page)) 
+            if (pageMap.TryGetValue(sanitizePath, out SharpPage page))
                 return page;
 
             return null;
@@ -132,7 +132,7 @@ namespace ServiceStack.Script
             if (string.IsNullOrEmpty(pathInfo))
                 return null;
 
-            var sanitizePath = pathInfo.Replace('\\','/').TrimPrefixes("/");
+            var sanitizePath = pathInfo.Replace('\\', '/').TrimPrefixes("/");
             var isDirectory = sanitizePath.Length == 0 || sanitizePath[sanitizePath.Length - 1] == '/';
 
             SharpPage page = null;
@@ -157,7 +157,7 @@ namespace ServiceStack.Script
             var filePath = sanitizePath.LastLeftPart('.');
             if (string.IsNullOrEmpty(filePath) && !string.IsNullOrEmpty(sanitizePath)) // .well-known/path
                 return null;
-            
+
             page = TryGetPage(filePath) ?? (!isDirectory ? TryGetPage(filePath + '/') : null);
             if (page != null)
                 return page;
@@ -191,7 +191,7 @@ namespace ServiceStack.Script
                 }
             }
 
-            return null; 
+            return null;
         }
 
         private static MemoryVirtualFiles tempFiles;
@@ -200,15 +200,15 @@ namespace ServiceStack.Script
         internal static readonly InMemoryVirtualDirectory TempDir = tempDir ??= new InMemoryVirtualDirectory(TempFiles, ScriptConstants.TempFilePath);
 
         public virtual SharpPage OneTimePage(string contents, string ext) => OneTimePage(contents, ext, init: null);
-        
+
         public SharpPage OneTimePage(string contents, string ext, Action<SharpPage> init)
         {
             var memFile = new InMemoryVirtualFile(TempFiles, TempDir)
             {
-                FilePath = Guid.NewGuid().ToString("n") + "." + ext, 
+                FilePath = Guid.NewGuid().ToString("n") + "." + ext,
                 TextContents = contents,
             };
-            
+
             var page = new SharpPage(Context, memFile);
 
             try
@@ -270,7 +270,7 @@ namespace ServiceStack.Script
                         Context.TryGetPage(page.VirtualPath, partialPath, out SharpPage partialPage, out _);
                         if (partialPage == null && partialPath[0] != '_')
                             Context.TryGetPage(page.VirtualPath, $"_{partialPath}-partial", out partialPage, out _);
-                        
+
                         maxLastModified = GetMaxLastModified(partialPage?.File, maxLastModified);
 
                         if (partialPage?.HasInit == true)
@@ -289,7 +289,7 @@ namespace ServiceStack.Script
                         maxLastModified = GetMaxLastModified(file, maxLastModified);
                     }
                 }
-                
+
                 var lastFilter = fragment.FilterExpressions?.LastOrDefault();
                 if (lastFilter?.Name == "selectPartial")
                 {

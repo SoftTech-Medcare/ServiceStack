@@ -1,7 +1,14 @@
-﻿using System;
+﻿
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Configuration;
+using System;
+*/
+using ServiceStack.Configuration;
 using System.Collections.Generic;
 using System.Linq;
-using ServiceStack.Configuration;
 
 namespace ServiceStack
 {

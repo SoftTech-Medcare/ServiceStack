@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using ServiceStack.Logging;
 
 namespace ServiceStack
 {
@@ -19,8 +19,8 @@ namespace ServiceStack
 
         public static PropertyInfo ToPropertyInfo(LambdaExpression lambda)
         {
-            return lambda?.Body.NodeType == ExpressionType.MemberAccess 
-                ? ToPropertyInfo(lambda.Body as MemberExpression) 
+            return lambda?.Body.NodeType == ExpressionType.MemberAccess
+                ? ToPropertyInfo(lambda.Body as MemberExpression)
                 : null;
         }
 

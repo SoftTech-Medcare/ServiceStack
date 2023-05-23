@@ -1,4 +1,3 @@
-using ServiceStack.Messaging;
 using System;
 
 namespace ServiceStack.Logging;
@@ -6,7 +5,7 @@ namespace ServiceStack.Logging;
 /// <summary>
 /// Logs a message in a running application
 /// </summary>
-public interface ILog 
+public interface ILog
 {
     /// <summary>
     /// Gets or sets a value indicating whether this instance is debug enabled.
@@ -14,8 +13,19 @@ public interface ILog
     /// <value>
     /// 	<c>true</c> if this instance is debug enabled; otherwise, <c>false</c>.
     /// </value>
+
+    /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+    Before:
+        bool IsDebugEnabled { get; }
+
+        /// <summary>
+    After:
+        bool IsDebugEnabled { get; }
+
+        /// <summary>
+    */
     bool IsDebugEnabled { get; }
-    
+
     /// <summary>
     /// Logs a Debug message.
     /// </summary>
@@ -160,8 +170,8 @@ public interface ILogTrace
 
 public static class LogUtils
 {
-    public static bool IsTraceEnabled(this ILog log) => log is ILogTrace traceLog 
-        ? traceLog.IsTraceEnabled 
+    public static bool IsTraceEnabled(this ILog log) => log is ILogTrace traceLog
+        ? traceLog.IsTraceEnabled
         : log.IsDebugEnabled;
 
     public static void Trace(this ILog log, object message)

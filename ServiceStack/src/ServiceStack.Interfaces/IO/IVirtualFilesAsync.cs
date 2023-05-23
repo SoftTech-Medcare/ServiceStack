@@ -12,7 +12,7 @@ namespace ServiceStack.IO
         Task WriteFileAsync(string filePath, Stream stream);
 
         Task WriteFilesAsync(IEnumerable<IVirtualFile> files, Func<IVirtualFile, string> toPath = null);
-        
+
         Task AppendFileAsync(string filePath, string textContents);
 
         Task AppendFileAsync(string filePath, Stream stream);

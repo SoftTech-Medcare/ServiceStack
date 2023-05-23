@@ -202,14 +202,14 @@ namespace ServiceStack.AsyncEx
     /// <typeparam name="TTag">The type for which ids are generated.</typeparam>
 // ReSharper disable UnusedTypeParameter
     internal static class IdManager<TTag>
-// ReSharper restore UnusedTypeParameter
+    // ReSharper restore UnusedTypeParameter
     {
         /// <summary>
         /// The last id generated for this type. This is 0 if no ids have been generated.
         /// </summary>
 // ReSharper disable StaticFieldInGenericType
         private static int _lastId;
-// ReSharper restore StaticFieldInGenericType
+        // ReSharper restore StaticFieldInGenericType
 
         /// <summary>
         /// Returns the id, allocating it if necessary.
@@ -239,7 +239,7 @@ namespace ServiceStack.AsyncEx
             return id;
         }
     }
-    
+
     /// <summary>
     /// Holds the task for a cancellation token, as well as the token registration. The registration is disposed when this instance is disposed.
     /// </summary>
@@ -496,7 +496,7 @@ namespace ServiceStack.AsyncEx
             }
         }
     }
-    
+
     internal static class ExceptionHelpers
     {
         /// <summary>

@@ -1,8 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ServiceStack.Model;
 using ServiceStack.Text;
+using System;
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
+using ServiceStack.Model;
+using ServiceStack.Text;
+After:
+using System.Collections.Generic;
+using System.Text;
+*/
+using System.Collections.Generic;
 
 namespace ServiceStack.Validation
 {
@@ -99,13 +107,13 @@ namespace ServiceStack.Validation
             return StringBuilderCache.ReturnAndFree(sb);
         }
 
-        public static ValidationError CreateException(Enum errorCode) => 
+        public static ValidationError CreateException(Enum errorCode) =>
             new ValidationError(errorCode.ToString());
 
-        public static ValidationError CreateException(Enum errorCode, string errorMessage) => 
+        public static ValidationError CreateException(Enum errorCode, string errorMessage) =>
             new ValidationError(errorCode.ToString(), errorMessage);
 
-        public static ValidationError CreateException(Enum errorCode, string errorMessage, string fieldName) => 
+        public static ValidationError CreateException(Enum errorCode, string errorMessage, string fieldName) =>
             CreateException(errorCode.ToString(), errorMessage, fieldName);
 
         public static ValidationError CreateException(string errorCode) => new ValidationError(errorCode);
@@ -128,7 +136,7 @@ namespace ServiceStack.Validation
             }
         }
 
-        public ResponseStatus ToResponseStatus() => 
+        public ResponseStatus ToResponseStatus() =>
             ResponseStatusUtils.CreateResponseStatus(ErrorCode, Message, Violations);
     }
 }

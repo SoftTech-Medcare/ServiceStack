@@ -1,7 +1,7 @@
+using ServiceStack.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Support
 {
@@ -65,7 +65,7 @@ namespace ServiceStack.Support
         /// <summary>
         /// Executes the specified expression. 
         /// </summary>
-        protected async Task<T> ExecuteAsync<T>(Func<CancellationToken,Task<T>> action, CancellationToken token)
+        protected async Task<T> ExecuteAsync<T>(Func<CancellationToken, Task<T>> action, CancellationToken token)
         {
             var before = DateTime.UtcNow;
             if (Log.IsDebugEnabled)
@@ -138,7 +138,7 @@ namespace ServiceStack.Support
         /// <summary>
         /// Executes the specified action (for void methods).
         /// </summary>
-        protected async Task ExecuteAsync(Func<CancellationToken,Task> action, CancellationToken token)
+        protected async Task ExecuteAsync(Func<CancellationToken, Task> action, CancellationToken token)
         {
             DateTime before = DateTime.UtcNow;
             if (Log.IsDebugEnabled)

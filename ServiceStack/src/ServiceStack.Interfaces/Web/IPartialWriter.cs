@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 namespace ServiceStack.Web
 {
     [Obsolete("Use IPartialWriterAsync")]
-	public interface IPartialWriter
-	{
+    public interface IPartialWriter
+    {
         /// <summary>
         /// Whether this HttpResult allows Partial Response
         /// </summary>
@@ -16,7 +16,7 @@ namespace ServiceStack.Web
         /// Write a partial content result
         /// </summary>
         void WritePartialTo(IResponse response);
-	}
+    }
 
     public interface IPartialWriterAsync
     {

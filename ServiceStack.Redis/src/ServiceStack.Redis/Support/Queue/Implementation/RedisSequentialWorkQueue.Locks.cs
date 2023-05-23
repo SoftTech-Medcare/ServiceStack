@@ -9,7 +9,7 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
     /// 
     /// 
     /// </summary>
-    public partial class RedisSequentialWorkQueue<T> 
+    public partial class RedisSequentialWorkQueue<T>
     {
         public class DequeueManager
         {
@@ -23,7 +23,7 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
             private int dequeueLockTimeout = 300;
             private long lockExpire;
 
-            public DequeueManager(PooledRedisClientManager clientManager, RedisSequentialWorkQueue<T> workQueue, string workItemId, string dequeueLockKey, int numberOfDequeuedItems, int dequeueLockTimeout) 
+            public DequeueManager(PooledRedisClientManager clientManager, RedisSequentialWorkQueue<T> workQueue, string workItemId, string dequeueLockKey, int numberOfDequeuedItems, int dequeueLockTimeout)
             {
                 this.workQueue = workQueue;
                 this.workItemId = workItemId;

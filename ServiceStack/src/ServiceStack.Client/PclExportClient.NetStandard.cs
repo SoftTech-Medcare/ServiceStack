@@ -2,17 +2,32 @@
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
 #if NETCORE
-using System;
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
+After:
+using System.Pcl;
+using System.Web;
+*/
+using System;
+using System.Collections.Generic;
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using ServiceStack;
 using ServiceStack.Web;
 using ServiceStack.Pcl;
 using System.Collections.Generic;
 using System.Globalization;
+After:
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading;
+*/
+
 
 
 namespace ServiceStack
@@ -21,7 +36,7 @@ namespace ServiceStack
     {
         public static NetStandardPclExportClient Provider = new NetStandardPclExportClient();
 
-        static readonly Dictionary<string, bool> multiHeaders = new Dictionary<string, bool> (StringComparer.OrdinalIgnoreCase) {
+        static readonly Dictionary<string, bool> multiHeaders = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase) {
                 {HttpHeaders.Allow,              false},
                 {HttpHeaders.Accept,             false},
                 {HttpHeaders.Authorization,      false},
@@ -53,10 +68,10 @@ namespace ServiceStack
                 {HttpHeaders.Warning,            false}
             };
 
-        static readonly Action<HttpWebRequest, DateTime> SetIfModifiedSinceDelegate = 
+        static readonly Action<HttpWebRequest, DateTime> SetIfModifiedSinceDelegate =
                     (Action<HttpWebRequest, DateTime>)typeof(HttpWebRequest)
                         .GetProperty("IfModifiedSince")
-                        ?.GetSetMethod(nonPublic:true)
+                        ?.GetSetMethod(nonPublic: true)
                         ?.CreateDelegate(typeof(Action<HttpWebRequest, DateTime>));
 
         public static PclExportClient Configure()
@@ -90,33 +105,55 @@ namespace ServiceStack
         {
             var values = GetValues(headers, name);
             return values?.FirstOrDefault(valuePredicate);
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                    }
+
+                    //see .NET 4.6.2 Reference source
+            After:
+                    }
+
+                    //see .NET 4.6.2 Reference source
+            */
         }
-        
+
         //see .NET 4.6.2 Reference source
         private static string[] GetValues(WebHeaderCollection headers, string header)
         {
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                        var value = headers[header];
+
+                        if (value == null)
+            After:
+                        var value = headers[header];
+
+                        if (value == null)
+            */
             var value = headers[header];
-            
+
             if (value == null)
                 return null;
 
             if (!multiHeaders.ContainsKey(header))
-                return new string[1]{value};
+                return new string[1] { value };
 
             var tempStringCollection = new List<string>();
- 
+
             bool inquote = false;
             int chIndex = 0;
             char[] vp = new char[value.Length];
             string singleValue;
- 
-            for (int i = 0; i < value.Length; i++) 
+
+            for (int i = 0; i < value.Length; i++)
             {
-                if (value[i] == '\"') 
+                if (value[i] == '\"')
                 {
                     inquote = !inquote;
                 }
-                else if ((value[i] == ',') && !inquote) 
+                else if ((value[i] == ',') && !inquote)
                 {
                     singleValue = new string(vp, 0, chIndex);
                     tempStringCollection.Add(singleValue.Trim());
@@ -125,13 +162,13 @@ namespace ServiceStack
                 }
                 vp[chIndex++] = value[i];
             }
- 
-            if (chIndex != 0) 
+
+            if (chIndex != 0)
             {
                 singleValue = new string(vp, 0, chIndex);
                 tempStringCollection.Add(singleValue.Trim());
             }
- 
+
             return tempStringCollection.ToArray();
         }
     }
@@ -148,7 +185,7 @@ namespace ServiceStack
         public void Cancel()
         {
             if (Timer == null) return;
-            
+
             this.Timer.Change(Timeout.Infinite, Timeout.Infinite);
             this.Dispose();
         }

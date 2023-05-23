@@ -3,17 +3,18 @@
 namespace ServiceStack.Redis.Support.Queue
 {
     public interface ISequentialData<T>
-	{
+    {
 
         /// <summary>
         /// 
         /// </summary>
-         IList<T> DequeueItems
-         { get;}
+        IList<T> DequeueItems
+        { get; }
 
-         string DequeueId
-         { get;
-         }
+        string DequeueId
+        {
+            get;
+        }
 
 
         /// <summary>
@@ -35,5 +36,5 @@ namespace ServiceStack.Redis.Support.Queue
         /// </summary>
         /// <param name="newWorkItem"></param>
         void UpdateNextUnprocessed(T newWorkItem);
-	}
+    }
 }

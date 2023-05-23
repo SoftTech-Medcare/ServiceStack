@@ -9,7 +9,7 @@ namespace ServiceStack.DataAnnotations
     /// Properties with this attribute are ignored in all SQL.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class IgnoreAttribute : AttributeBase {}
+    public class IgnoreAttribute : AttributeBase { }
 
     /// <summary>
     /// Ignore this property in SELECT statements

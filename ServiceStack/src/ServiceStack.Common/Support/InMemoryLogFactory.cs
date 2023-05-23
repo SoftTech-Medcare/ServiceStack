@@ -1,7 +1,7 @@
+using ServiceStack.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Support
 {
@@ -84,8 +84,8 @@ namespace ServiceStack.Support
         }
 
         private void AppendToLog(
-            ICollection<string> logEntries, 
-            ICollection<Exception> logExceptions, 
+            ICollection<string> logEntries,
+            ICollection<Exception> logExceptions,
             object message, Exception ex)
         {
             if (ex != null)

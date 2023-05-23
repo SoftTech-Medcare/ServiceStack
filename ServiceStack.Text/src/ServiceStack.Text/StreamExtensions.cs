@@ -1,8 +1,18 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System;
-using System.Buffers.Text;
+After:
+using ServiceStack.Text;
+using ServiceStack.Text.Pools;
+using System;
+*/
+using ServiceStack.Text;
+using ServiceStack.Text.Pools;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +20,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
-using ServiceStack.Text.Pools;
 
 namespace ServiceStack
 {
@@ -115,14 +123,14 @@ namespace ServiceStack
         /// <summary>
         /// Reads the given stream up to the end, returning the data as a byte array.
         /// </summary>
-        public static Task<byte[]> ReadFullyAsync(this Stream input, CancellationToken token=default) => 
+        public static Task<byte[]> ReadFullyAsync(this Stream input, CancellationToken token = default) =>
             ReadFullyAsync(input, DefaultBufferSize, token);
 
         /// <summary>
         /// Reads the given stream up to the end, returning the data as a byte
         /// array, using the given buffer size.
         /// </summary>
-        public static async Task<byte[]> ReadFullyAsync(this Stream input, int bufferSize, CancellationToken token=default)
+        public static async Task<byte[]> ReadFullyAsync(this Stream input, int bufferSize, CancellationToken token = default)
         {
             if (bufferSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(bufferSize));
@@ -144,7 +152,7 @@ namespace ServiceStack
         /// current contents of the buffer is ignored, so the buffer needn't
         /// be cleared beforehand.
         /// </summary>
-        public static async Task<byte[]> ReadFullyAsync(this Stream input, byte[] buffer, CancellationToken token=default)
+        public static async Task<byte[]> ReadFullyAsync(this Stream input, byte[] buffer, CancellationToken token = default)
         {
             if (buffer == null)
                 throw new ArgumentNullException(nameof(buffer));
@@ -209,13 +217,13 @@ namespace ServiceStack
         /// <summary>
         /// Reads the given stream up to the end, returning the MemoryStream Buffer as ReadOnlyMemory&lt;byte&gt;.
         /// </summary>
-        public static Task<ReadOnlyMemory<byte>> ReadFullyAsMemoryAsync(this Stream input, CancellationToken token=default) =>
+        public static Task<ReadOnlyMemory<byte>> ReadFullyAsMemoryAsync(this Stream input, CancellationToken token = default) =>
             ReadFullyAsMemoryAsync(input, DefaultBufferSize, token);
 
         /// <summary>
         /// Reads the given stream up to the end, returning the MemoryStream Buffer as ReadOnlyMemory&lt;byte&gt;.
         /// </summary>
-        public static async Task<ReadOnlyMemory<byte>> ReadFullyAsMemoryAsync(this Stream input, int bufferSize, CancellationToken token=default)
+        public static async Task<ReadOnlyMemory<byte>> ReadFullyAsMemoryAsync(this Stream input, int bufferSize, CancellationToken token = default)
         {
             byte[] buffer = BufferPool.GetBuffer(bufferSize);
             try
@@ -228,7 +236,7 @@ namespace ServiceStack
             }
         }
 
-        public static async Task<ReadOnlyMemory<byte>> ReadFullyAsMemoryAsync(this Stream input, byte[] buffer, CancellationToken token=default)
+        public static async Task<ReadOnlyMemory<byte>> ReadFullyAsMemoryAsync(this Stream input, byte[] buffer, CancellationToken token = default)
         {
             if (buffer == null)
                 throw new ArgumentNullException(nameof(buffer));
@@ -299,7 +307,7 @@ namespace ServiceStack
         /// buffer for transferring data. Note that the current contents of
         /// the buffer is ignored, so the buffer needn't be cleared beforehand.
         /// </summary>
-        public static async Task<long> CopyToAsync(this Stream input, Stream output, byte[] buffer, CancellationToken token=default)
+        public static async Task<long> CopyToAsync(this Stream input, Stream output, byte[] buffer, CancellationToken token = default)
         {
             if (buffer == null)
                 throw new ArgumentNullException(nameof(buffer));
@@ -598,7 +606,7 @@ namespace ServiceStack
                 stream.Position = 0;
             }
 
-            using var reader = new StreamReader(stream, encoding, true, DefaultBufferSize, leaveOpen:true);
+            using var reader = new StreamReader(stream, encoding, true, DefaultBufferSize, leaveOpen: true);
             return reader.ReadToEnd();
         }
 
@@ -613,11 +621,11 @@ namespace ServiceStack
                 stream.Position = 0;
             }
 
-            using var reader = new StreamReader(stream, encoding, true, DefaultBufferSize, leaveOpen:true);
+            using var reader = new StreamReader(stream, encoding, true, DefaultBufferSize, leaveOpen: true);
             return reader.ReadToEndAsync();
         }
 
-        public static Task WriteToAsync(this MemoryStream stream, Stream output, CancellationToken token=default(CancellationToken)) =>
+        public static Task WriteToAsync(this MemoryStream stream, Stream output, CancellationToken token = default(CancellationToken)) =>
             WriteToAsync(stream, output, JsConfig.UTF8Encoding, token);
 
         public static async Task WriteToAsync(this MemoryStream stream, Stream output, Encoding encoding, CancellationToken token)
@@ -644,7 +652,7 @@ namespace ServiceStack
             await output.WriteAsync(bytes, 0, bytes.Length, token).ConfigAwait();
         }
 
-        public static Task WriteToAsync(this Stream stream, Stream output, CancellationToken token=default(CancellationToken)) =>
+        public static Task WriteToAsync(this Stream stream, Stream output, CancellationToken token = default(CancellationToken)) =>
             WriteToAsync(stream, output, JsConfig.UTF8Encoding, token);
 
 
@@ -671,7 +679,7 @@ namespace ServiceStack
             ms.Position = 0;
             return ms;
         }
-        
+
         /// <summary>
         /// Writes partial range as specified by start-end, from fromStream to toStream.
         /// </summary>
@@ -696,7 +704,7 @@ namespace ServiceStack
                     : fromStream.Read(buf, 0, buf.Length);
 
                 if (count == 0) break; // Read to End 
-                    
+
                 try
                 {
                     //Log.DebugFormat("Writing {0} to response",System.Text.Encoding.UTF8.GetString(buffer));
@@ -718,10 +726,10 @@ namespace ServiceStack
                     throw;
                 }
             }
-            
+
             SharedPools.AsyncByteArray.Free(buf);
         }
-        
+
         /// <summary>
         /// Writes partial range as specified by start-end, from fromStream to toStream.
         /// </summary>
@@ -747,7 +755,7 @@ namespace ServiceStack
                         : await fromStream.ReadAsync(buf, 0, buf.Length, token).ConfigAwait();
 
                     if (count == 0) break; // Read to End 
-                    
+
                     //Log.DebugFormat("Writing {0} to response",System.Text.Encoding.UTF8.GetString(buffer));
                     await toStream.WriteAsync(buf, 0, count, token).ConfigAwait();
                     await toStream.FlushAsync(token).ConfigAwait();
@@ -767,8 +775,8 @@ namespace ServiceStack
                     throw;
                 }
             }
-            
+
             SharedPools.AsyncByteArray.Free(buf);
-        }        
+        }
     }
 }

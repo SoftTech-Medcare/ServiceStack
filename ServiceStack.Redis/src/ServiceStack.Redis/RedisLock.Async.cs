@@ -1,8 +1,8 @@
+using ServiceStack.Redis.Internal;
+using ServiceStack.Text;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Redis.Internal;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {

@@ -209,7 +209,7 @@ namespace ServiceStack.Redis
         ValueTask<long> ZRemRangeByScoreAsync(string setId, long fromScore, long toScore, CancellationToken token = default);
         ValueTask<long> ZCardAsync(string setId, CancellationToken token = default);
         ValueTask<long> ZCountAsync(string setId, double min, double max, CancellationToken token = default);
-        ValueTask<double>  ZScoreAsync(string setId, byte[] value, CancellationToken token = default);
+        ValueTask<double> ZScoreAsync(string setId, byte[] value, CancellationToken token = default);
         ValueTask<long> ZUnionStoreAsync(string intoSetId, string[] setIds, CancellationToken token = default);
         ValueTask<long> ZUnionStoreAsync(string intoSetId, params string[] setIds); // convenience API
         ValueTask<long> ZInterStoreAsync(string intoSetId, string[] setIds, CancellationToken token = default);

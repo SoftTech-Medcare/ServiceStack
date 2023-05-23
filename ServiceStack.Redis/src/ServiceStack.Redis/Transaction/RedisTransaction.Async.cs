@@ -10,10 +10,15 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using ServiceStack.Redis.Pipeline;
+using System.Threading;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using ServiceStack.Redis.Pipeline;
+After:
+using System.Threading.Tasks;
+*/
+
 
 namespace ServiceStack.Redis
 {

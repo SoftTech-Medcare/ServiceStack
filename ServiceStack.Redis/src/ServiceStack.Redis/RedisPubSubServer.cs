@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using ServiceStack.Text;
+using System;
 using System.Diagnostics;
 using System.Threading;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -23,7 +23,7 @@ namespace ServiceStack.Redis
         public Action OnHeartbeatReceived { get; set; }
         public Action OnStop { get; set; }
         public Action OnDispose { get; set; }
-        
+
         /// <summary>
         /// Callback fired on each message received, handle with (channel, msg) => ... 
         /// </summary>
@@ -165,7 +165,7 @@ namespace ServiceStack.Redis
 
             if (HeartbeatInterval != null)
             {
-                heartbeatTimer = new Timer(SendHeartbeat, null, 
+                heartbeatTimer = new Timer(SendHeartbeat, null,
                     TimeSpan.FromMilliseconds(0), HeartbeatInterval.GetValueOrDefault());
             }
 
@@ -215,7 +215,7 @@ namespace ServiceStack.Redis
             {
                 if (Log.IsDebugEnabled)
                     Log.Debug("RedisPubServer.DisposeHeartbeatTimer()");
-                
+
                 heartbeatTimer.Dispose();
             }
             catch (Exception ex)
@@ -255,8 +255,9 @@ namespace ServiceStack.Redis
                                 return false;
                             return msg[0] == 'C' && msg[1] == 'T' && msg[0] == 'R' && msg[0] == 'L';
                         }
-                                
-                        ((RedisSubscription)subscription).OnMessageBytes = (channel, msg) => {
+
+                        ((RedisSubscription)subscription).OnMessageBytes = (channel, msg) =>
+                        {
                             if (IsCtrlMessage(msg))
                                 return;
 
@@ -266,14 +267,14 @@ namespace ServiceStack.Redis
 
                     subscription.OnMessage = (channel, msg) =>
                     {
-                        if (string.IsNullOrEmpty(msg)) 
+                        if (string.IsNullOrEmpty(msg))
                             return;
 
                         var ctrlMsg = msg.LeftPart(':');
                         if (ctrlMsg == ControlCommand.Control)
                         {
                             var op = Interlocked.CompareExchange(ref doOperation, Operation.NoOp, doOperation);
-                                    
+
                             var msgType = msg.IndexOf(':') >= 0
                                 ? msg.RightPart(':')
                                 : null;
@@ -287,7 +288,7 @@ namespace ServiceStack.Redis
                                         Log.Debug("Stop Command Issued");
 
                                     var holdStatus = GetStatus();
-                                    
+
                                     Interlocked.CompareExchange(ref status, Status.Stopping, Status.Started);
 
                                     OnEvent?.Invoke($"[{DateTime.UtcNow.TimeOfDay:g} {holdStatus}] RunLoop().Stop> Started -> Stopping");
@@ -333,7 +334,7 @@ namespace ServiceStack.Redis
                     if (ChannelsMatching != null && ChannelsMatching.Length > 0)
                         subscription.SubscribeToChannelsMatching(ChannelsMatching);
                     else
-                        subscription.SubscribeToChannels(Channels);             
+                        subscription.SubscribeToChannels(Channels);
 
                     masterClient = null;
                 }
@@ -345,7 +346,7 @@ namespace ServiceStack.Redis
                 lastExMsg = ex.Message;
                 Interlocked.Increment(ref noOfErrors);
                 Interlocked.Increment(ref noOfContinuousErrors);
-                
+
                 var holdStatus = GetStatus();
 
                 if (Interlocked.CompareExchange(ref status, Status.Stopped, Status.Started) != Status.Started)
@@ -370,7 +371,7 @@ namespace ServiceStack.Redis
 
         public void Stop()
         {
-            Stop(shouldRestart:false);
+            Stop(shouldRestart: false);
         }
 
         private void Stop(bool shouldRestart)
@@ -398,7 +399,7 @@ namespace ServiceStack.Redis
             NotifyAllSubscribers();
         }
 
-        private void NotifyAllSubscribers(string commandType=null)
+        private void NotifyAllSubscribers(string commandType = null)
         {
             var msg = ControlCommand.Control;
             if (commandType != null)
@@ -458,7 +459,7 @@ namespace ServiceStack.Redis
 
         public void Restart()
         {
-            Stop(shouldRestart:true);
+            Stop(shouldRestart: true);
         }
 
         private void KillBgThreadIfExists()
@@ -544,7 +545,8 @@ namespace ServiceStack.Redis
 
             public static string GetStatus(int status)
             {
-                return status switch {
+                return status switch
+                {
                     Disposed => nameof(Disposed),
                     Stopped => nameof(Stopped),
                     Stopping => nameof(Stopping),
@@ -574,7 +576,7 @@ namespace ServiceStack.Redis
         {
             if (Interlocked.CompareExchange(ref status, 0, 0) == Status.Disposed)
                 return;
-            
+
             if (Log.IsDebugEnabled)
                 Log.Debug("RedisPubServer.Dispose()...");
 
@@ -583,7 +585,7 @@ namespace ServiceStack.Redis
             Stop();
 
             var holdStatus = GetStatus();
-            
+
             if (Interlocked.CompareExchange(ref status, Status.Disposed, Status.Stopped) != Status.Stopped)
                 Interlocked.CompareExchange(ref status, Status.Disposed, Status.Stopping);
 

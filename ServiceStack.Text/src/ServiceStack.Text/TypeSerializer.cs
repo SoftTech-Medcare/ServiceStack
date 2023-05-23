@@ -10,19 +10,27 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Jsv;
+using ServiceStack.Text.Pools;
+using System;
+*/
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Jsv;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Jsv;
-using ServiceStack.Text.Pools;
 
 namespace ServiceStack.Text
 {
@@ -105,7 +113,7 @@ namespace ServiceStack.Text
         {
             return DeserializeFromString(reader.ReadToEnd(), type);
         }
-        
+
         public static string SerializeToString<T>(T value)
         {
             if (value == null || value is Delegate) return null;
@@ -317,7 +325,7 @@ namespace ServiceStack.Text
             if (instance is Delegate fn)
                 return Dump(fn);
 
-            var dtoStr = !HasCircularReferences(instance) 
+            var dtoStr = !HasCircularReferences(instance)
                 ? SerializeToString(instance)
                 : SerializeToString(instance.ToSafePartialObjectDictionary());
             var formatStr = JsvFormatter.Format(dtoStr);
@@ -349,7 +357,7 @@ namespace ServiceStack.Text
         private static bool HasCircularReferences(object value, Stack<object> parentValues)
         {
             var type = value?.GetType();
-            
+
             if (type is not { IsClass: true } || value is string or Type)
                 return false;
 
@@ -358,7 +366,7 @@ namespace ServiceStack.Text
                 parentValues = new Stack<object>();
                 parentValues.Push(value);
             }
-            
+
             bool CheckValue(object key)
             {
                 if (parentValues.Contains(key))
@@ -386,19 +394,19 @@ namespace ServiceStack.Text
                         var props = TypeProperties.Get(itemType);
                         var key = props.GetPublicGetter("Key")(item);
 
-                        if (CheckValue(key)) 
+                        if (CheckValue(key))
                             return true;
 
                         var val = props.GetPublicGetter("Value")(item);
 
-                        if (CheckValue(val)) 
+                        if (CheckValue(val))
                             return true;
                     }
-                    
-                    if (CheckValue(item)) 
+
+                    if (CheckValue(item))
                         return true;
                 }
-            }            
+            }
             else
             {
                 var props = type.GetSerializableProperties();
@@ -410,7 +418,7 @@ namespace ServiceStack.Text
 
                     try
                     {
-                        var mi = pi.GetGetMethod(nonPublic:false);
+                        var mi = pi.GetGetMethod(nonPublic: false);
                         var pValue = mi != null ? mi.Invoke(value, null) : null;
                         if (pValue == null)
                             continue;
@@ -496,11 +504,11 @@ namespace ServiceStack.Text
 
     public class JsvStringSerializer : IStringSerializer
     {
-        public To DeserializeFromString<To>(string serializedText) => 
+        public To DeserializeFromString<To>(string serializedText) =>
             TypeSerializer.DeserializeFromString<To>(serializedText);
-        public object DeserializeFromString(string serializedText, Type type) => 
+        public object DeserializeFromString(string serializedText, Type type) =>
             TypeSerializer.DeserializeFromString(serializedText, type);
-        public string SerializeToString<TFrom>(TFrom @from) => 
+        public string SerializeToString<TFrom>(TFrom @from) =>
             TypeSerializer.SerializeToString(@from);
     }
 }

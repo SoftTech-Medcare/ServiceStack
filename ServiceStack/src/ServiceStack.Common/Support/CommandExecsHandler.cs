@@ -1,5 +1,5 @@
-using System.Threading;
 using ServiceStack.Commands;
+using System.Threading;
 
 namespace ServiceStack.Support
 {

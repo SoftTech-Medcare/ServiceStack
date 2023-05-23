@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ServiceStack.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack.Script
 {
@@ -24,7 +24,7 @@ namespace ServiceStack.Script
             var literal = block.Argument.ParseVarName(out var name);
             if (name.IsNullOrEmpty())
                 throw new NotSupportedException("'partial' block is missing name of partial");
-            
+
             literal = literal.AdvancePastWhitespace();
 
             var argValue = literal.GetJsExpressionAndEvaluate(scope);

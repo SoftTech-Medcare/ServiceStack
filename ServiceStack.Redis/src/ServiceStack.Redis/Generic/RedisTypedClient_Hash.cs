@@ -10,10 +10,17 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System;
+After:
+using ServiceStack.Text;
+using System;
+*/
+using ServiceStack.Text;
 using System.Collections.Generic;
 using System.Linq;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis.Generic
 {

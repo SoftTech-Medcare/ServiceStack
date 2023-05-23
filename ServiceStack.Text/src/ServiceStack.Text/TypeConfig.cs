@@ -13,7 +13,7 @@ namespace ServiceStack.Text
         internal Func<object, string, object, object> OnDeserializing;
         internal bool IsUserType { get; set; }
         internal Func<TextCase> TextCaseResolver;
-        internal TextCase? TextCase 
+        internal TextCase? TextCase
         {
             get
             {
@@ -32,7 +32,7 @@ namespace ServiceStack.Text
             JsConfig.AddUniqueType(Type);
         }
     }
-    
+
     public static class TypeConfig<T>
     {
         internal static TypeConfig config;
@@ -84,7 +84,8 @@ namespace ServiceStack.Text
 
         static TypeConfig Create()
         {
-            config = new TypeConfig(typeof(T)) {
+            config = new TypeConfig(typeof(T))
+            {
                 TextCaseResolver = () => JsConfig<T>.TextCase
             };
 
@@ -96,7 +97,7 @@ namespace ServiceStack.Text
             Properties = properties.Where(x => x.GetIndexParameters().Length == 0).ToArray();
 
             Fields = config.Type.GetSerializableFields().ToArray();
-    
+
             if (!JsConfig<T>.HasDeserializingFn)
                 OnDeserializing = ReflectionExtensions.GetOnDeserializing<T>();
             else

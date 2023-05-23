@@ -1,14 +1,44 @@
-﻿using System;
+﻿
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Script;
+*/
+using ServiceStack.Text;
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using ServiceStack.Text;
+After:
+using System;
+*/
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using ServiceStack.Script;
 using ServiceStack.Text;
+After:
+using System.Collections.Generic;
+using System.Linq;
+*/
+
 
 namespace ServiceStack.Script
 {
+
+    /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+    Before:
+        // ReSharper disable InconsistentNaming
+
+        public partial class DefaultScripts
+    After:
+        // ReSharper disable InconsistentNaming
+
+        public partial class DefaultScripts
+    */
     // ReSharper disable InconsistentNaming
-    
+
     public partial class DefaultScripts
     {
         public List<object> step(IEnumerable target, object scopeOptions)
@@ -186,8 +216,19 @@ namespace ServiceStack.Script
         public object reduce(ScriptScopeContext scope, object target, object expression, object scopeOptions)
         {
             var items = target.AssertEnumerable(nameof(reduce));
+
+            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+            Before:
+                        Type itemType = null;
+
+                        if (!(expression is JsArrowFunctionExpression arrowExpr))
+            After:
+                        Type itemType = null;
+
+                        if (!(expression is JsArrowFunctionExpression arrowExpr))
+            */
             Type itemType = null;
-            
+
             if (!(expression is JsArrowFunctionExpression arrowExpr))
                 throw new NotSupportedException($"{nameof(reduce)} expects an arrow expression but was instead '{expression.GetType().Name}'");
 
@@ -196,14 +237,29 @@ namespace ServiceStack.Script
 
             var accumulatorBinding = arrowExpr.Params[0].Name;
             var itemBinding = arrowExpr.Params[1].Name;
+
+            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+            Before:
+                        var expr = arrowExpr.Body;
+
+                        var scopedParams = scopeOptions as Dictionary<string, object> ?? new Dictionary<string, object>();
+
+                        var accumulator = scopedParams.TryGetValue("initialValue", out object initialValue)
+            After:
+                        var expr = arrowExpr.Body;
+
+                        var scopedParams = scopeOptions as Dictionary<string, object> ?? new Dictionary<string, object>();
+
+                        var accumulator = scopedParams.TryGetValue("initialValue", out object initialValue)
+            */
             var expr = arrowExpr.Body;
-            
+
             var scopedParams = scopeOptions as Dictionary<string, object> ?? new Dictionary<string, object>();
-            
+
             var accumulator = scopedParams.TryGetValue("initialValue", out object initialValue)
                 ? initialValue.ConvertTo<double>()
-                : !(scopeOptions is IDictionary) 
-                    ? scopeOptions.ConvertTo<double>() 
+                : !(scopeOptions is IDictionary)
+                    ? scopeOptions.ConvertTo<double>()
                     : 0;
 
             var i = 0;
@@ -237,7 +293,7 @@ namespace ServiceStack.Script
 
             if (literal != null || arrowExpr != null)
             {
-                var token = literal != null 
+                var token = literal != null
                     ? literal.GetCachedJsExpression(scope)
                     : arrowExpr.Body;
                 var binding = arrowExpr != null
@@ -320,7 +376,7 @@ namespace ServiceStack.Script
                 {
                     scopedParams = scope.GetParamsWithItemBindingOnly(nameof(@let), null, scopeBindings, out itemBinding);
                 }
-                
+
                 var to = new List<ScopeVars>();
                 var i = 0;
                 foreach (var item in objs)
@@ -362,7 +418,7 @@ namespace ServiceStack.Script
                             var bindTo = entry.Key;
                             if (!(entry.Value is string bindToLiteral))
                                 throw new NotSupportedException($"'{nameof(let)}' in '{scope.Page.VirtualPath}' expects a string Expression for its value but received '{entry.Value}' instead");
-    
+
                             bindToLiteral.ParseJsExpression(out JsToken token);
 
                             try
@@ -601,7 +657,7 @@ namespace ServiceStack.Script
         {
             if (items == null)
                 return TypeConstants<IGrouping<object, object>>.EmptyArray;
-                
+
             var expr = scope.AssertExpression(nameof(groupBy), expression, scopeOptions, out var itemBinding);
 
             var scopedParams = scopeOptions as Dictionary<string, object> ?? new Dictionary<string, object>();

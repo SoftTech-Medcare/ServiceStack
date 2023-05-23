@@ -10,10 +10,10 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Caching;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Caching;
 
 namespace ServiceStack.Redis
 {
@@ -23,7 +23,7 @@ namespace ServiceStack.Redis
         /// Resolver strategy for resolving hosts and creating clients
         /// </summary>
         IRedisResolver RedisResolver { get; }
-        
+
         /// <summary>
         /// Returns a Read/Write client (The default) using the hosts defined in ReadWriteHosts
         /// </summary>

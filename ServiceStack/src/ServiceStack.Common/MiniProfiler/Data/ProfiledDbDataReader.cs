@@ -1,6 +1,12 @@
 ﻿using System;
-using System.Data.Common;
 using System.Data;
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System.Data;
+After:
+using System.Data.Common;
+*/
+
 
 #pragma warning disable 1591 // xml doc comments warnings
 

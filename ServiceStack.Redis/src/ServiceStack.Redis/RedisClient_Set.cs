@@ -10,15 +10,44 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ServiceStack.Common;
 using ServiceStack.Model;
+After:
+using ServiceStack.Common;
+using ServiceStack.Model;
 using ServiceStack.Redis.Generic;
 using ServiceStack.Redis.Pipeline;
 using ServiceStack.Text;
+using System;
+*/
+using ServiceStack.Model;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System.Collections.Pipeline;
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+After:
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+*/
+
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using ServiceStack.Redis.Pipeline;
+using ServiceStack.Text;
+After:
+using System.Linq;
+using System.Threading;
+*/
+using System;
+using System.Collections.Generic;
 
 namespace ServiceStack.Redis
 {
@@ -110,10 +139,10 @@ namespace ServiceStack.Redis
             return to;
         }
 
-        public List<RedisGeoResult> FindGeoResultsInRadius(string key, double longitude, double latitude, double radius, string unit, 
+        public List<RedisGeoResult> FindGeoResultsInRadius(string key, double longitude, double latitude, double radius, string unit,
             int? count = null, bool? sortByNearest = null)
         {
-            return base.GeoRadius(key, longitude, latitude, radius, unit, withCoords:true, withDist:true, withHash:true, count:count, asc: sortByNearest);
+            return base.GeoRadius(key, longitude, latitude, radius, unit, withCoords: true, withDist: true, withHash: true, count: count, asc: sortByNearest);
         }
 
         public string[] FindGeoMembersInRadius(string key, string member, double radius, string unit)
@@ -183,7 +212,7 @@ namespace ServiceStack.Redis
                 }
                 return false;
             }
-            else 
+            else
             {
                 return true;
             }
@@ -198,7 +227,7 @@ namespace ServiceStack.Redis
         {
             return SPop(setId).FromUtf8Bytes();
         }
-        
+
         public List<string> PopItemsFromSet(string setId, int count)
         {
             return SPop(setId, count).ToStringList();

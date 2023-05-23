@@ -1,8 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Redis.Pipeline;
+using System;
+*/
+using ServiceStack.Redis.Pipeline;
+using System;
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System.Text;
 using ServiceStack.Redis.Pipeline;
+After:
+using System.Text;
+*/
+using System.Collections.Generic;
 
 namespace ServiceStack.Redis
 {

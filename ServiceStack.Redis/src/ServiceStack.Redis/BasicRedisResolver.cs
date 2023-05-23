@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Redis
 {
@@ -27,7 +27,7 @@ namespace ServiceStack.Redis
             ResetSlaves(replicas.ToList());
             ClientFactory = RedisConfig.ClientFactory;
         }
-        
+
         public IRedisClient CreateClient(string host)
         {
             var redis = ClientFactory(host.ToRedisEndpoint());

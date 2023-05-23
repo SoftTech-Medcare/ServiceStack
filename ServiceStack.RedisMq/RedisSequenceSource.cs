@@ -11,7 +11,7 @@ namespace ServiceStack
             this.redisManager = redisManager;
         }
 
-        public void InitSchema() {}
+        public void InitSchema() { }
 
         public long Increment(string key, long amount = 1)
         {

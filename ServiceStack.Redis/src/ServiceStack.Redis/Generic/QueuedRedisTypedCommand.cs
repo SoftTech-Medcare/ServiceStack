@@ -1,7 +1,6 @@
 ﻿using ServiceStack.Redis.Pipeline;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ServiceStack.Redis.Generic
 {

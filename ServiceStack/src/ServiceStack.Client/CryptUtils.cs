@@ -1,12 +1,12 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text;
 using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -43,7 +43,8 @@ namespace ServiceStack
         public static RsaKeyPair CreatePublicAndPrivateKeyPair(RsaKeyLengths rsaKeyLength = RsaKeyLengths.Bit2048)
         {
             using var rsa = CreateRsa(rsaKeyLength);
-            return new RsaKeyPair {
+            return new RsaKeyPair
+            {
                 PrivateKey = rsa.ToXml(includePrivateParameters: true),
                 PublicKey = rsa.ToXml(includePrivateParameters: false),
             };
@@ -125,7 +126,7 @@ namespace ServiceStack
             string encryptedData = Convert.ToBase64String(encryptedBytes);
             return encryptedData;
         }
-        
+
         public static string Encrypt(string text, RSAParameters publicKey, RsaKeyLengths rsaKeyLength = RsaKeyLengths.Bit2048)
         {
             var bytes = Encoding.UTF8.GetBytes(text);
@@ -203,7 +204,8 @@ namespace ServiceStack
     {
         public static HashAlgorithm GetHashAlgorithm(string hashAlgorithm)
         {
-            return hashAlgorithm switch {
+            return hashAlgorithm switch
+            {
                 "SHA1" => SHA1.Create(),
                 "SHA256" => SHA256.Create(),
                 "SHA512" => SHA512.Create(),
@@ -419,7 +421,8 @@ namespace ServiceStack
 #if NETCORE
         public static HashAlgorithmName ToHashAlgorithmName(string hashAlgorithm)
         {
-            return hashAlgorithm.ToUpper() switch {
+            return hashAlgorithm.ToUpper() switch
+            {
                 "MD5" => HashAlgorithmName.MD5,
                 "SHA1" => HashAlgorithmName.SHA1,
                 "SHA256" => HashAlgorithmName.SHA256,
@@ -479,7 +482,8 @@ namespace ServiceStack
                 if (elName == "RSAKeyValue")
                     continue;
 
-                do {
+                do
+                {
                     reader.Read();
                 } while (reader.NodeType != XmlNodeType.Text && reader.NodeType != XmlNodeType.EndElement);
 

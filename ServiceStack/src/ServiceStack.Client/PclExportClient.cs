@@ -29,30 +29,63 @@
 //
 
 /*** REMINDER: Keep this file in sync with ServiceStack.Text/Pcl.NameValueCollection.cs ***/
-
-using System.IO;
-using System.Net;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using ServiceStack.Text;
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using System.Globalization;
 
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+After:
+using System.Globalization;
+using System.Reflection;
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+*/
+
+
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
+using System.Reflection;
+using System.Threading;
+After:
+using System.IO;
+using System.Net;
+*/
+using System.Threading;
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
+using ServiceStack.Text;
+using System.Globalization;
+After:
+using System.Threading;
+using System.Threading.Tasks;
+*/
+
+
 //Dummy namespaces
-namespace System.Collections.Specialized {}
-namespace System.Web {}
-namespace ServiceStack.Pcl {}
+namespace System.Collections.Specialized { }
+namespace System.Web { }
+namespace ServiceStack.Pcl { }
 
 namespace ServiceStack
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Web;
-    using ServiceStack.Web;
-    using ServiceStack.Pcl;
-    using System.Collections.Specialized;
 
-    public class PclExportClient 
+    /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+    Before:
+        using System;
+        using System.Collections.Generic;
+        using System.Web;
+        using ServiceStack.Web;
+        using ServiceStack.Pcl;
+    After:
+        using ServiceStack.Pcl;
+        using ServiceStack.Web;
+        using System;
+        using System.Collections.Generic;
+        using System.Collections.Specialized;
+    */
+    using System;
+
+    public class PclExportClient
     {
         public static PclExportClient Instance
 #if NETCORE
@@ -66,7 +99,7 @@ namespace ServiceStack
 
         static PclExportClient()
         {
-            if (Instance != null) 
+            if (Instance != null)
                 return;
 
             try
@@ -80,7 +113,7 @@ namespace ServiceStack
                 if (ConfigureProvider("ServiceStack.Net40PclExportClient, ServiceStack.Pcl.Net45"))
                     return;
             }
-            catch (Exception /*ignore*/) {}
+            catch (Exception /*ignore*/) { }
         }
 
         public static bool ConfigureProvider(string typeName)
@@ -123,7 +156,7 @@ namespace ServiceStack
         public virtual string HtmlAttributeEncode(string html)
         {
 #if NETCORE
-            return HtmlEncode(html).Replace("\"","&quot;").Replace("'","&#x27;");
+            return HtmlEncode(html).Replace("\"", "&quot;").Replace("'", "&#x27;");
 #else
             return System.Web.HttpUtility.HtmlAttributeEncode(html);
 #endif
@@ -182,7 +215,8 @@ namespace ServiceStack
 
             var tcs = new TaskCompletionSource<bool>();
             Timer timer = null;
-            timer = new Timer(self => {
+            timer = new Timer(self =>
+            {
                 tcs.TrySetResult(true);
                 timer.Dispose();
             }, null, waitForMs, Timeout.Infinite);

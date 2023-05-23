@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Redis
 {
@@ -27,10 +27,10 @@ namespace ServiceStack.Redis
         public IRedisEndpoint PrimaryEndpoint => masters.FirstOrDefault();
 
         public RedisResolver()
-            : this(TypeConstants<RedisEndpoint>.EmptyArray, TypeConstants<RedisEndpoint>.EmptyArray) {}
+            : this(TypeConstants<RedisEndpoint>.EmptyArray, TypeConstants<RedisEndpoint>.EmptyArray) { }
 
         public RedisResolver(IEnumerable<string> masters, IEnumerable<string> replicas)
-            : this(masters.ToRedisEndPoints(), replicas.ToRedisEndPoints()){}
+            : this(masters.ToRedisEndPoints(), replicas.ToRedisEndPoints()) { }
 
         public RedisResolver(IEnumerable<RedisEndpoint> masters, IEnumerable<RedisEndpoint> replicas)
         {
@@ -89,7 +89,7 @@ namespace ServiceStack.Redis
                 Exception firstEx = null;
                 var retryTimeSpan = TimeSpan.FromMilliseconds(config.RetryTimeout);
                 var i = 0;
-                while (DateTime.UtcNow - firstAttempt < retryTimeSpan) 
+                while (DateTime.UtcNow - firstAttempt < retryTimeSpan)
                 {
                     try
                     {
@@ -100,7 +100,7 @@ namespace ServiceStack.Redis
                     {
                         if (!RedisConfig.RetryReconnectOnFailedMasters)
                             throw;
-                        
+
                         firstEx ??= ex;
                         ExecUtils.SleepBackOffMultiplier(++i);
                         client?.Dispose();

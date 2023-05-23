@@ -10,12 +10,12 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.AsyncEx;
 using ServiceStack.Caching;
 using ServiceStack.Redis.Internal;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.AsyncEx;
 
 namespace ServiceStack.Redis
 {
@@ -26,7 +26,7 @@ namespace ServiceStack.Redis
         /// Use previous client resolving behavior
         /// </summary>
         public static bool UseGetClientBlocking = false;
-        
+
         ValueTask<ICacheClientAsync> IRedisClientsManagerAsync.GetCacheClientAsync(CancellationToken token)
             => new RedisClientManagerCacheClient(this).AsValueTaskResult<ICacheClientAsync>();
 
@@ -81,44 +81,44 @@ namespace ServiceStack.Redis
                 var inactivePoolIndex = -1;
                 do
                 {
-                   lock (writeClients)
-                   {
-                      AssertValidReadWritePool();
+                    lock (writeClients)
+                    {
+                        AssertValidReadWritePool();
 
-                      // If it's -1, then we want to try again after a delay of some kind. So if it's NOT negative one, process it...
-                      if ((inactivePoolIndex = GetInActiveWriteClient(out var inActiveClient)) != -1)
-                      {
-                         //inActiveClient != null only for Valid InActive Clients
-                         if (inActiveClient != null)
-                         {
-                            WritePoolIndex++;
-                            inActiveClient.Activate();
+                        // If it's -1, then we want to try again after a delay of some kind. So if it's NOT negative one, process it...
+                        if ((inactivePoolIndex = GetInActiveWriteClient(out var inActiveClient)) != -1)
+                        {
+                            //inActiveClient != null only for Valid InActive Clients
+                            if (inActiveClient != null)
+                            {
+                                WritePoolIndex++;
+                                inActiveClient.Activate();
 
-                            InitClient(inActiveClient);
+                                InitClient(inActiveClient);
 
-                            return inActiveClient;
-                         }
-                         else
-                         {
-                            // Still need to be in lock for this!
-                            break;
-                         }
-                      }
-                   }
+                                return inActiveClient;
+                            }
+                            else
+                            {
+                                // Still need to be in lock for this!
+                                break;
+                            }
+                        }
+                    }
 
-                   if (PoolTimeout.HasValue)
-                   {
-                      // We have a timeout value set - so try to not wait longer than this.
-                      if (!await WaitForWriter(PoolTimeout.Value))
-                      {
-                         throw new TimeoutException(PoolTimeoutError);
-                      }
-                   }
-                   else
-                   {
-                      // Wait forever, so just retry till we get one.
-                      await WaitForWriter(RecheckPoolAfterMs);
-                   }
+                    if (PoolTimeout.HasValue)
+                    {
+                        // We have a timeout value set - so try to not wait longer than this.
+                        if (!await WaitForWriter(PoolTimeout.Value))
+                        {
+                            throw new TimeoutException(PoolTimeoutError);
+                        }
+                    }
+                    else
+                    {
+                        // Wait forever, so just retry till we get one.
+                        await WaitForWriter(RecheckPoolAfterMs);
+                    }
                 } while (true); // Just keep repeating until we get a slot.
 
                 //Reaches here when there's no Valid InActive Clients, but we have a slot for one!
@@ -168,7 +168,7 @@ namespace ServiceStack.Redis
                 RedisState.DisposeExpiredClients();
             }
         }
-        
+
         private async Task<bool> WaitForReader(int msTimeout)
         {
             // If we're not doing async, no need to create this till we need it.
@@ -228,7 +228,7 @@ namespace ServiceStack.Redis
                         await WaitForReader(RecheckPoolAfterMs);
                     }
                 } while (true); // Just keep repeating until we get a slot.
-                
+
                 //Reaches here when there's no Valid InActive Clients
                 try
                 {

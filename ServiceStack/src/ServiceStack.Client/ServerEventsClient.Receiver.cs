@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ServiceStack.Configuration;
+using ServiceStack.Logging;
+using ServiceStack.Text;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
-using ServiceStack.Configuration;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -41,7 +41,7 @@ namespace ServiceStack
 
         public T TryResolve<T>()
         {
-            return (T) Cache.GetOrAdd(typeof (T), type => type.CreateInstance<T>());
+            return (T)Cache.GetOrAdd(typeof(T), type => type.CreateInstance<T>());
         }
     }
 
@@ -51,7 +51,7 @@ namespace ServiceStack
 
         public ConcurrentDictionary<string, ServerEventCallback> Handlers { get; }
         public ConcurrentDictionary<string, ServerEventCallback> NamedReceivers { get; }
-        public List<Type> ReceiverTypes { get; } 
+        public List<Type> ReceiverTypes { get; }
         public bool StrictMode { get; set; }
 
         public ServerEventsClient RegisterReceiver<T>()
@@ -163,7 +163,7 @@ namespace ServiceStack
             {
                 var actionName = mi.Name;
                 var args = mi.GetParameters();
-                if (args.Length > 1) 
+                if (args.Length > 1)
                     continue;
                 if (mi.Name.StartsWith("get_"))
                     continue;

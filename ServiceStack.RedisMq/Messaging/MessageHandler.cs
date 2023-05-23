@@ -1,8 +1,8 @@
+using ServiceStack.Logging;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Messaging
 {
@@ -23,7 +23,7 @@ namespace ServiceStack.Messaging
         public Func<string, IOneWayClient> ReplyClientFactory { get; set; }
         public string[] PublishResponsesWhitelist { get; set; }
         public string[] PublishToOutqWhitelist { get; set; }
-        
+
         private readonly int retryCount;
 
         public int TotalMessagesProcessed { get; private set; }
@@ -76,11 +76,11 @@ namespace ServiceStack.Messaging
 
                     messagesProcessed++;
 
-                    if (doNext != null && !doNext()) 
+                    if (doNext != null && !doNext())
                         return messagesProcessed;
                 }
             }
-            catch (TaskCanceledException) {}
+            catch (TaskCanceledException) { }
             catch (Exception ex)
             {
                 Log.Error("Error serializing message from mq server: " + ex.Message, ex);
@@ -144,7 +144,7 @@ namespace ServiceStack.Messaging
                     }
                 }
             }
-            
+
             var id = Diagnostics.ServiceStack.WriteMqRequestBefore(message);
             try
             {
@@ -160,7 +160,7 @@ namespace ServiceStack.Messaging
                         responseEx = new MessagingException(responseStatus, response);
                     }
                 }
-                
+
                 if (responseEx != null)
                 {
                     Diagnostics.ServiceStack.WriteMqRequestError(id, message, responseEx);
@@ -204,11 +204,11 @@ namespace ServiceStack.Messaging
                         if (!publishOutqResponses)
                         {
                             var inWhitelist = PublishToOutqWhitelist.Contains(QueueNames<T>.Out);
-                            if (!inWhitelist) 
+                            if (!inWhitelist)
                                 return;
                         }
-                        
-                        var messageOptions = (MessageOption) message.Options;
+
+                        var messageOptions = (MessageOption)message.Options;
                         if (messageOptions.Has(MessageOption.NotifyOneWay))
                         {
                             Diagnostics.ServiceStack.WriteMqRequestPublish(id, mqClient, QueueNames<T>.Out, response);
@@ -221,7 +221,7 @@ namespace ServiceStack.Messaging
                 if (response != null)
                 {
                     var responseMessage = response as IMessage;
-                    var responseType = responseMessage != null 
+                    var responseType = responseMessage != null
                         ? (responseMessage.Body != null ? responseMessage.Body.GetType() : typeof(object))
                         : response.GetType();
 
@@ -234,10 +234,10 @@ namespace ServiceStack.Messaging
                         if (!publishAllResponses)
                         {
                             var inWhitelist = PublishResponsesWhitelist.Any(
-                                publishResponse => 
-                                    responseType.GetOperationName() == publishResponse || 
+                                publishResponse =>
+                                    responseType.GetOperationName() == publishResponse ||
                                     responseType.Name == publishResponse);
-                            if (!inWhitelist) 
+                            if (!inWhitelist)
                                 return;
                         }
 
@@ -279,7 +279,7 @@ namespace ServiceStack.Messaging
                 {
                     if (ex is AggregateException)
                         ex = ex.UnwrapIfSingleException();
-                    
+
                     TotalMessagesFailed++;
                     msgHandled = true;
                     processInExceptionFn(this, message, ex);

@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
 using ServiceStack.Model;
 using ServiceStack.Validation;
 using ServiceStack.Web;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace ServiceStack
 {
@@ -26,12 +26,12 @@ namespace ServiceStack
         public HttpError(int statusCode, string errorCode)
             : this(statusCode, errorCode, null)
         { }
-        
-        public HttpError(ResponseStatus responseStatus, HttpStatusCode statusCode) 
-            : this(new ErrorResponse { ResponseStatus = responseStatus }, statusCode, responseStatus.ErrorCode, responseStatus.Message) {}
 
-        public HttpError(IHasResponseStatus responseDto, HttpStatusCode statusCode) 
-            : this(responseDto, statusCode, responseDto.ResponseStatus.ErrorCode, responseDto.ResponseStatus.Message) {}
+        public HttpError(ResponseStatus responseStatus, HttpStatusCode statusCode)
+            : this(new ErrorResponse { ResponseStatus = responseStatus }, statusCode, responseStatus.ErrorCode, responseStatus.Message) { }
+
+        public HttpError(IHasResponseStatus responseDto, HttpStatusCode statusCode)
+            : this(responseDto, statusCode, responseDto.ResponseStatus.ErrorCode, responseDto.ResponseStatus.Message) { }
 
         public HttpError(object responseDto, HttpStatusCode statusCode, string errorCode, string errorMessage)
             : this(statusCode, errorCode, errorMessage)
@@ -55,8 +55,8 @@ namespace ServiceStack
             this.ErrorCode = errorCode ?? statusCode.ToString();
             this.Status = statusCode;
             this.Headers = new Dictionary<string, string>();
-            this.StatusDescription = innerException is IHasStatusDescription hasStatusDesc 
-                ? hasStatusDesc.StatusDescription 
+            this.StatusDescription = innerException is IHasStatusDescription hasStatusDesc
+                ? hasStatusDesc.StatusDescription
                 : errorCode;
             this.Headers = new Dictionary<string, string>();
             this.Cookies = new List<Cookie>();
@@ -136,7 +136,7 @@ namespace ServiceStack
         public static Exception NotImplemented(string message) => new HttpError(HttpStatusCode.NotImplemented, message);
         public static Exception ServiceUnavailable(string message) => new HttpError(HttpStatusCode.ServiceUnavailable, message);
 
-        public static Exception Validation(string errorCode, string errorMessage, string fieldName) => 
+        public static Exception Validation(string errorCode, string errorMessage, string fieldName) =>
             ValidationError.CreateException(errorCode, errorMessage, fieldName);
 
         public ResponseStatus ToResponseStatus() => Response.GetResponseStatus()
@@ -146,20 +146,22 @@ namespace ServiceStack
         {
             if (responseDto is Exception e)
                 return e;
-            
+
             if (responseDto is IHttpError httpError)
-                return new HttpError(HttpStatusCode.InternalServerError, httpError.Message) {
+                return new HttpError(HttpStatusCode.InternalServerError, httpError.Message)
+                {
                     ErrorCode = httpError.ErrorCode,
                     StackTrace = httpError.StackTrace,
                 };
 
             var status = responseDto.GetResponseStatus();
             if (status?.ErrorCode != null)
-                return new HttpError(HttpStatusCode.InternalServerError, status.Message ?? status.ErrorCode) {
+                return new HttpError(HttpStatusCode.InternalServerError, status.Message ?? status.ErrorCode)
+                {
                     ErrorCode = status.ErrorCode,
                     StackTrace = status.StackTrace,
                 };
-            
+
             return null;
         }
     }

@@ -1,10 +1,10 @@
+using ServiceStack.IO;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.IO;
-using ServiceStack.Text;
 
 namespace ServiceStack.VirtualPath
 {
@@ -60,7 +60,7 @@ namespace ServiceStack.VirtualPath
         {
             if (string.IsNullOrEmpty(virtualPath) || virtualPath == "/")
                 return RootDirectory;
-            
+
             return RootDirectory.GetDirectory(SanitizePath(virtualPath));
         }
 
@@ -105,13 +105,13 @@ namespace ServiceStack.VirtualPath
             var vfs = this as IVirtualFiles;
             if (vfs == null)
                 throw new NotSupportedException($"{GetType().Name} does not implement IVirtualFiles");
-            
+
             foreach (var entry in textFiles)
             {
                 vfs.WriteFile(entry.Key, entry.Value);
             }
         }
-        
+
         protected NotSupportedException CreateContentNotSupportedException(object value) =>
             new($"Could not write '{value?.GetType().Name ?? "null"}' value. Only string, byte[], Stream or IVirtualFile content is supported.");
 
@@ -159,12 +159,12 @@ namespace ServiceStack.VirtualPath
         }
 
         // Can implement all async APIs here
-        public virtual Task WriteFileAsync(string path, object contents, CancellationToken token=default)
+        public virtual Task WriteFileAsync(string path, object contents, CancellationToken token = default)
         {
             WriteFile(path, contents);
             return TypeConstants.EmptyTask;
         }
-        
+
         public virtual void AppendFile(string path, ReadOnlyMemory<char> text) => AssertVirtualFiles().AppendFile(path, text.ToString());
 
         public virtual void AppendFile(string path, ReadOnlyMemory<byte> bytes) => AssertVirtualFiles().AppendFile(path, ToMemoryStream(bytes));

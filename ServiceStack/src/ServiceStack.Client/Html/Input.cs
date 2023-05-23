@@ -1,12 +1,12 @@
 #nullable enable
 
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
-using ServiceStack.Text;
 
 namespace ServiceStack.Html;
 
@@ -96,7 +96,7 @@ public static class Input
             _ => throw new ArgumentException("Supported fields per row: 1, 2, 3, 4, 6, 12")
         };
 
-        public ConfigureCss FieldsPerRow(int sm, int? md=null, int? lg=null, int? xl=null, int? xl2=null)
+        public ConfigureCss FieldsPerRow(int sm, int? md = null, int? lg = null, int? xl = null, int? xl2 = null)
         {
             var cls = new List<string> { "col-span-12", "sm:" + ColSpan(sm) };
             if (md != null) cls.Add("md:" + ColSpan(md.Value));
@@ -109,8 +109,8 @@ public static class Input
 
         public InputInfo Input { get; }
     }
-    
-    public static InputInfo FieldsPerRow(this InputInfo input, 
+
+    public static InputInfo FieldsPerRow(this InputInfo input,
         int sm, int? md = null, int? lg = null, int? xl = null, int? xl2 = null) =>
         new ConfigureCss(input).FieldsPerRow(sm, md, lg, xl, xl2).Input;
 
@@ -129,7 +129,7 @@ public static class Input
 
     public static InputInfo For<TModel>(Expression<Func<TModel, object?>> expr)
     {
-        var pi = InspectUtils.PropertyFromExpression(expr) 
+        var pi = InspectUtils.PropertyFromExpression(expr)
             ?? throw new Exception($"Could not resolve property expression from {expr}");
         return Create(pi);
     }
@@ -164,8 +164,8 @@ public static class Input
         return create(pi.Name);
     }
 
-    static FieldInfo GetEnumMember(Type type, string name) => 
-        (FieldInfo) type.GetMember(name, BindingFlags.Public | BindingFlags.Static)[0];
+    static FieldInfo GetEnumMember(Type type, string name) =>
+        (FieldInfo)type.GetMember(name, BindingFlags.Public | BindingFlags.Static)[0];
 
     public static KeyValuePair<string, string>[] GetEnumEntries(Type enumType)
     {
@@ -180,7 +180,7 @@ public static class Input
 
         var intEnum = JsConfig.TreatEnumAsInteger || enumType.IsEnumFlags();
         var useEntries = intEnum;
-        
+
         for (var i = 0; i < names.Length; i++)
         {
             var name = names[i];

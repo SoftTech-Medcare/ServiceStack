@@ -2,18 +2,17 @@
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
 #if NETCORE
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
-using System.Globalization;
-using System.Reflection;
-using System.Net;
-
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Reflection;
 
 namespace ServiceStack
 {
@@ -124,7 +123,7 @@ namespace ServiceStack
                 return Path.GetFullPath(relativePath.Replace("~", hostDirectoryPath));
             }
             return relativePath;
-        }        
+        }
 
         public static PclExport Configure()
         {
@@ -204,7 +203,7 @@ namespace ServiceStack
 
         public override DateTime ParseXsdDateTimeAsUtc(string dateTimeStr)
         {
-            return DateTime.ParseExact(dateTimeStr, allDateTimeFormats, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AllowLeadingWhite|DateTimeStyles.AllowTrailingWhite|DateTimeStyles.AdjustToUniversal)
+            return DateTime.ParseExact(dateTimeStr, allDateTimeFormats, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AllowLeadingWhite | DateTimeStyles.AllowTrailingWhite | DateTimeStyles.AdjustToUniversal)
                      .Prepare(parsedAsUtc: true);
         }
 
@@ -235,7 +234,7 @@ namespace ServiceStack
 
         private static StringCollection ParseStringCollection<TSerializer>(ReadOnlySpan<char> value) where TSerializer : ITypeSerializer
         {
-            if ((value = DeserializeListWithElements<TSerializer>.StripList(value)).IsNullOrEmpty()) 
+            if ((value = DeserializeListWithElements<TSerializer>.StripList(value)).IsNullOrEmpty())
                 return value.IsEmpty ? null : new StringCollection();
 
             var result = new StringCollection();
@@ -321,14 +320,14 @@ namespace ServiceStack
             try
             {
                 //req.MaximumResponseHeadersLength = int.MaxValue; //throws "The message length limit was exceeded" exception
-                if (allowAutoRedirect.HasValue) 
+                if (allowAutoRedirect.HasValue)
                     req.AllowAutoRedirect = allowAutoRedirect.Value;
 
                 if (userAgent != null)
                     req.UserAgent = userAgent;
 
-                if (readWriteTimeout.HasValue) req.ReadWriteTimeout = (int) readWriteTimeout.Value.TotalMilliseconds;
-                if (timeout.HasValue) req.Timeout = (int) timeout.Value.TotalMilliseconds;
+                if (readWriteTimeout.HasValue) req.ReadWriteTimeout = (int)readWriteTimeout.Value.TotalMilliseconds;
+                if (timeout.HasValue) req.Timeout = (int)timeout.Value.TotalMilliseconds;
 
                 if (preAuthenticate.HasValue)
                     req.PreAuthenticate = preAuthenticate.Value;
@@ -338,7 +337,7 @@ namespace ServiceStack
                 Tracer.Instance.WriteError(ex);
             }
         }
-        
+
         public override string GetStackTrace() => Environment.StackTrace;
 
         public static void InitForAot()

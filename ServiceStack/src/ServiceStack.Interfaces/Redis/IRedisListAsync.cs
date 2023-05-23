@@ -10,11 +10,11 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Model;
 
 namespace ServiceStack.Redis
 {
@@ -44,7 +44,7 @@ namespace ServiceStack.Redis
         ValueTask<string> PopAsync(CancellationToken token = default);
         ValueTask<string> BlockingPopAsync(TimeSpan? timeOut, CancellationToken token = default);
         ValueTask<string> PopAndPushAsync(IRedisListAsync toList, CancellationToken token = default);
-        
+
         ValueTask<bool> RemoveAsync(string item, CancellationToken token = default);
         ValueTask AddAsync(string item, CancellationToken token = default);
         ValueTask RemoveAtAsync(int index, CancellationToken token = default);

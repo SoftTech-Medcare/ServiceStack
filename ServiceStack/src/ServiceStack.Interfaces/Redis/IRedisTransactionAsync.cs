@@ -10,10 +10,10 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Redis.Pipeline;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Redis.Pipeline;
 
 namespace ServiceStack.Redis
 {

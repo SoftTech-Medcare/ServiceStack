@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ServiceStack.Script;
+using System;
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using ServiceStack.Script;
+using System.Linq;
 
 namespace ServiceStack.Redis
 {
@@ -21,12 +21,12 @@ namespace ServiceStack.Redis
     }
 
     [Obsolete("Use RedisScripts")]
-    public class TemplateRedisFilters : RedisScripts {}
-    
+    public class TemplateRedisFilters : RedisScripts { }
+
     public class RedisScripts : ScriptMethods
     {
         private const string RedisConnection = "__redisConnection";
-        
+
         private IRedisClientsManager redisManager;
         public IRedisClientsManager RedisManager
         {
@@ -46,7 +46,7 @@ namespace ServiceStack.Redis
                         return fn(redis);
                     }
                 }
-                
+
                 using (var redis = RedisManager.GetClient())
                 {
                     return fn(redis);
@@ -215,7 +215,7 @@ namespace ServiceStack.Redis
             }
             catch (Exception ex)
             {
-                throw new StopFilterExecutionException(scope, options ?? newConnection as IDictionary<string,object>, ex);
+                throw new StopFilterExecutionException(scope, options ?? newConnection as IDictionary<string, object>, ex);
             }
         }
 

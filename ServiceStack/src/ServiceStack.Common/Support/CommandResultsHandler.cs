@@ -1,6 +1,6 @@
+using ServiceStack.Commands;
 using System.Collections.Generic;
 using System.Threading;
-using ServiceStack.Commands;
 
 namespace ServiceStack.Support
 {

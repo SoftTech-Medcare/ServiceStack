@@ -14,19 +14,19 @@ namespace ServiceStack.Text
             ExpressionReflectionOptimizer.Provider
 #endif
         ;
-        
+
         public abstract Type UseType(Type type);
-        
+
         public abstract GetMemberDelegate CreateGetter(PropertyInfo propertyInfo);
         public abstract GetMemberDelegate<T> CreateGetter<T>(PropertyInfo propertyInfo);
         public abstract SetMemberDelegate CreateSetter(PropertyInfo propertyInfo);
         public abstract SetMemberDelegate<T> CreateSetter<T>(PropertyInfo propertyInfo);
-        
+
         public abstract GetMemberDelegate CreateGetter(FieldInfo fieldInfo);
         public abstract GetMemberDelegate<T> CreateGetter<T>(FieldInfo fieldInfo);
         public abstract SetMemberDelegate CreateSetter(FieldInfo fieldInfo);
         public abstract SetMemberDelegate<T> CreateSetter<T>(FieldInfo fieldInfo);
-        
+
         public abstract SetMemberRefDelegate<T> CreateSetterRef<T>(FieldInfo fieldInfo);
 
         public abstract bool IsDynamic(Assembly assembly);
@@ -35,31 +35,31 @@ namespace ServiceStack.Text
 
     public sealed class RuntimeReflectionOptimizer : ReflectionOptimizer
     {
-        private static RuntimeReflectionOptimizer provider; 
+        private static RuntimeReflectionOptimizer provider;
         public static RuntimeReflectionOptimizer Provider => provider ??= new RuntimeReflectionOptimizer();
-        private RuntimeReflectionOptimizer(){}
+        private RuntimeReflectionOptimizer() { }
 
         public override Type UseType(Type type) => type;
 
         public override GetMemberDelegate CreateGetter(PropertyInfo propertyInfo)
         {
-            var getMethodInfo = propertyInfo.GetGetMethod(nonPublic:true);
+            var getMethodInfo = propertyInfo.GetGetMethod(nonPublic: true);
             if (getMethodInfo == null) return null;
 
-            return o => propertyInfo.GetGetMethod(nonPublic:true).Invoke(o, TypeConstants.EmptyObjectArray);
+            return o => propertyInfo.GetGetMethod(nonPublic: true).Invoke(o, TypeConstants.EmptyObjectArray);
         }
 
         public override GetMemberDelegate<T> CreateGetter<T>(PropertyInfo propertyInfo)
         {
-            var getMethodInfo = propertyInfo.GetGetMethod(nonPublic:true);
+            var getMethodInfo = propertyInfo.GetGetMethod(nonPublic: true);
             if (getMethodInfo == null) return null;
 
-            return o => propertyInfo.GetGetMethod(nonPublic:true).Invoke(o, TypeConstants.EmptyObjectArray);
+            return o => propertyInfo.GetGetMethod(nonPublic: true).Invoke(o, TypeConstants.EmptyObjectArray);
         }
 
         public override SetMemberDelegate CreateSetter(PropertyInfo propertyInfo)
         {
-            var propertySetMethod = propertyInfo.GetSetMethod(nonPublic:true);
+            var propertySetMethod = propertyInfo.GetSetMethod(nonPublic: true);
             if (propertySetMethod == null) return null;
 
             return (o, convertedValue) =>
@@ -68,7 +68,7 @@ namespace ServiceStack.Text
 
         public override SetMemberDelegate<T> CreateSetter<T>(PropertyInfo propertyInfo)
         {
-            var propertySetMethod = propertyInfo.GetSetMethod(nonPublic:true);
+            var propertySetMethod = propertyInfo.GetSetMethod(nonPublic: true);
             if (propertySetMethod == null) return null;
 
             return (o, convertedValue) =>
@@ -79,7 +79,7 @@ namespace ServiceStack.Text
         public override GetMemberDelegate CreateGetter(FieldInfo fieldInfo) => fieldInfo.GetValue;
         public override GetMemberDelegate<T> CreateGetter<T>(FieldInfo fieldInfo) => x => fieldInfo.GetValue(x);
         public override SetMemberDelegate CreateSetter(FieldInfo fieldInfo) => fieldInfo.SetValue;
-        public override SetMemberDelegate<T> CreateSetter<T>(FieldInfo fieldInfo) => (o,x) => fieldInfo.SetValue(o,x);
+        public override SetMemberDelegate<T> CreateSetter<T>(FieldInfo fieldInfo) => (o, x) => fieldInfo.SetValue(o, x);
 
         public override SetMemberRefDelegate<T> CreateSetterRef<T>(FieldInfo fieldInfo) =>
             ExpressionReflectionOptimizer.Provider.CreateSetterRef<T>(fieldInfo);
@@ -111,9 +111,9 @@ namespace ServiceStack.Text
 
     public sealed class ExpressionReflectionOptimizer : ReflectionOptimizer
     {
-        private static ExpressionReflectionOptimizer provider; 
+        private static ExpressionReflectionOptimizer provider;
         public static ExpressionReflectionOptimizer Provider => provider ?? (provider = new ExpressionReflectionOptimizer());
-        private ExpressionReflectionOptimizer(){}
+        private ExpressionReflectionOptimizer() { }
 
         public override Type UseType(Type type) => type;
 
@@ -126,7 +126,7 @@ namespace ServiceStack.Text
 
         public static Expression<GetMemberDelegate> GetExpressionLambda(PropertyInfo propertyInfo)
         {
-            var getMethodInfo = propertyInfo.GetGetMethod(nonPublic:true);
+            var getMethodInfo = propertyInfo.GetGetMethod(nonPublic: true);
             if (getMethodInfo == null) return null;
 
             var oInstanceParam = Expression.Parameter(typeof(object), "oInstanceParam");
@@ -160,7 +160,7 @@ namespace ServiceStack.Text
 
         public override SetMemberDelegate CreateSetter(PropertyInfo propertyInfo)
         {
-            var propertySetMethod = propertyInfo.GetSetMethod(nonPublic:true);
+            var propertySetMethod = propertyInfo.GetSetMethod(nonPublic: true);
             if (propertySetMethod == null) return null;
 
             try
@@ -186,7 +186,7 @@ namespace ServiceStack.Text
                     propertySetMethod.Invoke(o, new[] { convertedValue });
             }
         }
-        
+
         public override SetMemberDelegate<T> CreateSetter<T>(PropertyInfo propertyInfo)
         {
             try
@@ -225,7 +225,7 @@ namespace ServiceStack.Text
             );
         }
 
-        
+
         public override GetMemberDelegate CreateGetter(FieldInfo fieldInfo)
         {
             var fieldDeclaringType = fieldInfo.DeclaringType;
@@ -291,7 +291,7 @@ namespace ServiceStack.Text
             var sourceParameter = Expression.Parameter(typeof(object), "source");
             var valueParameter = Expression.Parameter(typeof(object), "value");
 
-            var sourceExpression = declaringType.IsValueType && !declaringType.IsNullableType() 
+            var sourceExpression = declaringType.IsValueType && !declaringType.IsNullableType()
                 ? Expression.Unbox(sourceParameter, declaringType)
                 : GetCastOrConvertExpression(sourceParameter, declaringType);
 

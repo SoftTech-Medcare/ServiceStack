@@ -1,6 +1,9 @@
 #nullable enable
 
 #if NET6_0_OR_GREATER
+using Microsoft.Extensions.DependencyInjection;
+using ServiceStack.IO;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,9 +13,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using ServiceStack.IO;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
@@ -72,7 +72,7 @@ public static class JsonApiClientUtils
     {
         return services.AddHttpClient<JsonApiClient>(client => client.BaseAddress = new Uri(baseUrl));
     }
-    
+
     public static IHttpClientBuilder AddJsonApiClient(this IServiceCollection services, string baseUrl, Action<HttpClient> configureClient)
     {
         return services.AddHttpClient<JsonApiClient>(client =>
@@ -81,7 +81,7 @@ public static class JsonApiClientUtils
             configureClient(client);
         });
     }
-    
+
     public static async Task<ApiResult<TResponse>> ApiAsync<TResponse>(this IHasJsonApiClient instance, IReturn<TResponse> request) =>
         await instance.Client!.ApiAsync(request);
 
@@ -126,13 +126,13 @@ public static class JsonApiClientUtils
         return api;
     }
 
-    public static Task<ApiResult<AppMetadata>> ApiAppMetadataAsync(this IHasJsonApiClient instance, bool reload=false) =>
+    public static Task<ApiResult<AppMetadata>> ApiAppMetadataAsync(this IHasJsonApiClient instance, bool reload = false) =>
         !reload ? instance.Client!.ApiCacheAsync(new MetadataApp()) : instance.Client!.ApiAsync(new MetadataApp());
 
     public static string ReadAsString(this HttpContent content)
     {
         using var reader = new StreamReader(content.ReadAsStream());
-        return reader.ReadToEnd();        
+        return reader.ReadToEnd();
     }
 
     public static byte[] ReadAsByteArray(this HttpContent content)
@@ -165,7 +165,7 @@ public static class JsonApiClientUtils
         }
         return content;
     }
-    
+
     public static MultipartFormDataContent AddParams(this MultipartFormDataContent content, System.Collections.IDictionary map)
     {
         foreach (System.Collections.DictionaryEntry entry in map)
@@ -176,7 +176,7 @@ public static class JsonApiClientUtils
         }
         return content;
     }
-    
+
     public static MultipartFormDataContent AddParams(this MultipartFormDataContent content, Dictionary<string, object> map)
     {
         foreach (var entry in map)
@@ -188,52 +188,53 @@ public static class JsonApiClientUtils
         return content;
     }
 
-    public static MultipartFormDataContent AddParams<T>(this MultipartFormDataContent content, T dto) => 
+    public static MultipartFormDataContent AddParams<T>(this MultipartFormDataContent content, T dto) =>
         content.AddParams(dto.ToObjectDictionary());
 
     public static MultipartFormDataContent AddJsvParam<T>(this MultipartFormDataContent content, string key, T value)
     {
-        content.Add(new StringContent(value.ToJsv(), encoding:null, mediaType:MimeTypes.Jsv), $"\"{key}\"");
+        content.Add(new StringContent(value.ToJsv(), encoding: null, mediaType: MimeTypes.Jsv), $"\"{key}\"");
         return content;
     }
 
     public static MultipartFormDataContent AddJsonParam<T>(this MultipartFormDataContent content, string key, T value)
     {
-        content.Add(new StringContent(value.ToJson(), encoding:null, mediaType:MimeTypes.Json), $"\"{key}\"");
+        content.Add(new StringContent(value.ToJson(), encoding: null, mediaType: MimeTypes.Json), $"\"{key}\"");
         return content;
     }
 
     public static MultipartFormDataContent AddCsvParam<T>(this MultipartFormDataContent content, string key, T value)
     {
-        content.Add(new StringContent(value.ToCsv(), encoding:null, mediaType:MimeTypes.Csv), $"\"{key}\"");
+        content.Add(new StringContent(value.ToCsv(), encoding: null, mediaType: MimeTypes.Csv), $"\"{key}\"");
         return content;
     }
 
-    public static HttpContent AddFileInfo(this HttpContent content, string fieldName, string fileName, string? mimeType=null)
+    public static HttpContent AddFileInfo(this HttpContent content, string fieldName, string fileName, string? mimeType = null)
     {
         content.Headers.ContentType = MediaTypeHeaderValue.Parse(mimeType ?? MimeTypes.GetMimeType(fileName));
-        content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") {
+        content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+        {
             Name = fieldName,
             FileName = fileName,
         };
         return content;
     }
 
-    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, string fileName, Stream fileContents, string? mimeType=null)
+    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, string fileName, Stream fileContents, string? mimeType = null)
     {
         content.Add(new StreamContent(fileContents)
             .AddFileInfo(fieldName: fieldName, fileName: fileName, mimeType: mimeType));
         return content;
     }
 
-    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, string fileName, ReadOnlyMemory<byte> fileContents, string? mimeType=null)
+    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, string fileName, ReadOnlyMemory<byte> fileContents, string? mimeType = null)
     {
         content.Add(new ReadOnlyMemoryContent(fileContents)
             .AddFileInfo(fieldName: fieldName, fileName: fileName, mimeType: mimeType));
         return content;
     }
 
-    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, FileInfo file, string? mimeType=null)
+    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, FileInfo file, string? mimeType = null)
     {
         using var fs = file.OpenRead();
         content.Add(new ReadOnlyMemoryContent(fs.ReadFullyAsMemory())
@@ -241,7 +242,7 @@ public static class JsonApiClientUtils
         return content;
     }
 
-    public static async Task<MultipartFormDataContent> AddFileAsync(this MultipartFormDataContent content, string fieldName, FileInfo file, string? mimeType=null)
+    public static async Task<MultipartFormDataContent> AddFileAsync(this MultipartFormDataContent content, string fieldName, FileInfo file, string? mimeType = null)
     {
         await using var fs = file.OpenRead();
         content.Add(new ReadOnlyMemoryContent(await fs.ReadFullyAsMemoryAsync().ConfigAwait())
@@ -249,7 +250,7 @@ public static class JsonApiClientUtils
         return content;
     }
 
-    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, IVirtualFile file, string? mimeType=null)
+    public static MultipartFormDataContent AddFile(this MultipartFormDataContent content, string fieldName, IVirtualFile file, string? mimeType = null)
     {
         content.Add(file.ToHttpContent()
             .AddFileInfo(fieldName: fieldName, fileName: file.Name, mimeType: mimeType));

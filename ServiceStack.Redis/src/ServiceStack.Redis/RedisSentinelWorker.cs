@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using ServiceStack.Logging;
+﻿using ServiceStack.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ServiceStack.Redis
 {
@@ -26,7 +26,8 @@ namespace ServiceStack.Redis
             this.Id = Interlocked.Increment(ref IdCounter);
             this.sentinel = sentinel;
             this.sentinelEndpoint = sentinelEndpoint;
-            this.sentinelClient = new RedisClient(sentinelEndpoint) {
+            this.sentinelClient = new RedisClient(sentinelEndpoint)
+            {
                 Db = 0, //Sentinel Servers doesn't support DB, reset to 0
                 ConnectTimeout = sentinel.SentinelWorkerConnectTimeoutMs,
                 ReceiveTimeout = sentinel.SentinelWorkerReceiveTimeoutMs,
@@ -57,7 +58,7 @@ namespace ServiceStack.Redis
             if (isObjectivelyDown)
                 Interlocked.Increment(ref RedisState.TotalObjectiveServersDown);
 
-            if (c == "+failover-end" 
+            if (c == "+failover-end"
                 || c == "+switch-master"
                 || (sentinel.ResetWhenSubjectivelyDown && isSubjectivelyDown)
                 || (sentinel.ResetWhenObjectivelyDown && isObjectivelyDown))
@@ -170,16 +171,16 @@ namespace ServiceStack.Redis
                 {
                     if (this.sentinelPubSub == null)
                     {
-                        var currentSentinelHost = new[] {sentinelEndpoint};
+                        var currentSentinelHost = new[] { sentinelEndpoint };
                         var sentinelManager = new BasicRedisClientManager(currentSentinelHost, currentSentinelHost)
                         {
                             //Use BasicRedisResolver which doesn't validate non-Master Sentinel instances
                             RedisResolver = new BasicRedisResolver(currentSentinelHost, currentSentinelHost)
                         };
-                        
+
                         if (Log.IsDebugEnabled)
                             Log.Debug($"Starting subscription to {sentinel.SentinelHosts.ToArray()}, replicas: {sentinel.SentinelHosts.ToArray()}...");
-                        
+
                         this.sentinelPubSub = new RedisPubSubServer(sentinelManager)
                         {
                             HeartbeatInterval = null,

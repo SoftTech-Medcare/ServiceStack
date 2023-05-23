@@ -1,5 +1,15 @@
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System;
-using System.Collections;
+After:
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Jsv;
+using System;
+*/
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Jsv;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,8 +17,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Jsv;
 
 namespace ServiceStack.Text
 {
@@ -37,7 +45,7 @@ namespace ServiceStack.Text
                 do
                 {
                     snapshot = WriteFnCache;
-                    newCache = new Dictionary<Type, WriteObjectDelegate>(WriteFnCache) {[type] = writeFn};
+                    newCache = new Dictionary<Type, WriteObjectDelegate>(WriteFnCache) { [type] = writeFn };
 
                 } while (!ReferenceEquals(
                     Interlocked.CompareExchange(ref WriteFnCache, newCache, snapshot), snapshot));
@@ -69,7 +77,7 @@ namespace ServiceStack.Text
                 do
                 {
                     snapshot = ReadFnCache;
-                    newCache = new Dictionary<Type, ParseStringDelegate>(ReadFnCache) {[type] = writeFn};
+                    newCache = new Dictionary<Type, ParseStringDelegate>(ReadFnCache) { [type] = writeFn };
 
                 } while (!ReferenceEquals(
                     Interlocked.CompareExchange(ref ReadFnCache, newCache, snapshot), snapshot));
@@ -568,14 +576,14 @@ namespace ServiceStack.Text
             }
         }
     }
-    
+
     public class CsvStringSerializer : IStringSerializer
     {
-        public To DeserializeFromString<To>(string serializedText) => 
+        public To DeserializeFromString<To>(string serializedText) =>
             CsvSerializer.DeserializeFromString<To>(serializedText);
-        public object DeserializeFromString(string serializedText, Type type) => 
+        public object DeserializeFromString(string serializedText, Type type) =>
             CsvSerializer.DeserializeFromString(type, serializedText);
-        public string SerializeToString<TFrom>(TFrom @from) => 
+        public string SerializeToString<TFrom>(TFrom @from) =>
             CsvSerializer.SerializeToString(@from);
     }
 }

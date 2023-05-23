@@ -6,5 +6,5 @@ namespace ServiceStack.DataAnnotations
     /// Define a unique RDBMS column constraint
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class UniqueAttribute : AttributeBase {}
+    public class UniqueAttribute : AttributeBase { }
 }

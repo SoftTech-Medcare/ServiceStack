@@ -40,7 +40,7 @@ namespace ServiceStack.Redis
             // flush send buffers
             await RedisClient.FlushSendBufferAsync(token).ConfigureAwait(false);
             RedisClient.ResetSendBuffer();
-            
+
             try
             {
                 //receive expected results

@@ -1,8 +1,8 @@
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ServiceStack.Text;
 
 namespace ServiceStack.Script
 {
@@ -30,7 +30,7 @@ namespace ServiceStack.Script
             this.@params = @params ?? throw new ArgumentNullException(nameof(@params));
         }
 
-        public static List<ScriptMethodInfo> GetScriptMethods(Type scriptMethodsType, Func<MethodInfo,bool> where=null)
+        public static List<ScriptMethodInfo> GetScriptMethods(Type scriptMethodsType, Func<MethodInfo, bool> where = null)
         {
             var filters = scriptMethodsType.GetMethods(BindingFlags.Instance | BindingFlags.Public);
             var to = filters
@@ -41,7 +41,7 @@ namespace ServiceStack.Script
 
             if (where != null)
                 to = to.Where(where);
-                
+
             return to.Select(Create).ToList();
         }
 
@@ -49,7 +49,7 @@ namespace ServiceStack.Script
         {
             var pis = mi.GetParameters()
                 .Where(x => x.ParameterType != typeof(ScriptScopeContext)).ToArray();
-            
+
             return new ScriptMethodInfo(mi, pis);
         }
 
@@ -74,7 +74,7 @@ namespace ServiceStack.Script
             {
                 if (signature != null)
                     return signature;
-                
+
                 var sb = StringBuilderCache.Allocate()
                     .Append(Name);
 

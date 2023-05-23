@@ -1,6 +1,7 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,6 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
@@ -45,7 +45,7 @@ public static partial class HttpUtils
 
         if (key == null || val == null)
             return url;
-            
+
         var prefix = string.Empty;
         if (!url.EndsWith("?") && !url.EndsWith("&"))
         {
@@ -58,10 +58,10 @@ public static partial class HttpUtils
     {
         if (url == null)
             url = "";
-            
+
         if (key == null)
             return url;
-            
+
         var qsPos = url.IndexOf('?');
         if (qsPos != -1)
         {
@@ -103,10 +103,10 @@ public static partial class HttpUtils
     {
         if (url == null)
             url = "";
-            
+
         if (key == null || val == null)
             return url;
-            
+
         var prefix = url.IndexOf('#') == -1 ? "#" : "/";
         return url + prefix + key + "=" + val.UrlEncode();
     }
@@ -115,10 +115,10 @@ public static partial class HttpUtils
     {
         if (url == null)
             url = "";
-            
+
         if (key == null || val == null)
             return url;
-            
+
         var hPos = url.IndexOf('#');
         if (hPos != -1)
         {
@@ -156,7 +156,7 @@ public static partial class HttpUtils
 
         return true;
     }
-        
+
     public static Task<Stream> GetRequestStreamAsync(this WebRequest request)
     {
         return GetRequestStreamAsync((HttpWebRequest)request);
@@ -229,7 +229,7 @@ public static partial class HttpUtils
 
         return tcs.Task;
     }
-    
+
     public static bool IsAny300(this Exception ex)
     {
         var status = ex.GetStatus();

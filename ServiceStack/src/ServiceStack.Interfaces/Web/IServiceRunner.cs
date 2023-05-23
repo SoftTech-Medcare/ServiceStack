@@ -1,6 +1,6 @@
+using ServiceStack.Messaging;
 using System;
 using System.Threading.Tasks;
-using ServiceStack.Messaging;
 
 namespace ServiceStack.Web
 {

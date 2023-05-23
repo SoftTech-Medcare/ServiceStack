@@ -2,7 +2,7 @@ using System;
 
 namespace ServiceStack.DataAnnotations;
 
-public abstract class AlterColumnAttribute : AttributeBase {}
+public abstract class AlterColumnAttribute : AttributeBase { }
 
 /// <summary>
 /// Add Column during Db.Migrate, optional as adding columns are implied

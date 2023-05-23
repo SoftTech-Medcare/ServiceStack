@@ -10,8 +10,8 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-using System;
 using ServiceStack.Text.Jsv;
+using System;
 
 namespace ServiceStack.Text.Common
 {

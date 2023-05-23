@@ -1,10 +1,10 @@
 #pragma warning disable CS0618, SYSLIB0014
+using ServiceStack.Logging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using ServiceStack.Text;
-using ServiceStack.Logging;
 
 #if NETFX_CORE
 using System.Net.Http.Headers;
@@ -17,20 +17,20 @@ namespace ServiceStack
 {
     public class TokenException : AuthenticationException
     {
-        public TokenException(string message) : base(message) {}
+        public TokenException(string message) : base(message) { }
     }
 
     public class AuthenticationException : Exception, IHasStatusCode
     {
-        public AuthenticationException() {}
+        public AuthenticationException() { }
 
         public AuthenticationException(string message)
-            : base(message) {}
+            : base(message) { }
 
         public AuthenticationException(string message, Exception innerException)
-            : base(message, innerException) {}
+            : base(message, innerException) { }
 
-        public int StatusCode => (int) HttpStatusCode.Unauthorized;
+        public int StatusCode => (int)HttpStatusCode.Unauthorized;
     }
 
     // by adamfowleruk
@@ -134,10 +134,10 @@ namespace ServiceStack
 
         internal static bool ShouldAuthenticate(WebException webEx, bool hasAuthInfo)
         {
-            return webEx?.Response != null 
-                && ((HttpWebResponse)webEx.Response).StatusCode == HttpStatusCode.Unauthorized 
+            return webEx?.Response != null
+                && ((HttpWebResponse)webEx.Response).StatusCode == HttpStatusCode.Unauthorized
                 && hasAuthInfo;
-       }
+        }
 
         public static void AddBasicAuth(this WebRequest client, string userName, string password)
         {
@@ -251,7 +251,7 @@ namespace ServiceStack
         public static Type GetErrorResponseDtoType<TResponse>(object request)
         {
             if (request is object[] batchRequest && batchRequest.Length > 0)
-                request = batchRequest[0]; 
+                request = batchRequest[0];
 
             var hasResponseStatus = typeof(TResponse).HasInterface(typeof(IHasResponseStatus))
                 || typeof(TResponse).GetProperty("ResponseStatus") != null;
@@ -261,15 +261,15 @@ namespace ServiceStack
 
         public static Type GetErrorResponseDtoType(object request)
         {
-            return request == null 
-                ? typeof(ErrorResponse) 
+            return request == null
+                ? typeof(ErrorResponse)
                 : GetErrorResponseDtoType(request.GetType());
         }
 
         public static Type GetErrorResponseDtoType(Type requestType)
         {
             if (requestType == null)
-                return typeof (ErrorResponse);
+                return typeof(ErrorResponse);
 
             //If a conventionally-named Response type exists use that regardless if it has ResponseStatus or not
 #if NETCORE
@@ -316,10 +316,10 @@ namespace ServiceStack
             var statusGetter = TypeProperties.Get(response.GetType()).GetPublicGetter(nameof(ResponseStatus));
             return statusGetter?.Invoke(response) as ResponseStatus;
         }
-        
-        public static HttpWebRequest InitWebRequest(string url, string method="GET", Dictionary<string,string> headers=null)
+
+        public static HttpWebRequest InitWebRequest(string url, string method = "GET", Dictionary<string, string> headers = null)
         {
-            var webReq = (HttpWebRequest) WebRequest.Create(url);
+            var webReq = (HttpWebRequest)WebRequest.Create(url);
             if (method != null)
                 webReq.Method = method;
             if (headers != null)
@@ -362,12 +362,12 @@ namespace ServiceStack
             sb.AppendLine($"{webReq.Method} {uri.PathAndQuery} HTTP/{webReq.ProtocolVersion}");
             var port = uri.Port != 80 && uri.Port != 443 ? $":{uri.Port}" : "";
             sb.AppendLine($"Host: {uri.Host}{port}");
-            for(var i = 0; i < webReq.Headers.Count; ++i)
+            for (var i = 0; i < webReq.Headers.Count; ++i)
             {
                 var header = webReq.Headers.GetKey(i);
                 var values = webReq.Headers.GetValues(i);
                 if (values == null) continue;
-                foreach(var value in values)
+                foreach (var value in values)
                 {
                     sb.AppendLine($"{header}: {value}");
                 }
@@ -395,7 +395,7 @@ namespace ServiceStack
                 var header = webRes.Headers.GetKey(i);
                 var values = webRes.Headers.GetValues(i);
                 if (values == null) continue;
-                foreach(var value in values)
+                foreach (var value in values)
                 {
                     sb.AppendLine($"{header}: {value}");
                 }

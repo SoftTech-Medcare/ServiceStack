@@ -1,14 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading;
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
 using ServiceStack.Text.Jsv;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using System.Text;
+using System.Threading;
+using ServiceStack.Text.Common;
+After:
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Common;
+*/
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Text;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using ServiceStack.Text.Jsv;
+After:
+using System.Threading;
+*/
+using System.Threading;
 
 namespace ServiceStack.Text
 {
@@ -27,7 +44,7 @@ namespace ServiceStack.Text
         /// Mark JsConfig global config as initialized and assert it's no longer mutated
         /// </summary>
         public static void Init() => Config.Init();
-        
+
         /// <summary>
         /// Initialize global config and assert that it's no longer mutated 
         /// </summary>
@@ -267,7 +284,7 @@ namespace ServiceStack.Text
             bool? alwaysUseUtc = null,
             bool? assumeUtc = null,
             bool? appendUtcOffset = null,
-            bool? escapeUnicode = null, 
+            bool? escapeUnicode = null,
             bool? includePublicFields = null,
             int? maxDepth = null,
             EmptyCtorFactoryDelegate modelFactory = null,
@@ -522,7 +539,7 @@ namespace ServiceStack.Text
             get => ThrowOnError;
             set => ThrowOnError = value;
         }
-    
+
         /// <summary>
         /// Gets or sets a value indicating if the framework should always convert <see cref="DateTime"/> to UTC format instead of local time. 
         /// </summary>
@@ -700,7 +717,7 @@ namespace ServiceStack.Text
             __uniqueTypes = new HashSet<Type>();
 
             //Called when writing each string, too expensive to maintain as scoped config
-            
+
             AllowRuntimeType = null;
             AllowRuntimeTypeWithAttributesNamed = new HashSet<string>
             {

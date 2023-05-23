@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Text;
 
@@ -8,7 +7,7 @@ namespace ServiceStack.Text
     {
         private const int optimizedBufferLength = 256;
         private const int maxBufferLength = 1024;
-        
+
         private Stream stream;
         private StreamWriter writer = null;
         private byte[] curChar = new byte[1];
@@ -30,7 +29,7 @@ namespace ServiceStack.Text
 
             if (s.Length <= optimizedBufferLength)
             {
-                if (needFlush) 
+                if (needFlush)
                 {
                     writer.Flush();
                     needFlush = false;
@@ -38,11 +37,12 @@ namespace ServiceStack.Text
 
                 byte[] buffer = Encoding.GetBytes(s);
                 stream.Write(buffer, 0, buffer.Length);
-            } else 
+            }
+            else
             {
                 if (writer == null)
                     writer = new StreamWriter(stream, Encoding, s.Length < maxBufferLength ? s.Length : maxBufferLength);
-                
+
                 writer.Write(s);
                 needFlush = true;
             }
@@ -60,11 +60,12 @@ namespace ServiceStack.Text
 
                 curChar[0] = (byte)c;
                 stream.Write(curChar, 0, 1);
-            } else
+            }
+            else
             {
                 if (writer == null)
                     writer = new StreamWriter(stream, Encoding, optimizedBufferLength);
-                
+
                 writer.Write(c);
                 needFlush = true;
             }

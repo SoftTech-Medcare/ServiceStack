@@ -17,7 +17,7 @@ namespace ServiceStack
         /// <param name="compressionType">Type of the compression.</param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static byte[] Compress(this string text, string compressionType, Encoding? encoding=null) =>
+        public static byte[] Compress(this string text, string compressionType, Encoding? encoding = null) =>
             StreamCompressors.GetRequired(compressionType).Compress(text, encoding);
 
         public static Stream CompressStream(this Stream stream, string compressionType) =>
@@ -45,8 +45,8 @@ namespace ServiceStack
         /// <param name="compressionType">Type of the compression. Can be "gzip" or "deflate"</param>
         /// <returns>Decompressed stream</returns>
         public static Stream Decompress(this Stream gzStream, string compressionType) =>
-            !string.IsNullOrEmpty(compressionType) 
-                ? StreamCompressors.GetRequired(compressionType).Decompress(gzStream) 
+            !string.IsNullOrEmpty(compressionType)
+                ? StreamCompressors.GetRequired(compressionType).Decompress(gzStream)
                 : gzStream;
 
         /// <summary>

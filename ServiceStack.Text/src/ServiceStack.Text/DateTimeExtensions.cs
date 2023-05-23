@@ -10,9 +10,9 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text.Common;
 using System;
 using System.Globalization;
-using ServiceStack.Text.Common;
 
 namespace ServiceStack.Text
 {
@@ -46,7 +46,7 @@ namespace ServiceStack.Text
             return (dateTime.ToStableUniversalTime().Ticks - UnixEpoch) / TimeSpan.TicksPerMillisecond;
         }
 
-        public static long ToUnixTimeMs(this DateTimeOffset dateTimeOffset) => 
+        public static long ToUnixTimeMs(this DateTimeOffset dateTimeOffset) =>
             (long)ToDateTimeSinceUnixEpoch(dateTimeOffset.UtcDateTime).TotalMilliseconds;
 
         public static long ToUnixTimeMs(this DateTime dateTime)
@@ -80,8 +80,8 @@ namespace ServiceStack.Text
         }
 
 #if NET6_0
-        public static long ToUnixTimeMs(this DateOnly dateOnly) => dateOnly.ToDateTime(default, DateTimeKind.Utc).ToUnixTimeMs(); 
-        public static long ToUnixTime(this DateOnly dateOnly) => dateOnly.ToDateTime(default, DateTimeKind.Utc).ToUnixTime(); 
+        public static long ToUnixTimeMs(this DateOnly dateOnly) => dateOnly.ToDateTime(default, DateTimeKind.Utc).ToUnixTimeMs();
+        public static long ToUnixTime(this DateOnly dateOnly) => dateOnly.ToDateTime(default, DateTimeKind.Utc).ToUnixTime();
 #endif
 
         public static DateTime FromUnixTimeMs(this double msSince1970)

@@ -1,10 +1,10 @@
+using ServiceStack.Text.Json;
+using ServiceStack.Text.Jsv;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using ServiceStack.Text.Json;
-using ServiceStack.Text.Jsv;
 
 namespace ServiceStack.Text.Common
 {
@@ -287,7 +287,7 @@ namespace ServiceStack.Text.Common
                         return Serializer.WriteDateOnly;
                 if (type == typeof(DateOnly?))
                     return Serializer.WriteDateOnly;
-                
+
                 if (type == typeof(TimeOnly))
                     if (isNullable)
                         return Serializer.WriteNullableTimeOnly;
@@ -359,7 +359,7 @@ namespace ServiceStack.Text.Common
             var valueWriter = (IValueWriter)value;
             valueWriter.WriteTo(Serializer, writer);
         }
-        
+
         void ThrowTaskNotSupported(TextWriter writer, object value) =>
             throw new NotSupportedException("Serializing Task's is not supported. Did you forget to await it?");
 
@@ -367,7 +367,7 @@ namespace ServiceStack.Text.Common
         {
             if (typeof(T).IsInstanceOf(typeof(System.Threading.Tasks.Task)))
                 return ThrowTaskNotSupported;
-            
+
             if (typeof(T).IsValueType && !JsConfig.TreatAsRefType(typeof(T)) || JsConfig<T>.HasSerializeFn)
             {
                 return JsConfig<T>.HasSerializeFn

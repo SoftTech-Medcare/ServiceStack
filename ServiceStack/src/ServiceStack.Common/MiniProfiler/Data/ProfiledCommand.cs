@@ -1,7 +1,7 @@
-﻿using System;
-using System.Data.Common;
+﻿using ServiceStack.Data;
+using System;
 using System.Data;
-using ServiceStack.Data;
+using System.Data.Common;
 
 #pragma warning disable 1591 // xml doc comments warnings
 
@@ -53,7 +53,7 @@ namespace ServiceStack.MiniProfiler.Data
 
         IDbCommand IHasDbCommand.DbCommand
         {
-            get { return DbCommand; }            
+            get { return DbCommand; }
         }
 
         protected override DbConnection DbConnection

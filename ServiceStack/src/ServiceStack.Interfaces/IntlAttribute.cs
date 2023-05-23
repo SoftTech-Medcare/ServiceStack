@@ -8,7 +8,7 @@ namespace ServiceStack;
 /// </summary>
 public class IntlNumber : Intl
 {
-    public IntlNumber() : base(IntlFormat.Number) {}
+    public IntlNumber() : base(IntlFormat.Number) { }
     public IntlNumber(NumberStyle style) : base(IntlFormat.Number)
     {
         Number = style;
@@ -21,7 +21,7 @@ public class IntlNumber : Intl
 /// </summary>
 public class IntlDateTime : Intl
 {
-    public IntlDateTime() : base(IntlFormat.DateTime) {}
+    public IntlDateTime() : base(IntlFormat.DateTime) { }
     public IntlDateTime(DateStyle date, TimeStyle time = TimeStyle.Undefined) : base(IntlFormat.DateTime)
     {
         Date = date;
@@ -36,7 +36,7 @@ public class IntlDateTime : Intl
 /// </summary>
 public class IntlRelativeTime : Intl
 {
-    public IntlRelativeTime() : base(IntlFormat.RelativeTime) {}
+    public IntlRelativeTime() : base(IntlFormat.RelativeTime) { }
     public IntlRelativeTime(Numeric numeric) : base(IntlFormat.RelativeTime)
     {
         Numeric = numeric;
@@ -51,13 +51,13 @@ public class IntlRelativeTime : Intl
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
 public class Intl : MetadataAttributeBase
 {
-    public Intl() {}
+    public Intl() { }
     public Intl(IntlFormat type) => Type = type;
 
     public IntlFormat Type { get; set; }
     public string Locale { get; set; }
     public string Options { get; set; }
-    
+
     public DateStyle Date { get; set; }
     public TimeStyle Time { get; set; }
     public NumberStyle Number { get; set; }
@@ -83,7 +83,7 @@ public class Intl : MetadataAttributeBase
     public int MinimumSignificantDigits { get; set; } = int.MinValue;
     public int MaximumSignificantDigits { get; set; } = int.MinValue;
     public int FractionalSecondDigits { get; set; } = int.MinValue;
-    
+
     public DateText Weekday { get; set; }
     public DateText Era { get; set; }
     public DatePart Year { get; set; }
@@ -103,33 +103,33 @@ public enum IntlFormat
     /// Intl.NumberFormat
     /// </summary>
     Number,
-    
+
     /// <summary>
     /// Intl.DateTimeFormat
     /// </summary>
     DateTime,
-    
+
     /// <summary>
     /// Intl.RelativeTimeFormat
     /// </summary>
     RelativeTime,
 }
 
-public enum DateStyle { Undefined=0, Full, Long, Medium, Short, }
-public enum TimeStyle { Undefined=0, Full, Long, Medium, Short, }
-public enum NumberStyle { Undefined=0, Decimal, Currency, Percent, Unit, }
-public enum RelativeTimeStyle { Undefined=0, Long, Short, Narrow, }
-public enum Numeric { Undefined=0, Always, Auto, }
+public enum DateStyle { Undefined = 0, Full, Long, Medium, Short, }
+public enum TimeStyle { Undefined = 0, Full, Long, Medium, Short, }
+public enum NumberStyle { Undefined = 0, Decimal, Currency, Percent, Unit, }
+public enum RelativeTimeStyle { Undefined = 0, Long, Short, Narrow, }
+public enum Numeric { Undefined = 0, Always, Auto, }
 
-public enum DatePart { Undefined=0, Numeric, Digits2, }
-public enum DateMonth { Undefined=0, Numeric, Digits2, Narrow, Short, Long, }
-public enum DateText { Undefined=0, Narrow, Short, Long }
-public enum UnitDisplay { Undefined=0, Long, Short, Narrow }
-public enum Notation { Undefined=0, Standard, Scientific, Engineering, Compact, }
-public enum CurrencyDisplay { Undefined=0, Symbol, NarrowSymbol, Code, Name, }
-public enum CurrencySign { Undefined=0, Accounting, Standard, }
-public enum SignDisplay { Undefined=0, Always, Auto, ExceptZero, Negative, Never, }
-public enum RoundingMode { Undefined=0, Ceil, Floor, Expand, Trunc, HalfCeil, HalfFloor, HalfExpand, HalfTrunc, HalfEven, }
+public enum DatePart { Undefined = 0, Numeric, Digits2, }
+public enum DateMonth { Undefined = 0, Numeric, Digits2, Narrow, Short, Long, }
+public enum DateText { Undefined = 0, Narrow, Short, Long }
+public enum UnitDisplay { Undefined = 0, Long, Short, Narrow }
+public enum Notation { Undefined = 0, Standard, Scientific, Engineering, Compact, }
+public enum CurrencyDisplay { Undefined = 0, Symbol, NarrowSymbol, Code, Name, }
+public enum CurrencySign { Undefined = 0, Accounting, Standard, }
+public enum SignDisplay { Undefined = 0, Always, Auto, ExceptZero, Negative, Never, }
+public enum RoundingMode { Undefined = 0, Ceil, Floor, Expand, Trunc, HalfCeil, HalfFloor, HalfExpand, HalfTrunc, HalfEven, }
 
 public static class NumberCurrency
 {
@@ -172,45 +172,45 @@ public static class NumberCurrency
 
 public static class NumberUnit
 {
-    public const string Acre  = "acre";
-    public const string Bit  = "bit";
-    public const string Byte  = "byte";
-    public const string Celsius  = "celsius";
-    public const string Centimeter  = "centimeter";
-    public const string Day  = "day";
-    public const string Degree  = "degree";
-    public const string Fahrenheit  = "fahrenheit";
-    public const string Foot  = "foot";
-    public const string Gallon  = "gallon";
-    public const string Gigabit  = "gigabit";
-    public const string Gigabyte  = "gigabyte";
-    public const string Gram  = "gram";
-    public const string Hectare  = "hectare";
-    public const string Hour  = "hour";
-    public const string Inch  = "inch";
-    public const string Kilobit  = "kilobit";
-    public const string Kilobyte  = "kilobyte";
-    public const string Kilogram  = "kilogram";
-    public const string Kilometer  = "kilometer";
-    public const string Liter  = "liter";
-    public const string Megabit  = "megabit";
-    public const string Megabyte  = "megabyte";
-    public const string Meter  = "meter";
-    public const string Mile  = "mile";
-    public const string Milliliter  = "milliliter";
-    public const string Millimeter  = "millimeter";
-    public const string Millisecond  = "millisecond";
-    public const string Minute  = "minute";
-    public const string Month  = "month";
-    public const string Ounce  = "ounce";
-    public const string Percent  = "percent";
-    public const string Petabyte  = "petabyte";
-    public const string Pound  = "pound";
-    public const string Second  = "second";
-    public const string Stone  = "stone";
-    public const string Terabit  = "terabit";
-    public const string Terabyte  = "terabyte";
-    public const string Week  = "week";
-    public const string Yard  = "yard";
-    public const string Year  = "year";
+    public const string Acre = "acre";
+    public const string Bit = "bit";
+    public const string Byte = "byte";
+    public const string Celsius = "celsius";
+    public const string Centimeter = "centimeter";
+    public const string Day = "day";
+    public const string Degree = "degree";
+    public const string Fahrenheit = "fahrenheit";
+    public const string Foot = "foot";
+    public const string Gallon = "gallon";
+    public const string Gigabit = "gigabit";
+    public const string Gigabyte = "gigabyte";
+    public const string Gram = "gram";
+    public const string Hectare = "hectare";
+    public const string Hour = "hour";
+    public const string Inch = "inch";
+    public const string Kilobit = "kilobit";
+    public const string Kilobyte = "kilobyte";
+    public const string Kilogram = "kilogram";
+    public const string Kilometer = "kilometer";
+    public const string Liter = "liter";
+    public const string Megabit = "megabit";
+    public const string Megabyte = "megabyte";
+    public const string Meter = "meter";
+    public const string Mile = "mile";
+    public const string Milliliter = "milliliter";
+    public const string Millimeter = "millimeter";
+    public const string Millisecond = "millisecond";
+    public const string Minute = "minute";
+    public const string Month = "month";
+    public const string Ounce = "ounce";
+    public const string Percent = "percent";
+    public const string Petabyte = "petabyte";
+    public const string Pound = "pound";
+    public const string Second = "second";
+    public const string Stone = "stone";
+    public const string Terabit = "terabit";
+    public const string Terabyte = "terabyte";
+    public const string Week = "week";
+    public const string Yard = "yard";
+    public const string Year = "year";
 }

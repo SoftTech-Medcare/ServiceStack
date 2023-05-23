@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
@@ -11,11 +9,11 @@ namespace ServiceStack
     public delegate object ObjectActivator(params object[] args);
 
     public delegate object MethodInvoker(object instance, params object[] args);
-    
+
     public delegate object StaticMethodInvoker(params object[] args);
-    
+
     public delegate void ActionInvoker(object instance, params object[] args);
-    
+
     public delegate void StaticActionInvoker(params object[] args);
 
     /// <summary>
@@ -128,8 +126,8 @@ namespace ServiceStack
             }
 
             var newExp = Expression.New(ctor, exprArgs);
-            var lambda = Expression.Lambda(typeof(ObjectActivator), 
-                Expression.Convert(newExp, typeof(object)), 
+            var lambda = Expression.Lambda(typeof(ObjectActivator),
+                Expression.Convert(newExp, typeof(object)),
                 paramArgs);
 
             var ctorFn = (ObjectActivator)lambda.Compile();
@@ -177,15 +175,15 @@ namespace ServiceStack
 
         private static string UseCorrectInvokerErrorMessage(MethodInfo method)
         {
-            var invokerName = method.ReturnType == typeof(void) 
-                ? (method.IsStatic ? nameof(GetStaticActionInvoker) : nameof(GetActionInvoker)) 
+            var invokerName = method.ReturnType == typeof(void)
+                ? (method.IsStatic ? nameof(GetStaticActionInvoker) : nameof(GetActionInvoker))
                 : (method.IsStatic ? nameof(GetStaticInvoker) : nameof(GetInvoker));
-            var invokerType = method.ReturnType == typeof(void) 
-                ? (method.IsStatic ? nameof(StaticMethodInvoker) : nameof(MethodInvoker)) 
+            var invokerType = method.ReturnType == typeof(void)
+                ? (method.IsStatic ? nameof(StaticMethodInvoker) : nameof(MethodInvoker))
                 : (method.IsStatic ? nameof(StaticActionInvoker) : nameof(ActionInvoker));
             var methodType = method.ReturnType == typeof(void)
                 ? (method.IsStatic ? "static void methods" : "instance void methods")
-                : (method.IsStatic ? "static methods" : "instance methods"); 
+                : (method.IsStatic ? "static methods" : "instance methods");
             return $"Use {invokerName} to create a {invokerType} for invoking {methodType}";
         }
 
@@ -193,22 +191,22 @@ namespace ServiceStack
         {
             if (method.IsStatic)
                 throw new NotSupportedException(UseCorrectInvokerErrorMessage(method));
-            
+
             var paramInstance = Expression.Parameter(typeof(object), "instance");
             var paramArgs = Expression.Parameter(typeof(object[]), "args");
 
             var exprArgs = CreateInvokerParamExpressions(method, paramArgs);
-            
-            var methodCall = method.DeclaringType.IsValueType 
+
+            var methodCall = method.DeclaringType.IsValueType
                 ? Expression.Call(Expression.Convert(paramInstance, method.DeclaringType), method, exprArgs)
                 : Expression.Call(Expression.TypeAs(paramInstance, method.DeclaringType), method, exprArgs);
 
             var convertToMethod = typeof(TypeExtensions).GetStaticMethod(nameof(ConvertToObject));
             var convertReturn = convertToMethod.MakeGenericMethod(method.ReturnType);
-            
-            var lambda = Expression.Lambda(typeof(MethodInvoker), 
-                Expression.Call(convertReturn, methodCall), 
-                paramInstance, 
+
+            var lambda = Expression.Lambda(typeof(MethodInvoker),
+                Expression.Call(convertReturn, methodCall),
+                paramInstance,
                 paramArgs);
 
             var fn = (MethodInvoker)lambda.Compile();
@@ -218,8 +216,19 @@ namespace ServiceStack
         public static StaticMethodInvoker GetStaticInvokerToCache(MethodInfo method)
         {
             if (!method.IsStatic || method.ReturnType == typeof(void))
+
+                /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+                Before:
+                                throw new NotSupportedException(UseCorrectInvokerErrorMessage(method));
+
+                            var paramArgs = Expression.Parameter(typeof(object[]), "args");
+                After:
+                                throw new NotSupportedException(UseCorrectInvokerErrorMessage(method));
+
+                            var paramArgs = Expression.Parameter(typeof(object[]), "args");
+                */
                 throw new NotSupportedException(UseCorrectInvokerErrorMessage(method));
-            
+
             var paramArgs = Expression.Parameter(typeof(object[]), "args");
 
             var exprArgs = CreateInvokerParamExpressions(method, paramArgs);
@@ -227,10 +236,21 @@ namespace ServiceStack
             var methodCall = Expression.Call(method, exprArgs);
 
             var convertToMethod = typeof(TypeExtensions).GetStaticMethod(nameof(ConvertToObject));
+
+            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+            Before:
+                        var convertReturn = convertToMethod.MakeGenericMethod(method.ReturnType);
+
+                        var lambda = Expression.Lambda(typeof(StaticMethodInvoker), 
+            After:
+                        var convertReturn = convertToMethod.MakeGenericMethod(method.ReturnType);
+
+                        var lambda = Expression.Lambda(typeof(StaticMethodInvoker), 
+            */
             var convertReturn = convertToMethod.MakeGenericMethod(method.ReturnType);
-            
-            var lambda = Expression.Lambda(typeof(StaticMethodInvoker), 
-                Expression.Call(convertReturn, methodCall), 
+
+            var lambda = Expression.Lambda(typeof(StaticMethodInvoker),
+                Expression.Call(convertReturn, methodCall),
                 paramArgs);
 
             var fn = (StaticMethodInvoker)lambda.Compile();
@@ -246,14 +266,14 @@ namespace ServiceStack
             var paramArgs = Expression.Parameter(typeof(object[]), "args");
 
             var exprArgs = CreateInvokerParamExpressions(method, paramArgs);
-            
-            var methodCall = method.DeclaringType.IsValueType 
+
+            var methodCall = method.DeclaringType.IsValueType
                 ? Expression.Call(Expression.Convert(paramInstance, method.DeclaringType), method, exprArgs)
                 : Expression.Call(Expression.TypeAs(paramInstance, method.DeclaringType), method, exprArgs);
 
-            var lambda = Expression.Lambda(typeof(ActionInvoker), 
-                methodCall, 
-                paramInstance, 
+            var lambda = Expression.Lambda(typeof(ActionInvoker),
+                methodCall,
+                paramInstance,
                 paramArgs);
 
             var fn = (ActionInvoker)lambda.Compile();
@@ -268,17 +288,17 @@ namespace ServiceStack
             var paramArgs = Expression.Parameter(typeof(object[]), "args");
 
             var exprArgs = CreateInvokerParamExpressions(method, paramArgs);
-            
+
             var methodCall = Expression.Call(method, exprArgs);
 
-            var lambda = Expression.Lambda(typeof(StaticActionInvoker), 
-                methodCall, 
+            var lambda = Expression.Lambda(typeof(StaticActionInvoker),
+                methodCall,
                 paramArgs);
 
             var fn = (StaticActionInvoker)lambda.Compile();
             return fn;
         }
-        
+
         static Dictionary<MethodInfo, MethodInvoker> invokerCache = new();
 
         /// <summary>
@@ -290,13 +310,13 @@ namespace ServiceStack
             {
                 if (method.ReturnType != typeof(void))
                     return method.GetInvoker();
-                
+
                 return method.GetActionInvoker();
             }
 
             if (method.ReturnType != typeof(void))
                 return method.GetStaticInvoker();
-            
+
             return method.GetStaticActionInvoker();
         }
 
@@ -321,7 +341,7 @@ namespace ServiceStack
 
             return fn;
         }
-        
+
         static Dictionary<MethodInfo, StaticMethodInvoker> staticInvokerCache = new();
 
         /// <summary>
@@ -345,7 +365,7 @@ namespace ServiceStack
 
             return fn;
         }
-        
+
         static Dictionary<MethodInfo, ActionInvoker> actionInvokerCache = new();
 
         /// <summary>
@@ -369,7 +389,7 @@ namespace ServiceStack
 
             return fn;
         }
-        
+
         static Dictionary<MethodInfo, StaticActionInvoker> staticActionInvokerCache = new();
 
         /// <summary>
@@ -398,7 +418,7 @@ namespace ServiceStack
         {
             if (value == null)
                 return default(T);
-            
+
             if (value is T variable)
                 return variable;
 
@@ -413,10 +433,10 @@ namespace ServiceStack
             return value;
         }
 
-        public static Func<object,object> GetPropertyAccessor(this Type type, PropertyInfo forProperty)
+        public static Func<object, object> GetPropertyAccessor(this Type type, PropertyInfo forProperty)
         {
             var lambda = CreatePropertyAccessorExpression(type, forProperty);
-            var fn = (Func<object,object>)lambda.Compile();
+            var fn = (Func<object, object>)lambda.Compile();
             return fn;
         }
 

@@ -3,5 +3,5 @@
 
 namespace ServiceStack.Commands
 {
-    public interface ICommandExec : ICommand<bool> {}
+    public interface ICommandExec : ICommand<bool> { }
 }

@@ -1,5 +1,5 @@
-using System;
 using JetBrains.Annotations;
+using System;
 
 namespace ServiceStack;
 
@@ -8,7 +8,7 @@ namespace ServiceStack;
 /// </summary>
 public class InfoException : Exception
 {
-    public InfoException([CanBeNull] string message) : base(message) {}
+    public InfoException([CanBeNull] string message) : base(message) { }
 
     public override string ToString() => Message;
 }

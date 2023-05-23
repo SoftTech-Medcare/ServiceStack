@@ -1,6 +1,8 @@
 ﻿//Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text;
+using ServiceStack.Text.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,8 +14,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ServiceStack.Text;
-using ServiceStack.Text.Common;
 
 namespace ServiceStack
 {
@@ -38,7 +38,7 @@ namespace ServiceStack
 
         public static ReflectionOptimizer Reflection => ReflectionOptimizer.Instance;
 
-        static PclExport() {}
+        static PclExport() { }
 
         public static bool ConfigureProvider(string typeName)
         {
@@ -116,7 +116,7 @@ namespace ServiceStack
         }
 
         public virtual void RegisterLicenseFromConfig()
-        {            
+        {
         }
 
         public virtual string GetEnvironmentVariable(string name)
@@ -255,12 +255,12 @@ namespace ServiceStack
             return Encoding.UTF8.GetBytes(str);
         }
 
-        public virtual Encoding GetUTF8Encoding(bool emitBom=false)
+        public virtual Encoding GetUTF8Encoding(bool emitBom = false)
         {
             return new UTF8Encoding(emitBom);
         }
 
-        
+
         [Obsolete("ReflectionOptimizer.CreateGetter")]
         public GetMemberDelegate CreateGetter(PropertyInfo propertyInfo) => ReflectionOptimizer.Instance.CreateGetter(propertyInfo);
 
@@ -272,7 +272,7 @@ namespace ServiceStack
 
         [Obsolete("ReflectionOptimizer.CreateSetter")]
         public SetMemberDelegate<T> CreateSetter<T>(PropertyInfo propertyInfo) => ReflectionOptimizer.Instance.CreateSetter<T>(propertyInfo);
-        
+
 
         [Obsolete("ReflectionOptimizer.CreateGetter")]
         public virtual GetMemberDelegate CreateGetter(FieldInfo fieldInfo) => ReflectionOptimizer.Instance.CreateGetter(fieldInfo);
@@ -286,7 +286,7 @@ namespace ServiceStack
         [Obsolete("ReflectionOptimizer.CreateSetter")]
         public virtual SetMemberDelegate<T> CreateSetter<T>(FieldInfo fieldInfo) => ReflectionOptimizer.Instance.CreateSetter<T>(fieldInfo);
 
-        
+
         public virtual bool InSameAssembly(Type t1, Type t2)
         {
             return t1.AssemblyQualifiedName != null && t1.AssemblyQualifiedName.Equals(t2.AssemblyQualifiedName);
@@ -346,7 +346,8 @@ namespace ServiceStack
 
 
         public virtual void InitHttpWebRequest(HttpWebRequest httpReq,
-            long? contentLength = null, bool allowAutoRedirect = true, bool keepAlive = true) {}
+            long? contentLength = null, bool allowAutoRedirect = true, bool keepAlive = true)
+        { }
 
         public virtual void CloseStream(Stream stream)
         {
@@ -368,14 +369,14 @@ namespace ServiceStack
             return licenseKeyText.ToLicenseKeyFallback();
         }
 
-        public virtual void BeginThreadAffinity() {}
-        public virtual void EndThreadAffinity() {}
+        public virtual void BeginThreadAffinity() { }
+        public virtual void EndThreadAffinity() { }
 
         public virtual DataContractAttribute GetWeakDataContract(Type type) => null;
         public virtual DataMemberAttribute GetWeakDataMember(PropertyInfo pi) => null;
         public virtual DataMemberAttribute GetWeakDataMember(FieldInfo pi) => null;
 
-        public virtual void RegisterForAot() {}
+        public virtual void RegisterForAot() { }
         public virtual string GetStackTrace() => null;
 
         public virtual Task WriteAndFlushAsync(Stream stream, byte[] bytes)

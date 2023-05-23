@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ServiceStack.Model;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Model;
 
 namespace ServiceStack.Redis
 {

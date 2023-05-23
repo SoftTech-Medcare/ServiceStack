@@ -10,11 +10,17 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using System;
-using System.Collections.Generic;
+After:
+using ServiceStack.Redis.Pipeline;
+using System;
+*/
+using ServiceStack.Redis.Pipeline;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Redis.Pipeline;
 
 namespace ServiceStack.Redis.Generic
 {
@@ -72,7 +78,7 @@ namespace ServiceStack.Redis.Generic
             return rc;
         }
 
-        private  ValueTask ExecAsync(CancellationToken token)
+        private ValueTask ExecAsync(CancellationToken token)
         {
             RedisClient.Exec();
             return RedisClient.FlushSendBufferAsync(token);

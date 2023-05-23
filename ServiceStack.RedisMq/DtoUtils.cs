@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using ServiceStack.Model;
+﻿using ServiceStack.Model;
 using ServiceStack.Text;
 using ServiceStack.Validation;
 using ServiceStack.Web;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace ServiceStack
 {
@@ -18,11 +18,11 @@ namespace ServiceStack
         public static ResponseStatus CreateResponseStatus(Exception ex, object request = null, bool debugMode = false)
         {
             var e = ex.UnwrapIfSingleException();
-            
+
             var responseStatus = (e is IResponseStatusConvertible customStatus
                 ? customStatus.ToResponseStatus()
                 : null) ?? ResponseStatusUtils.CreateResponseStatus(e.GetType().Name, e.Message);
-            
+
             if (responseStatus == null)
                 return null;
 
@@ -40,7 +40,7 @@ namespace ServiceStack
 #endif
                 // View stack trace in tests and on the client
                 var sb = StringBuilderCache.Allocate();
-                
+
                 if (request != null)
                 {
                     try
@@ -53,9 +53,9 @@ namespace ServiceStack
                         sb.AppendLine($"[{request.GetType().GetOperationName()}: {DateTime.UtcNow}]:\n[REQUEST: {requestEx.Message}]");
                     }
                 }
-                
+
                 sb.AppendLine(e.ToString());
-                
+
                 var innerMessages = new List<string>();
                 var innerEx = e.InnerException;
                 while (innerEx != null)
@@ -66,7 +66,7 @@ namespace ServiceStack
                     innerEx = innerEx.InnerException;
                 }
                 var stackTrace = StringBuilderCache.ReturnAndFree(sb);
-                
+
                 responseStatus.StackTrace = stackTrace;
                 if (innerMessages.Count > 0)
                 {
@@ -83,7 +83,7 @@ namespace ServiceStack
             return CreateResponseStatus(exception, requestDto);
         }
 
-        public static ResponseStatus ToResponseStatus(this ValidationError validationException) => 
+        public static ResponseStatus ToResponseStatus(this ValidationError validationException) =>
             ResponseStatusUtils.CreateResponseStatus(validationException.ErrorCode, validationException.Message, validationException.Violations);
 
         public static ResponseStatus ToResponseStatus(this ValidationErrorResult validationResult)

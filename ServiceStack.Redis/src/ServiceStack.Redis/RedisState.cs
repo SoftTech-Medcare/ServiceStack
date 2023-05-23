@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Redis
 {

@@ -28,7 +28,7 @@ namespace ServiceStack
 
         public static Dictionary<string, string> GetStats(this ICachedServiceClient client)
         {
-            return new Dictionary<string,string>
+            return new Dictionary<string, string>
             {
                 { "CacheCount", client.CacheCount + "" },
                 { "CacheHits", client.CacheHits + "" },

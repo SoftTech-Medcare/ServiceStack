@@ -1,10 +1,10 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-using System;
-using System.Collections.Generic;
 using ServiceStack.Text;
 using ServiceStack.Validation;
+using System;
+using System.Collections.Generic;
 using static System.String;
 
 namespace ServiceStack
@@ -21,9 +21,10 @@ namespace ServiceStack
         /// <param name="errorMessage">The error message.</param>
         /// <param name="validationErrors">The validation errors.</param>
         /// <returns></returns>
-        public static ResponseStatus CreateResponseStatus(string errorCode, string errorMessage, IEnumerable<ValidationErrorField> validationErrors=null)
+        public static ResponseStatus CreateResponseStatus(string errorCode, string errorMessage, IEnumerable<ValidationErrorField> validationErrors = null)
         {
-            var to = new ResponseStatus {
+            var to = new ResponseStatus
+            {
                 ErrorCode = errorCode,
                 Message = errorMessage,
                 Errors = new List<ResponseError>(),
@@ -32,7 +33,8 @@ namespace ServiceStack
             {
                 foreach (var validationError in validationErrors)
                 {
-                    var error = new ResponseError {
+                    var error = new ResponseError
+                    {
                         ErrorCode = validationError.ErrorCode,
                         FieldName = validationError.FieldName,
                         Message = validationError.ErrorMessage,

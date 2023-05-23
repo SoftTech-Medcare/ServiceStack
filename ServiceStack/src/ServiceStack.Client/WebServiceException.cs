@@ -1,12 +1,12 @@
 // Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-using System;
-using System.Collections.Generic;
-using System.Net;
 using ServiceStack.Logging;
 using ServiceStack.Model;
 using ServiceStack.Text;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace ServiceStack
 {
@@ -37,7 +37,7 @@ namespace ServiceStack
         public string ErrorMessage => ResponseStatus?.Message;
 
         public string ServerStackTrace => ResponseStatus?.StackTrace;
-        
+
         public object State { get; set; }
 
         private ResponseStatus responseStatus = null;
@@ -47,7 +47,7 @@ namespace ServiceStack
             {
                 if (responseStatus != null)
                     return responseStatus;
-                
+
                 if (this.ResponseDto is IHasResponseStatus hasResponseStatus)
                     responseStatus = hasResponseStatus.ResponseStatus;
 
@@ -56,7 +56,7 @@ namespace ServiceStack
                     if (responseStatus == null && ResponseDto != null)
                     {
                         var propertyInfo = this.ResponseDto.GetType().GetProperty(nameof(ResponseStatus));
-                        
+
                         var statusDto = propertyInfo?.GetProperty(this.ResponseDto);
                         responseStatus = ToBuiltInResponseStatus(statusDto);
 
@@ -85,7 +85,7 @@ namespace ServiceStack
                 {
                     if (log.IsDebugEnabled)
                         log.Debug($"Could not parse Error ResponseStatus {ResponseDto?.GetType().Name}", ex);
-                }        
+                }
 
                 return responseStatus;
             }
@@ -159,12 +159,12 @@ namespace ServiceStack
 
     public class RefreshTokenException : WebServiceException
     {
-        public RefreshTokenException(string message) : base(message) {}
+        public RefreshTokenException(string message) : base(message) { }
 
-        public RefreshTokenException(string message, Exception innerException) 
-            : base(message, innerException) {}
+        public RefreshTokenException(string message, Exception innerException)
+            : base(message, innerException) { }
 
-        public RefreshTokenException(WebServiceException webEx) 
+        public RefreshTokenException(WebServiceException webEx)
             : base(webEx.Message)
         {
             if (webEx == null)

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ServiceStack.Text;
+using ServiceStack.VirtualPath;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
-using ServiceStack.VirtualPath;
 
 namespace ServiceStack.IO
 {
@@ -72,7 +72,7 @@ namespace ServiceStack.IO
             stream.WriteTo(fs);
         }
 
-        public override async Task WriteFileAsync(string filePath, object contents, CancellationToken token=default)
+        public override async Task WriteFileAsync(string filePath, object contents, CancellationToken token = default)
         {
             if (contents == null)
                 return;
@@ -148,7 +148,7 @@ namespace ServiceStack.IO
                 Directory.Delete(realPath, recursive: true);
 #endif
         }
-        
+
         public static void DeleteDirectoryRecursive(string path)
         {
             //modified from https://stackoverflow.com/a/1703799/85785
@@ -167,7 +167,7 @@ namespace ServiceStack.IO
             {
                 Directory.Delete(path, true);
             }
-            catch (IOException) 
+            catch (IOException)
             {
                 Directory.Delete(path, true);
             }
@@ -177,14 +177,15 @@ namespace ServiceStack.IO
             }
         }
 
-        public static string AssertDirectory(string dirPath, int timeoutMs=1000)
+        public static string AssertDirectory(string dirPath, int timeoutMs = 1000)
         {
             if (string.IsNullOrEmpty(dirPath))
                 return null;
 
             try
             {
-                ExecUtils.RetryOnException(() => {
+                ExecUtils.RetryOnException(() =>
+                {
                     if (!Directory.Exists(dirPath))
                         Directory.CreateDirectory(dirPath);
                 }, TimeSpan.FromMilliseconds(timeoutMs));
@@ -204,6 +205,6 @@ namespace ServiceStack.IO
             }
             AssertDirectory(dirPath, timeoutMs);
         }
-        
+
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using ServiceStack.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack.Script
 {

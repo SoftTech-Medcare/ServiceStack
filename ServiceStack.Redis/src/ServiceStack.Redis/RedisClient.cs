@@ -10,6 +10,10 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Caching;
+using ServiceStack.Redis.Generic;
+using ServiceStack.Redis.Pipeline;
+using ServiceStack.Text;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -17,10 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ServiceStack.Redis.Generic;
-using ServiceStack.Redis.Pipeline;
-using ServiceStack.Text;
-using ServiceStack.Caching;
 
 namespace ServiceStack.Redis
 {
@@ -806,7 +806,7 @@ namespace ServiceStack.Redis
 
         public void DeleteAll<T>()
         {
-            DeleteAll<T>(0,RedisConfig.CommandKeysBatchSize);
+            DeleteAll<T>(0, RedisConfig.CommandKeysBatchSize);
         }
 
         private void DeleteAll<T>(ulong cursor, int batchSize)
@@ -822,11 +822,12 @@ namespace ServiceStack.Redis
                     this.RemoveEntry(urnKeys);
                 }
             } while (cursor != 0);
-            
+
             this.RemoveEntry(typeIdsSetKey);
         }
 
-        public RedisClient CloneClient() => new(Host, Port, Password, Db) {
+        public RedisClient CloneClient() => new(Host, Port, Password, Db)
+        {
             Username = Username,
             SendTimeout = SendTimeout,
             ReceiveTimeout = ReceiveTimeout
@@ -1023,7 +1024,7 @@ namespace ServiceStack.Redis
         {
             RemoveByPattern(RegexToGlob(pattern));
         }
-        
+
         private static string RegexToGlob(string regex)
             => regex.Replace(".*", "*").Replace(".+", "?");
 
@@ -1146,17 +1147,17 @@ namespace ServiceStack.Redis
         }
 
         internal RedisClient LimitAccessToThread(int originalThreadId, string originalStackTrace)
-        {            
+        {
             TrackThread = new TrackThread(originalThreadId, originalStackTrace);
             return this;
-        }        
+        }
     }
 
     internal struct TrackThread
     {
         public readonly int ThreadId;
         public readonly string StackTrace;
-        
+
         public TrackThread(int threadId, string stackTrace)
         {
             ThreadId = threadId;
@@ -1166,7 +1167,7 @@ namespace ServiceStack.Redis
 
     public class InvalidAccessException : RedisException
     {
-        public InvalidAccessException(int threadId, string stackTrace) 
+        public InvalidAccessException(int threadId, string stackTrace)
             : base($"The Current Thread #{Thread.CurrentThread.ManagedThreadId} is different to the original Thread #{threadId} that resolved this pooled client at: \n{stackTrace}") { }
     }
 

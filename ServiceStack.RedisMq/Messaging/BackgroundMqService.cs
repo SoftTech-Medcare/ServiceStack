@@ -1,11 +1,11 @@
-﻿using System;
+﻿using ServiceStack.Logging;
+using ServiceStack.Text;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack.Messaging
 {
@@ -42,7 +42,7 @@ namespace ServiceStack.Messaging
         {
             set => PriorityQueuesWhitelist = value ? null : TypeConstants.EmptyStringArray;
         }
-        
+
         /// <summary>
         /// Disable Priority MQ's for Background MQ 
         /// </summary>
@@ -64,7 +64,7 @@ namespace ServiceStack.Messaging
         {
             set => PublishResponsesWhitelist = value ? TypeConstants.EmptyStringArray : null;
         }
-        
+
         /// <summary>
         /// Opt-in to only publish .outq messages on this white list. 
         /// Publishes all responses by default.
@@ -92,7 +92,7 @@ namespace ServiceStack.Messaging
         private readonly BackgroundMqClient mqClient;
 
         public IMessageFactory MessageFactory { get; }
-        
+
         public List<Type> RegisteredTypes { get; }
 
         public BackgroundMqService()
@@ -110,7 +110,7 @@ namespace ServiceStack.Messaging
 
         public void RegisterHandler<T>(Func<IMessage<T>, object> processMessageFn)
         {
-            RegisterHandler(processMessageFn, null, noOfThreads:1);
+            RegisterHandler(processMessageFn, null, noOfThreads: 1);
         }
 
         public void RegisterHandler<T>(Func<IMessage<T>, object> processMessageFn, int noOfThreads)
@@ -124,7 +124,7 @@ namespace ServiceStack.Messaging
             RegisterHandler(processMessageFn, processExceptionEx, noOfThreads: 1);
         }
 
-        public void RegisterHandler<T>(Func<IMessage<T>, object> processMessageFn, 
+        public void RegisterHandler<T>(Func<IMessage<T>, object> processMessageFn,
             Action<IMessageHandler, IMessage<T>, Exception> processExceptionEx, int noOfThreads)
         {
             if (collectionsMap.ContainsKey(typeof(T)))
@@ -138,7 +138,8 @@ namespace ServiceStack.Messaging
             Func<IMessage<T>, object> processMessageFn,
             Action<IMessageHandler, IMessage<T>, Exception> processExceptionEx)
         {
-            return new MessageHandlerFactory<T>(this, processMessageFn, processExceptionEx) {
+            return new MessageHandlerFactory<T>(this, processMessageFn, processExceptionEx)
+            {
                 RequestFilter = this.RequestFilter,
                 ResponseFilter = this.ResponseFilter,
                 PublishResponsesWhitelist = PublishResponsesWhitelist,
@@ -150,7 +151,7 @@ namespace ServiceStack.Messaging
         public IMessageHandlerStats GetStats()
         {
             AssertNotDisposed();
-            
+
             lock (workers)
             {
                 var total = new MessageHandlerStats("ALL WORKERS");
@@ -210,7 +211,7 @@ namespace ServiceStack.Messaging
                 {
                     sb.AppendLine("LISTENING ON: ");
                     workers.Each(x => sb.AppendLine($"  {x.QueueName}"));
-    
+
                     sb.AppendLine();
                     sb.AppendLine("------------------------------");
                     sb.AppendLine().AppendLine("# COLLECTIONS:").AppendLine();
@@ -220,19 +221,19 @@ namespace ServiceStack.Messaging
                         sb.Append(x.GetDescription());
                         sb.AppendLine("------------------------------");
                     }
-    
+
                     sb.AppendLine().AppendLine("# WORKERS:").AppendLine();
                     sb.AppendLine("------------------------------");
                     for (var i = 0; i < workers.Length; i++)
                     {
                         var worker = workers[i];
-                        sb.AppendLine($"WORKER {i+1} on {worker.QueueName} ");
+                        sb.AppendLine($"WORKER {i + 1} on {worker.QueueName} ");
                         sb.Append(worker.GetStats());
                         sb.AppendLine("------------------------------");
                     }
                 }
             }
-                
+
             return StringBuilderCache.ReturnAndFree(sb);
         }
 
@@ -244,7 +245,7 @@ namespace ServiceStack.Messaging
         }
 
         private const string MessageQueueKey = "mq";
-        
+
         private static Type GetMessageType(IMessage message)
         {
             if (message.Body != null)
@@ -256,7 +257,7 @@ namespace ServiceStack.Messaging
         public void Publish(string queueName, IMessage message)
         {
             AssertNotDisposed();
-            
+
             var msgType = GetMessageType(message);
             if (collectionsMap.TryGetValue(msgType, out var collection))
             {
@@ -296,7 +297,7 @@ namespace ServiceStack.Messaging
 
             if (Log.IsDebugEnabled)
                 Log.Debug($"Sending '{queueName}' notification to {OutHandlers.Count} handler(s)");
-            
+
             OutHandlers.Each(x => x(queueName, message));
         }
 
@@ -306,9 +307,9 @@ namespace ServiceStack.Messaging
 
             if (string.IsNullOrEmpty(queueName))
                 throw new ArgumentNullException(nameof(queueName));
-            
+
             var waitFor = timeout.GetValueOrDefault(Timeout.InfiniteTimeSpan);
-            
+
             if (collectionsMap.TryGetValue(typeof(T), out var collection))
             {
                 if (collection.TryTake(queueName, out var msg, waitFor))
@@ -319,7 +320,7 @@ namespace ServiceStack.Messaging
             else
             {
                 var started = DateTime.UtcNow;
-    
+
                 if (Log.IsDebugEnabled)
                     Log.Debug($"Checking messages in unknownQueues for '{queueName}'");
 
@@ -330,7 +331,7 @@ namespace ServiceStack.Messaging
                         return (IMessage<T>)msg;
                     }
                     unknownQueues.Add(imsg); //re-add non matches back to queue
-    
+
                     if (DateTime.UtcNow - started > waitFor)
                         return null;
                 }
@@ -341,7 +342,7 @@ namespace ServiceStack.Messaging
         public IMessage<T> TryGet<T>(string queueName)
         {
             AssertNotDisposed();
-            
+
             if (collectionsMap.TryGetValue(typeof(T), out var collection))
             {
                 if (collection.TryTake(queueName, out var msg))
@@ -360,7 +361,7 @@ namespace ServiceStack.Messaging
         public void Start()
         {
             AssertNotDisposed();
-            
+
             if (workers == null)
             {
                 var workerBuilder = new List<IMqWorker>();
@@ -374,11 +375,11 @@ namespace ServiceStack.Messaging
                     if (PriorityQueuesWhitelist == null
                         || PriorityQueuesWhitelist.Any(x => x == msgType.Name))
                     {
-                        collection.ThreadCount.Times(i => 
+                        collection.ThreadCount.Times(i =>
                             workerBuilder.Add(collection.CreateWorker(queueNames.Priority)));
                     }
 
-                    collection.ThreadCount.Times(i => 
+                    collection.ThreadCount.Times(i =>
                         workerBuilder.Add(collection.CreateWorker(queueNames.In)));
                 }
 
@@ -390,7 +391,7 @@ namespace ServiceStack.Messaging
         public void Stop()
         {
             AssertNotDisposed();
-            
+
             IMqWorker[] captureWorkers = null;
             if (workers != null)
             {
@@ -408,7 +409,7 @@ namespace ServiceStack.Messaging
                 {
                     if (Log.IsDebugEnabled)
                         Log.Debug($"Stopping worker {worker.QueueName}...");
-                    
+
                     worker.Stop();
                 }
             }
@@ -429,7 +430,7 @@ namespace ServiceStack.Messaging
 
             if (Log.IsDebugEnabled)
                 Log.Debug($"Disposing {GetType().Name}...");
-                    
+
             Stop();
 
             isDisposed = true;
@@ -438,7 +439,7 @@ namespace ServiceStack.Messaging
             {
                 entry.Value.Dispose();
             }
-            
+
             collectionsMap.Clear();
         }
     }
@@ -446,7 +447,7 @@ namespace ServiceStack.Messaging
     public interface IMqCollection : IDisposable
     {
         int ThreadCount { get; }
-        
+
         Type QueueType { get; }
 
         IMqWorker CreateWorker(string mqName);
@@ -461,18 +462,18 @@ namespace ServiceStack.Messaging
 
         string GetDescription();
 
-        Dictionary<string,long> GetDescriptionMap();
+        Dictionary<string, long> GetDescriptionMap();
     }
- 
+
     public interface IMqWorker : IDisposable
     {
         string QueueName { get; }
-        
+
         void Stop();
 
         IMessageHandlerStats GetStats();
     }
- 
+
     public class BackgroundMqCollection<T> : IMqCollection
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(BackgroundMqWorker));
@@ -492,7 +493,7 @@ namespace ServiceStack.Messaging
 
         private long totalOutQMessagesAdded = 0;
         private long totalDlQMessagesAdded = 0;
-        
+
         public BackgroundMqCollection(BackgroundMqClient mqClient, IMessageHandlerFactory handlerFactory, int threadCount, int outQMaxSize)
         {
             MqClient = mqClient;
@@ -531,7 +532,7 @@ namespace ServiceStack.Messaging
                 {
                     Interlocked.Increment(ref totalMessagesAdded);
                 }
-                
+
                 if (Log.IsDebugEnabled)
                     Log.Debug($"Added new message to '{queueName}', total: {mq.Count}");
             }
@@ -547,29 +548,29 @@ namespace ServiceStack.Messaging
             if (queueMap.TryGetValue(queueName, out var mq))
             {
                 var ret = mq.TryTake(out message);
-                
+
                 if (ret && queueName != QueueNames<T>.Out && queueName != QueueNames<T>.Dlq)
                     Interlocked.Increment(ref totalMessagesTaken);
-                
+
                 if (Log.IsDebugEnabled)
                     Log.Debug($"Checking for next message in '{queueName}', found: {ret}, remaining: {mq.Count}");
-                
+
                 return ret;
             }
 
             message = null;
             return false;
         }
-        
+
         public bool TryTake(string queueName, out IMessage message, TimeSpan timeout)
         {
             if (queueMap.TryGetValue(queueName, out var mq))
             {
                 var ret = mq.TryTake(out message, timeout);
-                
+
                 if (ret && queueName != QueueNames<T>.Out && queueName != QueueNames<T>.Dlq)
                     Interlocked.Increment(ref totalMessagesTaken);
-                
+
                 if (Log.IsDebugEnabled)
                     Log.Debug($"Waiting for next message in '{queueName}', found: {ret}, remaining: {mq.Count}");
 
@@ -587,7 +588,7 @@ namespace ServiceStack.Messaging
                 if (Log.IsDebugEnabled)
                     Log.Debug($"Clearing '{queueName}' of {mq.Count} item(s)");
 
-                while (mq.TryTake(out _)){}
+                while (mq.TryTake(out _)) { }
             }
         }
 
@@ -595,11 +596,11 @@ namespace ServiceStack.Messaging
         {
             if (Log.IsDebugEnabled)
                 Log.Debug("Creating BackgroundMqWorker for: " + mqName);
-            
+
             var mq = queueMap[mqName];
             return new BackgroundMqWorker(mqName, mq, MqClient, HandlerFactory.CreateMessageHandler());
         }
-        
+
         public string GetDescription()
         {
             var sb = StringBuilderCache.Allocate().AppendLine($"INFO {QueueType.Name}:")
@@ -613,19 +614,20 @@ namespace ServiceStack.Messaging
                 .AppendLine("QUEUES:");
 
             var longestKey = queueMap.Keys.Map(x => x.Length).OrderByDescending(x => x).FirstOrDefault();
-            
+
             foreach (var entry in queueMap)
             {
                 var keyWithPadding = $"{entry.Key}:".PadRight(Math.Max(longestKey + 1, 31), ' ');
                 sb.AppendLine($"  {keyWithPadding} {entry.Value.Count} message(s)");
             }
-            
+
             return StringBuilderCache.ReturnAndFree(sb);
         }
 
         public Dictionary<string, long> GetDescriptionMap()
         {
-            var to = new Dictionary<string,long> {
+            var to = new Dictionary<string, long>
+            {
                 [nameof(ThreadCount)] = ThreadCount,
                 ["TotalMessagesAdded"] = Interlocked.Read(ref totalMessagesAdded),
                 ["TotalMessagesTaken"] = Interlocked.Read(ref totalMessagesTaken),
@@ -640,7 +642,7 @@ namespace ServiceStack.Messaging
 
             return to;
         }
-        
+
         //Called when AppHost is disposing
         public void Dispose()
         {
@@ -649,7 +651,7 @@ namespace ServiceStack.Messaging
             foreach (var entry in queueMap)
             {
                 entry.Value.Dispose();
-            }            
+            }
             queueMap.Clear();
         }
     }
@@ -663,10 +665,10 @@ namespace ServiceStack.Messaging
         private readonly BlockingCollection<IMessage> queue;
         private readonly BackgroundMqClient mqClient;
         private readonly IMessageHandler handler;
-        
+
         public string QueueName { get; }
 
-        public BackgroundMqWorker(string queueName, BlockingCollection<IMessage> queue, BackgroundMqClient mqClient, 
+        public BackgroundMqWorker(string queueName, BlockingCollection<IMessage> queue, BackgroundMqClient mqClient,
             IMessageHandler handler)
         {
             QueueName = queueName;
@@ -688,7 +690,7 @@ namespace ServiceStack.Messaging
                     {
                         if (Log.IsDebugEnabled)
                             Log.Debug($"[{QueueName}] ProcessMessage(): {item.Id}");
-                        
+
                         handler.ProcessMessage(mqClient, item);
                     }
                     catch (Exception ex)
@@ -697,7 +699,7 @@ namespace ServiceStack.Messaging
                     }
                 }
             }
-            
+
             return TypeConstants.EmptyTask;
         }
 
@@ -713,27 +715,27 @@ namespace ServiceStack.Messaging
 
         public void Dispose()
         {
-            new IDisposable[]{ cts, bgTask }.Dispose();
+            new IDisposable[] { cts, bgTask }.Dispose();
             cts = null;
             bgTask = null;
         }
     }
-    
+
     public class BackgroundMqMessageFactory : IMessageFactory
     {
         private readonly BackgroundMqClient mqClient;
         public BackgroundMqMessageFactory(BackgroundMqClient mqClient) => this.mqClient = mqClient;
         public IMessageQueueClient CreateMessageQueueClient() => mqClient;
         public IMessageProducer CreateMessageProducer() => mqClient;
-        public void Dispose() {}
+        public void Dispose() { }
     }
 
     public class BackgroundMqClient : IMessageProducer, IMessageQueueClient, IOneWayClient
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(BackgroundMqClient));
-        
+
         private readonly BackgroundMqService mqService;
-        
+
         public BackgroundMqClient(BackgroundMqService mqService)
         {
             this.mqService = mqService;
@@ -800,7 +802,7 @@ namespace ServiceStack.Messaging
         {
             return QueueNames.GetTempQueueName();
         }
-        
+
         public void SendOneWay(object requestDto)
         {
             Publish(MessageFactory.Create(requestDto));
@@ -820,6 +822,6 @@ namespace ServiceStack.Messaging
             }
         }
 
-        public void Dispose() {}
+        public void Dispose() { }
     }
 }

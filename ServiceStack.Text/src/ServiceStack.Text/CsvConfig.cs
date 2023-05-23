@@ -1,7 +1,7 @@
+using ServiceStack.Text.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using ServiceStack.Text.Common;
 
 namespace ServiceStack.Text
 {
@@ -144,7 +144,7 @@ namespace ServiceStack.Text
                 customHeadersMap = new Dictionary<string, string>();
                 foreach (var pi in propertyInfos)
                 {
-                    var getMethod = pi.GetGetMethod(nonPublic:true);
+                    var getMethod = pi.GetGetMethod(nonPublic: true);
                     if (getMethod == null) continue;
 
                     var oValue = getMethod.Invoke(value, TypeConstants.EmptyObjectArray);

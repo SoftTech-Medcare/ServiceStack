@@ -1,10 +1,10 @@
 #if NET6_0_OR_GREATER
 
+using ServiceStack.Web;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using ServiceStack.Web;
 
 namespace ServiceStack;
 
@@ -30,7 +30,8 @@ public static class ClientDiagnostics
             httpReq.Options.Set(Diagnostics.Keys.HttpRequestOperationId, operationId);
             httpReq.Options.Set(Diagnostics.Keys.HttpRequestRequest, request);
             httpReq.Options.Set(Diagnostics.Keys.HttpRequestResponseType, responseType);
-            listener.Write(Diagnostics.Events.Client.WriteRequestBefore, new HttpClientDiagnosticEvent {
+            listener.Write(Diagnostics.Events.Client.WriteRequestBefore, new HttpClientDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.Client.WriteRequestBefore,
                 OperationId = operationId,
                 Operation = operation,
@@ -48,7 +49,8 @@ public static class ClientDiagnostics
     {
         if (listener.IsEnabled(Diagnostics.Events.Client.WriteRequestAfter))
         {
-            listener.Write(Diagnostics.Events.Client.WriteRequestAfter, new HttpClientDiagnosticEvent {
+            listener.Write(Diagnostics.Events.Client.WriteRequestAfter, new HttpClientDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.Client.WriteRequestAfter,
                 OperationId = operationId,
                 Operation = operation,
@@ -63,7 +65,8 @@ public static class ClientDiagnostics
     {
         if (listener.IsEnabled(Diagnostics.Events.Client.WriteRequestError))
         {
-            listener.Write(Diagnostics.Events.Client.WriteRequestError, new HttpClientDiagnosticEvent {
+            listener.Write(Diagnostics.Events.Client.WriteRequestError, new HttpClientDiagnosticEvent
+            {
                 EventType = Diagnostics.Events.Client.WriteRequestError,
                 OperationId = operationId,
                 Operation = operation,

@@ -6,6 +6,6 @@ namespace ServiceStack.Redis
     {
         public byte[] Data { get; set; }
 
-        public List<RedisData> Children { get; set; } 
+        public List<RedisData> Children { get; set; }
     }
 }

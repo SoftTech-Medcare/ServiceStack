@@ -1,17 +1,17 @@
 #if (NETCORE || NET6_0_OR_GREATER) && !NETSTANDARD2_0
 
-using System;
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
+using System;
 
-namespace ServiceStack 
+namespace ServiceStack
 {
     public class Net6PclExport : NetStandardPclExport
     {
         public Net6PclExport()
         {
             this.PlatformName = Platforms.Net6;
-            ReflectionOptimizer.Instance = EmitReflectionOptimizer.Provider;            
+            ReflectionOptimizer.Instance = EmitReflectionOptimizer.Provider;
         }
 
         public override ParseStringDelegate GetJsReaderParseMethod<TSerializer>(Type type)
@@ -32,7 +32,7 @@ namespace ServiceStack
             {
                 return DeserializeDynamic<TSerializer>.ParseStringSpan;
             }
-            
+
             return null;
         }
     }

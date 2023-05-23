@@ -9,12 +9,12 @@
 //
 // Licensed under the same terms of ServiceStack.
 //
+using ServiceStack.Data;
+using ServiceStack.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Data;
-using ServiceStack.Model;
 
 namespace ServiceStack.Redis.Generic
 {

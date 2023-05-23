@@ -1,7 +1,7 @@
+using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ServiceStack.DataAnnotations;
 
 namespace ServiceStack;
 
@@ -13,7 +13,7 @@ public interface IValidateRule
     string Message { get; set; }
 }
 
-public class ValidateRule : IValidateRule 
+public class ValidateRule : IValidateRule
 {
     public string Validator { get; set; }
     public string Condition { get; set; }
@@ -45,24 +45,24 @@ public class ValidationRule : ValidateRule
 {
     [AutoIncrement]
     public int Id { get; set; }
-        
+
     /// <summary>
     /// The name of the Type 
     /// </summary>
     [Required]
     public string Type { get; set; }
-        
+
     /// <summary>
     /// The property field for Property Validators, null for Type Validators 
     /// </summary>
     public string Field { get; set; }
-        
+
     public string CreatedBy { get; set; }
     public DateTime? CreatedDate { get; set; }
-        
+
     public string ModifiedBy { get; set; }
     public DateTime? ModifiedDate { get; set; }
-        
+
     public string SuspendedBy { get; set; }
     [Index]
     public DateTime? SuspendedDate { get; set; }
@@ -84,7 +84,7 @@ public class ValidationRule : ValidateRule
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((ValidationRule) obj);
+        return Equals((ValidationRule)obj);
     }
 
     public override int GetHashCode()

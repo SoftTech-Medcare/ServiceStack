@@ -46,14 +46,14 @@ namespace ServiceStack
 
     public interface IQueryData<From> : IQueryData { }
     public interface IQueryData<From, Into> : IQueryData { }
-    
-    public interface ICrud {}
-    public interface ICreateDb<Table> : ICrud {}
-    public interface IUpdateDb<Table> : ICrud {}
-    public interface IPatchDb<Table> : ICrud {}
-    public interface IDeleteDb<Table> : ICrud {}
-    public interface ISaveDb<Table> : ICrud {}
-    
+
+    public interface ICrud { }
+    public interface ICreateDb<Table> : ICrud { }
+    public interface IUpdateDb<Table> : ICrud { }
+    public interface IPatchDb<Table> : ICrud { }
+    public interface IDeleteDb<Table> : ICrud { }
+    public interface ISaveDb<Table> : ICrud { }
+
     public interface IJoin { }
     public interface IJoin<Source, Join1> : IJoin { }
     public interface IJoin<Source, Join1, Join2> : IJoin { }
@@ -74,23 +74,23 @@ namespace ServiceStack
         /// Defaults to 'And'
         /// </summary>
         Default = 0,
-        
+
         /// <summary>
         /// Apply filter to query using 'AND' to further filter resultset
         /// </summary>
         And = 1,
- 
+
         /// <summary>
         /// Apply inclusive filter to query using 'OR' to further expand resultset
         /// </summary>
         Or = 2,
-        
+
         /// <summary>
         /// Ensure filter is always applied even if other 'OR' filters are included (uses OrmLite's Ensure API)
         /// </summary>
         Ensure = 3,
     }
-    
+
     /// <summary>
     /// Type of Value used in the SQL Template
     /// </summary>
@@ -100,12 +100,12 @@ namespace ServiceStack
         /// Standard SQL Condition, e.g: '{Field} = {Value}'
         /// </summary>
         Single = 0,
-        
+
         /// <summary>
         /// SQL Template uses {ValueN} e.g. '{Field} BETWEEN {Value1} AND {Value2}'
         /// </summary>
         Multiple = 1,
-        
+
         /// <summary>
         /// SQL Template uses collection parameter, e.g: '{Field} IN ({Values})'
         /// </summary>
@@ -154,35 +154,35 @@ namespace ServiceStack
         /// Should this filter be applied with 'AND' or 'OR' or always filtered with 'Ensure' 
         /// </summary>
         public QueryTerm Term { get; set; }
-        
+
         /// <summary>
         /// For Simple Filters to change Operand used in default Template, e.g. For Greater Than: Operand=">"
         /// </summary>
         public string Operand { get; set; }
-        
+
         /// <summary>
         /// Use a Custom SQL Filter, Use <see cref="SqlTemplate"/> for common templates, e.g: Template=SqlTemplate.IsNotNull
         /// </summary>
         public string Template { get; set; }
-        
+
         /// <summary>
         /// The name of the DB Field to query
         /// </summary>
         public string Field { get; set; }
-        
+
         /// <summary>
         /// Value modifier, e.g. implement StartsWith with 'Name LIKE {Value}', ValueFormat="{0}%"
         /// </summary>
         public string ValueFormat { get; set; }
-        
+
         /// <summary>
         /// Type of Value used in the SQL Template
         /// </summary>
         public ValueStyle ValueStyle { get; set; }
-        
+
         public int ValueArity { get; set; }
     }
-    
+
     /// <summary>
     /// Apply additional pre-configured filters to AutoQuery APIs
     /// </summary>
@@ -193,28 +193,28 @@ namespace ServiceStack
         /// Should this filter be applied with 'AND' or 'OR' or always filtered with 'Ensure' 
         /// </summary>
         public QueryTerm Term { get; set; }
-        
+
         /// <summary>
         /// The name of the DB Field to query
         /// </summary>
         public string Field { get; set; }
-        
+
         /// <summary>
         /// For Simple Filters to change Operand used in default Template, e.g. For Greater Than: Operand=">"
         /// </summary>
         public string Operand { get; set; }
-        
+
         /// <summary>
         /// Use a Custom SQL Filter, Use <see cref="SqlTemplate"/> for common templates, e.g: Template=SqlTemplate.IsNotNull
         /// </summary>
         public string Template { get; set; }
-        
+
         /// <summary>
         /// Value modifier, e.g. implement StartsWith with 'Name LIKE {Value}', ValueFormat="{0}%"
         /// </summary>
         public string ValueFormat { get; set; }
 
-        public AutoFilterAttribute() {}
+        public AutoFilterAttribute() { }
         public AutoFilterAttribute(string field) => Field = field ?? throw new ArgumentNullException(nameof(field));
         public AutoFilterAttribute(string field, string template)
         {
@@ -239,14 +239,14 @@ namespace ServiceStack
     /// </summary>
     public static class SqlTemplate
     {
-        public const string IsNull =             "{Field} IS NULL";
-        public const string IsNotNull =          "{Field} IS NOT NULL";
+        public const string IsNull = "{Field} IS NULL";
+        public const string IsNotNull = "{Field} IS NOT NULL";
         public const string GreaterThanOrEqual = "{Field} >= {Value}";
-        public const string GreaterThan =        "{Field} > {Value}";
-        public const string LessThan =           "{Field} < {Value}";
-        public const string LessThanOrEqual =    "{Field} <= {Value}";
-        public const string NotEqual =           "{Field} <> {Value}";
-        public const string CaseSensitiveLike =  "{Field} LIKE {Value}";
+        public const string GreaterThan = "{Field} > {Value}";
+        public const string LessThan = "{Field} < {Value}";
+        public const string LessThanOrEqual = "{Field} <= {Value}";
+        public const string NotEqual = "{Field} <> {Value}";
+        public const string CaseSensitiveLike = "{Field} LIKE {Value}";
         public const string CaseInsensitiveLike = "UPPER({Field}) LIKE UPPER({Value})";
     }
 
@@ -325,14 +325,14 @@ namespace ServiceStack
         [DataMember(Order = 5)]
         public virtual ResponseStatus ResponseStatus { get; set; }
     }
-    
+
     /* AutoCrud */
     public enum AutoUpdateStyle
     {
         Always,
         NonDefaults,
     }
-    
+
     /// <summary>
     /// Change the update behavior to only update non-default values
     /// </summary>
@@ -342,7 +342,7 @@ namespace ServiceStack
         public AutoUpdateStyle Style { get; set; }
         public AutoUpdateAttribute(AutoUpdateStyle style) => Style = style;
     }
-    
+
     /// <summary>
     /// Specify to fallback default values when not provided
     /// </summary>
@@ -350,7 +350,7 @@ namespace ServiceStack
     public class AutoDefaultAttribute : ScriptValueAttribute
     {
     }
-    
+
     /// <summary>
     /// Map System Input properties to Data Model fields
     /// </summary>
@@ -359,9 +359,9 @@ namespace ServiceStack
     {
         public string To { get; set; }
         public AutoMapAttribute(string to) => To = to ?? throw new ArgumentNullException(nameof(to));
-        public AutoMapAttribute() {}
+        public AutoMapAttribute() { }
     }
-    
+
     /// <summary>
     /// Populate data models with generic user & system info
     /// </summary>
@@ -372,16 +372,16 @@ namespace ServiceStack
         /// Name of Class Property to Populate
         /// </summary>
         public string Field { get; set; }
-        
+
         public AutoPopulateAttribute(string field) => Field = field ?? throw new ArgumentNullException(nameof(field));
-        public AutoPopulateAttribute() {}
+        public AutoPopulateAttribute() { }
     }
-    
+
     /// <summary>
     /// Ignore mapping Request DTO property to Data Model
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class AutoIgnoreAttribute : AttributeBase {}
+    public class AutoIgnoreAttribute : AttributeBase { }
 
     /// <summary>
     /// Available built-in operations for AutoQuery Crud Services, executed by
@@ -393,29 +393,29 @@ namespace ServiceStack
         /// Auto Filter SoftDeleted Results
         /// </summary>
         public const string AuditQuery = nameof(AuditQuery);
-        
+
         /// <summary>
         /// Auto Populate CreatedDate, CreatedBy, ModifiedDate & ModifiedBy fields
         /// </summary>
         public const string AuditCreate = nameof(AuditCreate);
-        
+
         /// <summary>
         /// Auto Populate ModifiedDate & ModifiedBy fields
         /// </summary>
         public const string AuditModify = nameof(AuditModify);
-        
+
         /// <summary>
         /// Auto Populate DeletedDate & DeletedBy fields
         /// </summary>
         public const string AuditDelete = nameof(AuditDelete);
-        
+
         /// <summary>
         /// Auto Populate DeletedDate & DeletedBy fields
         /// and changes IDeleteDb operation to Update
         /// </summary>
         public const string AuditSoftDelete = nameof(AuditSoftDelete);
     }
-    
+
     /// <summary>
     /// Apply generic behavior to AutoQuery Operations
     /// </summary>
@@ -426,7 +426,7 @@ namespace ServiceStack
         /// The name of the behavior you want to apply
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
         /// Any additional args to define the behavior
         /// </summary>
@@ -438,5 +438,5 @@ namespace ServiceStack
             Args = args;
         }
     }
-    
+
 }

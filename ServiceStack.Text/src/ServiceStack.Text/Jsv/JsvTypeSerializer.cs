@@ -1,12 +1,12 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Json;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Json;
 
 namespace ServiceStack.Text.Jsv
 {
@@ -239,7 +239,7 @@ namespace ServiceStack.Text.Jsv
 
         public void WriteEnum(TextWriter writer, object enumValue)
         {
-            if (enumValue == null) 
+            if (enumValue == null)
                 return;
             var serializedValue = CachedTypeInfo.Get(enumValue.GetType()).EnumInfo.GetSerializedValue(enumValue);
             if (serializedValue is string strEnum)
@@ -407,7 +407,7 @@ namespace ServiceStack.Text.Jsv
                 i++;
             else if (Env.StrictMode) throw new Exception(
                 $"Expected '{JsWriter.ItemSeperator}' or '{JsWriter.MapEndChar}'");
-            
+
             return success;
         }
 
@@ -422,11 +422,11 @@ namespace ServiceStack.Text.Jsv
                 i++;
             else if (Env.StrictMode) throw new Exception(
                 $"Expected '{JsWriter.ItemSeperator}' or '{JsWriter.MapEndChar}'");
-            
+
             return success;
         }
 
-        public void EatWhitespace(string value, ref int i) {}
+        public void EatWhitespace(string value, ref int i) { }
 
         public void EatWhitespace(ReadOnlySpan<char> value, ref int i) { }
 

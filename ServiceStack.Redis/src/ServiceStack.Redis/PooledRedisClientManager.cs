@@ -10,13 +10,13 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Caching;
+using ServiceStack.Logging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ServiceStack.Caching;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -41,7 +41,7 @@ namespace ServiceStack.Redis
         public int? SocketReceiveTimeout { get; set; }
         public int? IdleTimeOutSecs { get; set; }
         public bool AssertAccessOnlyOnSameThread { get; set; }
-        
+
         /// <summary>
         /// Gets or sets object key prefix.
         /// </summary>
@@ -317,7 +317,7 @@ namespace ServiceStack.Redis
                 this.DeactivatedAt = DateTime.UtcNow;
             }
 
-            public override void Dispose() {}
+            public override void Dispose() { }
         }
 
         static readonly ReservedClient reservedSlot = new ReservedClient();
@@ -501,7 +501,7 @@ namespace ServiceStack.Redis
         private RedisClient InitNewClient(RedisClient client)
         {
             client.Id = Interlocked.Increment(ref RedisClientCounter);
-            client.Activate(newClient:true);
+            client.Activate(newClient: true);
             client.ClientManager = this;
             client.ConnectionFilter = ConnectionFilter;
             if (NamespacePrefix != null)
@@ -588,12 +588,12 @@ namespace ServiceStack.Redis
             //Client not found in any pool, pulse both pools.
             lock (readClients)
             {
-               PulseAllRead();
+                PulseAllRead();
             }
 
             lock (writeClients)
             {
-               PulseAllWrite();
+                PulseAllWrite();
             }
         }
 

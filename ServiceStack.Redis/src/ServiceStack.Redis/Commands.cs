@@ -1,5 +1,9 @@
-using System;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
 using ServiceStack.Text;
+After:
+using System;
+*/
 
 namespace ServiceStack.Redis
 {

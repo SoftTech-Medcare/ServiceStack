@@ -1,14 +1,13 @@
 #if !LITE
+using ServiceStack.Text;
 using System;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Xml;
-using ServiceStack.Text;
 
 namespace ServiceStack.Serialization
 {
-    public partial class DataContractSerializer : IStringSerializer 
+    public partial class DataContractSerializer : IStringSerializer
     {
         /// <summary>
         /// Default MaxStringContentLength is 8k, and throws an exception when reached

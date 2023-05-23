@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 
 namespace ServiceStack.Redis.Support.Queue.Implementation
@@ -17,7 +16,7 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
         }
 
 
-        public RedisSimpleWorkQueue(int maxReadPoolSize, int maxWritePoolSize, string host, int port, string queueName )
+        public RedisSimpleWorkQueue(int maxReadPoolSize, int maxWritePoolSize, string host, int port, string queueName)
             : base(maxReadPoolSize, maxWritePoolSize, host, port, queueName)
         {
         }
@@ -56,13 +55,13 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                     for (var i = 0; i < maxBatchSize; ++i)
                     {
                         pipe.QueueCommand(
-                            r => ((RedisNativeClient) r).LPop(key),
+                            r => ((RedisNativeClient)r).LPop(key),
                             x =>
                                 {
                                     if (x != null)
-                                        dequeueItems.Add((T) client.Deserialize(x));
+                                        dequeueItems.Add((T)client.Deserialize(x));
                                 });
-                        
+
                     }
                     pipe.Flush();
 

@@ -6,7 +6,7 @@
         bool IsFile { get; }
 
         IVirtualFile GetFile();
-        
+
         IVirtualDirectory GetDirectory();
     }
 }

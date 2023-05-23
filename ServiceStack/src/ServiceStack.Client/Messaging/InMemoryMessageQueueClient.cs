@@ -99,7 +99,7 @@ namespace ServiceStack.Messaging
 
         public IMessage<T> CreateMessage<T>(object mqResponse)
         {
-            return (IMessage<T>) mqResponse;
+            return (IMessage<T>)mqResponse;
         }
 
 

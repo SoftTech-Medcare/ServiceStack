@@ -1,7 +1,7 @@
-using System.IO;
 using ServiceStack.Serialization;
 using ServiceStack.Text;
 using ServiceStack.Web;
+using System.IO;
 
 namespace ServiceStack
 {
@@ -10,27 +10,27 @@ namespace ServiceStack
     {
         public override string Format => "json";
 
-        public JsonServiceClient() {}
+        public JsonServiceClient() { }
 
-        public JsonServiceClient(string baseUri) 
+        public JsonServiceClient(string baseUri)
         {
             SetBaseUri(baseUri);
         }
 
-        public JsonServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri) 
-            : base(syncReplyBaseUri, asyncOneWayBaseUri) {}
+        public JsonServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri)
+            : base(syncReplyBaseUri, asyncOneWayBaseUri) { }
 
         public override string ContentType => $"application/{Format}";
 
-        public override void SerializeToStream(IRequest req, object request, Stream stream) => 
+        public override void SerializeToStream(IRequest req, object request, Stream stream) =>
             JsonDataContractSerializer.Instance.SerializeToStream(request, stream);
 
-        public override T DeserializeFromStream<T>(Stream stream) => 
+        public override T DeserializeFromStream<T>(Stream stream) =>
             JsonDataContractSerializer.Instance.DeserializeFromStream<T>(stream);
 
         public override StreamDeserializerDelegate StreamDeserializer => JsonSerializer.DeserializeFromStream;
 
-        internal static JsonObject ParseObject(string json) => 
+        internal static JsonObject ParseObject(string json) =>
             JsonObject.Parse(json);
     }
 }

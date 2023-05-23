@@ -12,7 +12,7 @@ namespace ServiceStack
         [DataMember(Order = 1)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-    
+
     [DataContract]
     public class IdResponse : IHasResponseStatus
     {
@@ -22,7 +22,7 @@ namespace ServiceStack
         [DataMember(Order = 2)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-    
+
     [DataContract]
     public class StringsResponse : IHasResponseStatus, IMeta
     {
@@ -35,7 +35,7 @@ namespace ServiceStack
         [DataMember(Order = 3)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-     
+
     [DataContract]
     public class StringResponse : IHasResponseStatus, IMeta
     {
@@ -48,7 +48,7 @@ namespace ServiceStack
         [DataMember(Order = 3)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-    
+
     [DataContract]
     public class IntResponse : IHasResponseStatus, IMeta
     {
@@ -61,7 +61,7 @@ namespace ServiceStack
         [DataMember(Order = 3)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-     
+
     [DataContract]
     public class BoolResponse : IHasResponseStatus, IMeta
     {
@@ -74,5 +74,5 @@ namespace ServiceStack
         [DataMember(Order = 3)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-   
+
 }

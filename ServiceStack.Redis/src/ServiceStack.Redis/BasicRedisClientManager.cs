@@ -10,12 +10,12 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Logging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -27,7 +27,7 @@ namespace ServiceStack.Redis
         : IRedisClientsManager, IRedisFailover, IHasRedisResolver, IHasStats
     {
         public static ILog Log = LogManager.GetLogger(typeof(BasicRedisClientManager));
-        
+
         public int? ConnectTimeout { get; set; }
         public int? SocketSendTimeout { get; set; }
         public int? SocketReceiveTimeout { get; set; }
@@ -42,7 +42,7 @@ namespace ServiceStack.Redis
 
         protected int RedisClientCounter = 0;
 
-        public Func<RedisEndpoint, RedisClient> ClientFactory { get; set; } 
+        public Func<RedisEndpoint, RedisClient> ClientFactory { get; set; }
 
         public long? Db { get; private set; }
 
@@ -72,7 +72,7 @@ namespace ServiceStack.Redis
             IEnumerable<string> readWriteHosts,
             IEnumerable<string> readOnlyHosts,
             long? initialDb = null)
-            : this(readWriteHosts.ToRedisEndPoints(), readOnlyHosts.ToRedisEndPoints(), initialDb) {}
+            : this(readWriteHosts.ToRedisEndPoints(), readOnlyHosts.ToRedisEndPoints(), initialDb) { }
 
         public BasicRedisClientManager(
             IEnumerable<RedisEndpoint> readWriteHosts,
@@ -164,7 +164,7 @@ namespace ServiceStack.Redis
             var replicas = readOnlyHosts.ToList();
 
             Log.Info($"FailoverTo: {string.Join(",", masters)} : {string.Join(",", replicas)} Total: {RedisState.TotalFailovers}");
-            
+
             lock (this)
             {
                 RedisResolver.ResetMasters(masters);

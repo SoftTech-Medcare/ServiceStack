@@ -8,7 +8,7 @@ public class LazyLogger : ILog
 
     public LazyLogger(Type type) => Type = type;
     public bool IsDebugEnabled => LogManager.GetLogger(Type).IsDebugEnabled;
-    
+
     public void Debug(object message) => LogManager.LogFactory.GetLogger(Type).Debug(message);
 
     public void Debug(object message, Exception exception) => LogManager.LogFactory.GetLogger(Type).Debug(message, exception);

@@ -1,5 +1,5 @@
-using System;
 using ServiceStack.Model;
+using System;
 
 namespace ServiceStack.Messaging
 {
@@ -23,7 +23,7 @@ namespace ServiceStack.Messaging
         string Tag { get; set; }
 
         object Body { get; set; }
-        
+
         string TraceId { get; set; }
     }
 

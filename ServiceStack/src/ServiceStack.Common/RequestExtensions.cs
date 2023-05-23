@@ -1,8 +1,21 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+After:
+using ServiceStack.Text;
+*/
+using ServiceStack.Web;
+using System;
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using ServiceStack.Text;
 using ServiceStack.Web;
+After:
+using System.Collections.Generic;
+using System.Collections.Specialized;
+*/
+
 
 namespace ServiceStack
 {
@@ -15,7 +28,7 @@ namespace ServiceStack
         {
             if (request == null)
                 return new();
-            
+
             var map = new Dictionary<string, string>();
 
             AddToMap(request.QueryString, map);
@@ -33,10 +46,21 @@ namespace ServiceStack
             for (int index = 0; index < nvc.Count; index++)
             {
                 var name = nvc.GetKey(index);
-                
+
                 if (exclude != null && exclude.Contains(name))
+
+                    /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+                    Before:
+                                        continue;
+
+                                    var values = nvc.GetValues(name); // Only use string name instead of index which returns multiple values 
+                    After:
+                                        continue;
+
+                                    var values = nvc.GetValues(name); // Only use string name instead of index which returns multiple values 
+                    */
                     continue;
-                
+
                 var values = nvc.GetValues(name); // Only use string name instead of index which returns multiple values 
 
                 if (name == null) //thank you .NET Framework!
@@ -45,7 +69,7 @@ namespace ServiceStack
                         map[values[0]] = null;
                     continue;
                 }
-                
+
                 if (values == null || values.Length == 0)
                 {
                     map[name] = null;

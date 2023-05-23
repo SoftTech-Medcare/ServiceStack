@@ -3,6 +3,10 @@
 // Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Logging;
+using ServiceStack.Messaging;
+using ServiceStack.Text;
+using ServiceStack.Web;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,12 +15,19 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
 using System.Threading;
 using ServiceStack.Logging;
 using ServiceStack.Messaging;
 using ServiceStack.Text;
 using ServiceStack.Web;
+After:
+using System.Threading.Tasks;
+*/
+using System.Threading.Tasks;
 
 namespace ServiceStack
 {
@@ -72,7 +83,7 @@ namespace ServiceStack
         public static string DefaultUserAgent = "ServiceStackClient/" + Env.VersionString;
 
 #if NET6_0_OR_GREATER
-        public System.Net.Http.HttpClient HttpClient { get; set; } 
+        public System.Net.Http.HttpClient HttpClient { get; set; }
 #endif
 
         readonly AsyncServiceClient asyncClient;
@@ -83,7 +94,8 @@ namespace ServiceStack
             this.Headers = new NameValueCollection();
             var cookies = new CookieContainer();
 #if NET6_0_OR_GREATER
-            this.HttpClient = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler {
+            this.HttpClient = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler
+            {
                 CookieContainer = cookies,
             }, disposeHandler: true);
 #endif
@@ -254,7 +266,7 @@ namespace ServiceStack
                 this.asyncClient.Version = value;
             }
         }
-        
+
         private string sessionId;
         public string SessionId
         {
@@ -528,7 +540,8 @@ namespace ServiceStack
 
         public void CaptureHttp(bool print = false, bool log = false, bool clear = true)
         {
-            CaptureHttp(sb => {
+            CaptureHttp(sb =>
+            {
                 if (print)
                     PclExport.Instance.WriteLine(sb.ToString());
                 if (log && ServiceClientBase.log?.IsDebugEnabled == true)
@@ -564,8 +577,8 @@ namespace ServiceStack
         public virtual string ResolveTypedUrl(string httpMethod, object requestDto)
         {
             this.PopulateRequestMetadata(requestDto);
-            return ToAbsoluteUrl(TypedUrlResolver?.Invoke(this, httpMethod, requestDto) 
-                ?? requestDto.ToUrl(httpMethod, fallback:requestType => BasePath + requestType.GetOperationName()));
+            return ToAbsoluteUrl(TypedUrlResolver?.Invoke(this, httpMethod, requestDto)
+                ?? requestDto.ToUrl(httpMethod, fallback: requestType => BasePath + requestType.GetOperationName()));
         }
 
         internal void AsyncSerializeToStream(IRequest requestContext, object request, Stream stream)
@@ -628,7 +641,8 @@ namespace ServiceStack
             var httpMethod = GetHttpMethod(request);
             if (httpMethod != null)
             {
-                return httpMethod switch {
+                return httpMethod switch
+                {
                     HttpMethods.Get => Get<TResponse>(request),
                     HttpMethods.Post => Post<TResponse>(request),
                     HttpMethods.Put => Put<TResponse>(request),
@@ -706,11 +720,23 @@ namespace ServiceStack
                 {
                     if (EnableAutoRefreshToken && hasRefreshToken)
                     {
-                        var refreshRequest = new GetAccessToken {
+                        var refreshRequest = new GetAccessToken
+                        {
                             RefreshToken = RefreshToken,
-                        };                        
+                        };
+
+                        /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                        Before:
+                                                var uri = this.RefreshTokenUri ?? this.BaseUri.CombineWith(refreshRequest.ToPostUrl());
+
+                                                this.BearerToken = null;
+                        After:
+                                                var uri = this.RefreshTokenUri ?? this.BaseUri.CombineWith(refreshRequest.ToPostUrl());
+
+                                                this.BearerToken = null;
+                        */
                         var uri = this.RefreshTokenUri ?? this.BaseUri.CombineWith(refreshRequest.ToPostUrl());
-                        
+
                         this.BearerToken = null;
                         this.CookieContainer?.DeleteCookie(new Uri(BaseUri), "ss-tok");
 
@@ -718,9 +744,9 @@ namespace ServiceStack
                         try
                         {
                             var httpReq = WebRequest.CreateHttp(uri);
-                            tokenResponse = SendStringToUrl(httpReq, method:HttpMethods.Post, 
-                                requestFilter: req => req.CookieContainer = CookieContainer, 
-                                requestBody:refreshRequest.ToJson(), accept:MimeTypes.Json, contentType:MimeTypes.Json)
+                            tokenResponse = SendStringToUrl(httpReq, method: HttpMethods.Post,
+                                requestFilter: req => req.CookieContainer = CookieContainer,
+                                requestBody: refreshRequest.ToJson(), accept: MimeTypes.Json, contentType: MimeTypes.Json)
                                 .FromJson<GetAccessTokenResponse>();
                         }
                         catch (WebException refreshEx)
@@ -730,13 +756,24 @@ namespace ServiceStack
                                 ContentType);
 
                             if (webServiceEx != null)
+
+                                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                                Before:
+                                                                throw new RefreshTokenException(webServiceEx);
+
+                                                            throw new RefreshTokenException(refreshEx.Message, refreshEx);
+                                After:
+                                                                throw new RefreshTokenException(webServiceEx);
+
+                                                            throw new RefreshTokenException(refreshEx.Message, refreshEx);
+                                */
                                 throw new RefreshTokenException(webServiceEx);
-                            
+
                             throw new RefreshTokenException(refreshEx.Message, refreshEx);
                         }
 
                         var accessToken = tokenResponse?.AccessToken;
-                        var refreshClient = (HttpWebRequest) createWebRequest();
+                        var refreshClient = (HttpWebRequest)createWebRequest();
                         var tokenCookie = this.GetTokenCookie();
 
                         if (!string.IsNullOrEmpty(accessToken))
@@ -813,7 +850,7 @@ namespace ServiceStack
                 {
                     client.AddBasicAuth(this.UserName, this.Password);
                 }
-                else 
+                else
                 {
                     this.authInfo = new AuthenticationInfo(doAuthHeader);
                     if (authInfo?.method == "basic" || authInfo?.method == "digest")
@@ -902,7 +939,7 @@ namespace ServiceStack
         public void ThrowWebServiceException<TResponse>(Exception ex, string requestUri)
         {
             var webEx = ToWebServiceException(
-                ex as WebException, 
+                ex as WebException,
                 stream => DeserializeFromStream<TResponse>(stream),
                 ContentType);
 
@@ -917,16 +954,28 @@ namespace ServiceStack
 
         protected virtual WebRequest SendRequest(string httpMethod, string requestUri, object request)
         {
-            return PrepareWebRequest(httpMethod, requestUri, request, client => {
+            return PrepareWebRequest(httpMethod, requestUri, request, client =>
+            {
                 using var requestStream = PclExport.Instance.GetRequestStream(client);
                 SerializeRequestToStream(request, requestStream);
             });
         }
-        
-        protected virtual void SerializeRequestToStream(object request, Stream requestStream, bool keepOpen=false)
+
+        protected virtual void SerializeRequestToStream(object request, Stream requestStream, bool keepOpen = false)
         {
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                        HttpLog?.AppendLine();
+
+                        if (request is string str)
+            After:
+                        HttpLog?.AppendLine();
+
+                        if (request is string str)
+            */
             HttpLog?.AppendLine();
-            
+
             if (request is string str)
             {
                 requestStream.Write(str);
@@ -1016,9 +1065,20 @@ namespace ServiceStack
                 client.Method = httpMethod;
                 PclExportClient.Instance.AddHeader(client, Headers);
 
-                if (Proxy != null) 
+                if (Proxy != null)
+
+                    /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                    Before:
+                                        client.Proxy = Proxy;
+
+                                    PclExport.Instance.Config(client,
+                    After:
+                                        client.Proxy = Proxy;
+
+                                    PclExport.Instance.Config(client,
+                    */
                     client.Proxy = Proxy;
-                
+
                 PclExport.Instance.Config(client,
                     allowAutoRedirect: AllowAutoRedirect,
                     timeout: this.Timeout,
@@ -1063,20 +1123,31 @@ namespace ServiceStack
                     if (HttpLog != null)
                         client.AppendHttpRequestHeaders(HttpLog, new Uri(BaseUri));
                 }
-            
+
                 HttpLog?.AppendLine();
             }
             catch (AuthenticationException ex)
             {
                 throw WebRequestUtils.CreateCustomException(requestUri, ex) ?? ex;
+
+                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                Before:
+                            }
+
+                            return client;
+                After:
+                            }
+
+                            return client;
+                */
             }
-            
+
             return client;
         }
 
         private void ApplyWebResponseFilters(WebResponse webResponse)
         {
-            if (webResponse is not HttpWebResponse response) 
+            if (webResponse is not HttpWebResponse response)
                 return;
 
             ResponseFilter?.Invoke(response);
@@ -1191,12 +1262,13 @@ namespace ServiceStack
         public virtual async Task<TResponse> SendAsync<TResponse>(object request, CancellationToken token = default)
         {
             if (typeof(TResponse) == typeof(object))
-                return (TResponse) await this.SendAsync(this.GetResponseType(request), request, token);
+                return (TResponse)await this.SendAsync(this.GetResponseType(request), request, token);
 
             var httpMethod = GetHttpMethod(request);
             if (httpMethod != null)
             {
-                return httpMethod switch {
+                return httpMethod switch
+                {
                     HttpMethods.Get => await GetAsync<TResponse>(request, token).ConfigAwait(),
                     HttpMethods.Post => await PostAsync<TResponse>(request, token).ConfigAwait(),
                     HttpMethods.Put => await PutAsync<TResponse>(request, token).ConfigAwait(),
@@ -1504,7 +1576,7 @@ namespace ServiceStack
             Send<byte[]>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null);
         }
 
-        
+
         /// <summary>
         /// APIs returning HttpWebResponse must be explicitly Disposed, e.g using (var res = client.Delete(url)) { ... }
         /// </summary>
@@ -1697,7 +1769,7 @@ namespace ServiceStack
         }
 
         public static string SendStringToUrl(HttpWebRequest webReq, string method, string requestBody, string contentType,
-            string accept="*/*", Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
+            string accept = "*/*", Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null)
         {
             if (method != null)
                 webReq.Method = method;
@@ -1725,10 +1797,10 @@ namespace ServiceStack
             responseFilter?.Invoke((HttpWebResponse)webRes);
             return stream.ReadToEnd(HttpUtils.UseEncoding);
         }
-        
-        public static async Task<string> SendStringToUrlAsync(HttpWebRequest webReq, 
-            string method, string requestBody, string contentType, string accept="*/*",
-            Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null, CancellationToken token=default)
+
+        public static async Task<string> SendStringToUrlAsync(HttpWebRequest webReq,
+            string method, string requestBody, string contentType, string accept = "*/*",
+            Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null, CancellationToken token = default)
         {
             if (method != null)
                 webReq.Method = method;
@@ -1755,8 +1827,19 @@ namespace ServiceStack
             responseFilter?.Invoke((HttpWebResponse)webRes);
             using var stream = webRes.GetResponseStream();
             return await stream.ReadToEndAsync().ConfigAwait();
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                    }
+
+                    public virtual TResponse PostFilesWithRequest<TResponse>(object request, IEnumerable<UploadFile> files)
+            After:
+                    }
+
+                    public virtual TResponse PostFilesWithRequest<TResponse>(object request, IEnumerable<UploadFile> files)
+            */
         }
-        
+
         public virtual TResponse PostFilesWithRequest<TResponse>(object request, IEnumerable<UploadFile> files)
         {
             return PostFilesWithRequest<TResponse>(ResolveTypedUrl(GetHttpMethod(request) ?? HttpMethods.Post, request), request, files.ToArray());
@@ -1818,7 +1901,7 @@ namespace ServiceStack
                     }
 
                     outputStream.Write(newLine);
-                    if (fileCount == files.Length - 1) 
+                    if (fileCount == files.Length - 1)
                         outputStream.Write(boundary + "--");
                 }
 
@@ -1920,8 +2003,19 @@ namespace ServiceStack
 
                 return response;
             }
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                    }
+
+                    private static byte[] GetHeaderBytes(string fileName, string mimeType, string field, string boundary)
+            After:
+                    }
+
+                    private static byte[] GetHeaderBytes(string fileName, string mimeType, string field, string boundary)
+            */
         }
-        
+
         private static byte[] GetHeaderBytes(string fileName, string mimeType, string field, string boundary)
         {
             var header = "\r\n--" + boundary +
@@ -1971,7 +2065,7 @@ namespace ServiceStack
             try
             {
                 var webRequest = createWebRequest();
-                UploadFile(webRequest, fileToUpload, fileName:fileName, mimeType:mimeType, fieldName:fieldName);
+                UploadFile(webRequest, fileToUpload, fileName: fileName, mimeType: mimeType, fieldName: fieldName);
                 var webResponse = PclExport.Instance.GetResponse(webRequest);
                 return HandleResponse<TResponse>(webResponse);
             }
@@ -1986,7 +2080,7 @@ namespace ServiceStack
                     createWebRequest,
                     c =>
                     {
-                        UploadFile(c, fileToUpload, fileName:fileName, mimeType:mimeType, fieldName:fieldName);
+                        UploadFile(c, fileToUpload, fileName: fileName, mimeType: mimeType, fieldName: fieldName);
                         return PclExport.Instance.GetResponse(c);
                     },
                     out TResponse response))
@@ -2016,8 +2110,19 @@ namespace ServiceStack
                 return;
 
             if (HttpLog != null)
+
+                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                Before:
+                                HttpLogFilter?.Invoke(HttpLog);
+
+                            using (webResponse) { }
+                After:
+                                HttpLogFilter?.Invoke(HttpLog);
+
+                            using (webResponse) { }
+                */
                 HttpLogFilter?.Invoke(HttpLog);
-            
+
             using (webResponse) { }
         }
 
@@ -2034,21 +2139,43 @@ namespace ServiceStack
             }
 
             using var responseStream = webRes.ResponseStream();
+
+            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+            Before:
+                        var stream = responseStream;
+
+                        if (HttpLog != null)
+            After:
+                        var stream = responseStream;
+
+                        if (HttpLog != null)
+            */
             var stream = responseStream;
-            
+
             if (HttpLog != null)
             {
                 stream = new MemoryStream();
                 responseStream.CopyTo(stream);
+
+                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+                Before:
+                                stream.Position = 0;
+
+                                ((HttpWebResponse)webRes).AppendHttpResponseHeaders(HttpLog);
+                After:
+                                stream.Position = 0;
+
+                                ((HttpWebResponse)webRes).AppendHttpResponseHeaders(HttpLog);
+                */
                 stream.Position = 0;
-                
+
                 ((HttpWebResponse)webRes).AppendHttpResponseHeaders(HttpLog);
-                if (webRes.ContentLength != 0 && ((HttpWebResponse) webRes).StatusCode != HttpStatusCode.NoContent)
+                if (webRes.ContentLength != 0 && ((HttpWebResponse)webRes).StatusCode != HttpStatusCode.NoContent)
                 {
                     var isBinary = typeof(TResponse) == typeof(Stream) || typeof(TResponse) == typeof(byte[]) || ContentType.IsBinary();
                     if (isBinary)
                     {
-                    
+
                         HttpLog.Append("(base64) ");
                         HttpLog.AppendLine(Convert.ToBase64String(stream.ReadFully()));
                     }
@@ -2060,7 +2187,7 @@ namespace ServiceStack
                 HttpLog.AppendLine().AppendLine();
                 stream.Position = 0;
             }
-            
+
             if (typeof(TResponse) == typeof(string))
             {
                 return (TResponse)(object)stream.ReadToEnd();
@@ -2092,23 +2219,23 @@ namespace ServiceStack
             string relativeOrAbsoluteUrl, FileInfo fileToUpload, string mimeType, string fieldName = "file")
         {
             using var fileStream = fileToUpload.OpenRead();
-            return client.PostFile<TResponse>(relativeOrAbsoluteUrl, fileStream, 
-                fileName:fileToUpload.Name, mimeType:mimeType, fieldName:fieldName);
+            return client.PostFile<TResponse>(relativeOrAbsoluteUrl, fileStream,
+                fileName: fileToUpload.Name, mimeType: mimeType, fieldName: fieldName);
         }
 
         public static TResponse PostFileWithRequest<TResponse>(this IRestClient client,
             FileInfo fileToUpload, object request, string fieldName = "file")
         {
-            return client.PostFileWithRequest<TResponse>(request.ToPostUrl(), fileToUpload, 
-                request:request, fieldName:fieldName);
+            return client.PostFileWithRequest<TResponse>(request.ToPostUrl(), fileToUpload,
+                request: request, fieldName: fieldName);
         }
 
         public static TResponse PostFileWithRequest<TResponse>(this IRestClient client,
             string relativeOrAbsoluteUrl, FileInfo fileToUpload, object request, string fieldName = "file")
         {
             using var fileStream = fileToUpload.OpenRead();
-            return client.PostFileWithRequest<TResponse>(relativeOrAbsoluteUrl, fileStream, 
-                fileName:fileToUpload.Name, request:request, fieldName:fieldName);
+            return client.PostFileWithRequest<TResponse>(relativeOrAbsoluteUrl, fileStream,
+                fileName: fileToUpload.Name, request: request, fieldName: fieldName);
         }
 
         public static void PopulateRequestMetadatas(this IHasSessionId client, IEnumerable<object> requests)
@@ -2118,7 +2245,7 @@ namespace ServiceStack
                 client.PopulateRequestMetadata(request);
             }
         }
-        
+
         public static void PopulateRequestMetadata(this IHasSessionId client, object request)
         {
             if (client.SessionId != null)
@@ -2249,7 +2376,7 @@ namespace ServiceStack
             return client;
         }
 
-        public static void SetCookie(this CookieContainer cookieContainer, 
+        public static void SetCookie(this CookieContainer cookieContainer,
             Uri baseUri, string name, string value, DateTime? expiresAt,
             string path = "/", bool? httpOnly = null, bool? secure = null)
         {

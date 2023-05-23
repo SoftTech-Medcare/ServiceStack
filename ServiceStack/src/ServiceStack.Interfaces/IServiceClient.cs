@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ServiceStack
 {
-    public interface IRestServiceClient : IServiceClientAsync, IServiceClientSync, IHasSessionId, IHasBearerToken, IHasVersion {}
-    public interface IServiceClient : IRestServiceClient, IHttpRestClientAsync, IReplyClient, IOneWayClient, IRestClient {}
+    public interface IRestServiceClient : IServiceClientAsync, IServiceClientSync, IHasSessionId, IHasBearerToken, IHasVersion { }
+    public interface IServiceClient : IRestServiceClient, IHttpRestClientAsync, IReplyClient, IOneWayClient, IRestClient { }
 
     public interface IJsonServiceClient : IServiceClient
     {
@@ -20,6 +17,6 @@ namespace ServiceStack
         void SetCredentials(string userName, string password);
     }
 
-    public interface IServiceClientAsync : IServiceGatewayAsync, IRestClientAsync {}
-    public interface IServiceClientSync : IServiceGateway, IRestClientSync {}
+    public interface IServiceClientAsync : IServiceGatewayAsync, IRestClientAsync { }
+    public interface IServiceClientSync : IServiceGateway, IRestClientSync { }
 }

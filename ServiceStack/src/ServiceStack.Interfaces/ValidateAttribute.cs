@@ -1,9 +1,16 @@
+using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+/* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+Before:
 using System.Threading.Tasks;
 using ServiceStack.DataAnnotations;
+After:
+using System.Threading.Tasks;
+*/
+
 
 namespace ServiceStack
 {
@@ -14,9 +21,20 @@ namespace ServiceStack
     [Tag("PropertyOrder")]
     public class ValidateRequestAttribute : AttributeBase, IValidateRule, IReflectAttributeConverter
     {
-        public ValidateRequestAttribute() {}
+        public ValidateRequestAttribute() { }
+
+        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+        Before:
+                public ValidateRequestAttribute(string validator) => Validator = validator;
+
+                /// <summary>
+        After:
+                public ValidateRequestAttribute(string validator) => Validator = validator;
+
+                /// <summary>
+        */
         public ValidateRequestAttribute(string validator) => Validator = validator;
-        
+
         /// <summary>
         /// Script Expression to create an IPropertyValidator registered in Validators.Types
         /// </summary>
@@ -37,7 +55,7 @@ namespace ServiceStack
         [Ignore]
         public string[] Conditions
         {
-            get => new []{ Condition };
+            get => new[] { Condition };
             set => Condition = ValidateAttribute.Combine("&&", value);
         }
 
@@ -51,13 +69,24 @@ namespace ServiceStack
         ///  - {PropertyName}
         ///  - {PropertyValue}
         /// </summary>
+
+        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+        Before:
+                public string Message { get; set; }
+
+                /// <summary>
+        After:
+                public string Message { get; set; }
+
+                /// <summary>
+        */
         public string Message { get; set; }
-        
+
         /// <summary>
         /// Custom Status Code to return when invalid
         /// </summary>
         public int StatusCode { get; set; }
-        
+
         [Ignore]
         public string[] AllConditions
         {
@@ -74,7 +103,8 @@ namespace ServiceStack
 
         public ReflectAttribute ToReflectAttribute()
         {
-            var to = new ReflectAttribute {
+            var to = new ReflectAttribute
+            {
                 Name = "ValidateRequest",
                 PropertyArgs = new List<KeyValuePair<PropertyInfo, object>>()
             };
@@ -91,38 +121,82 @@ namespace ServiceStack
             return to;
         }
     }
-    
+
+
+    /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+    Before:
+        /* Default ITypeValidator defined in ValidateScripts */
+
+    public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
+After:
     /* Default ITypeValidator defined in ValidateScripts */
-    
+
+    public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
+*/
+    /* Default ITypeValidator defined in ValidateScripts */
+
     public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
     {
         public ValidateIsAuthenticatedAttribute() : base("IsAuthenticated") { }
+
+        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+        Before:
+            }
+
+            public class ValidateIsAdminAttribute : ValidateRequestAttribute
+        After:
+            }
+
+            public class ValidateIsAdminAttribute : ValidateRequestAttribute
+        */
     }
-    
+
     public class ValidateIsAdminAttribute : ValidateRequestAttribute
     {
         public ValidateIsAdminAttribute() : base("IsAdmin") { }
+
+        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+        Before:
+            }
+
+            public class ValidateHasRoleAttribute : ValidateRequestAttribute
+        After:
+            }
+
+            public class ValidateHasRoleAttribute : ValidateRequestAttribute
+        */
     }
-    
+
     public class ValidateHasRoleAttribute : ValidateRequestAttribute
     {
         public ValidateHasRoleAttribute(string role) : base("HasRole(`" + role + "`)") { }
+
+        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
+        Before:
+            }
+
+            public class ValidateHasPermissionAttribute : ValidateRequestAttribute
+        After:
+            }
+
+            public class ValidateHasPermissionAttribute : ValidateRequestAttribute
+        */
     }
-    
+
     public class ValidateHasPermissionAttribute : ValidateRequestAttribute
     {
         public ValidateHasPermissionAttribute(string permission) : base("HasPermission(`" + permission + "`)") { }
     }
-    
+
     /// <summary>
     /// Validate property against registered Validator expression
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class ValidateAttribute : AttributeBase, IValidateRule, IReflectAttributeConverter
     {
-        public ValidateAttribute() {}
+        public ValidateAttribute() { }
         public ValidateAttribute(string validator) => Validator = validator;
-        
+
         /// <summary>
         /// Script Expression to create an IPropertyValidator registered in Validators.Types
         /// </summary>
@@ -167,7 +241,7 @@ namespace ServiceStack
         public static string Combine(string comparand, params string[] conditions)
         {
             var sb = new StringBuilder();
-            var joiner = ") " + comparand + " ("; 
+            var joiner = ") " + comparand + " (";
             foreach (var condition in conditions)
             {
                 if (string.IsNullOrEmpty(condition))
@@ -184,7 +258,8 @@ namespace ServiceStack
 
         public ReflectAttribute ToReflectAttribute()
         {
-            var to = new ReflectAttribute {
+            var to = new ReflectAttribute
+            {
                 Name = "Validate",
                 PropertyArgs = new List<KeyValuePair<PropertyInfo, object>>()
             };
@@ -205,14 +280,14 @@ namespace ServiceStack
     /// By default properties with any validators cannot be reset
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class AllowResetAttribute : AttributeBase {}
+    public class AllowResetAttribute : AttributeBase { }
 
     /// <summary>
     /// Don't allow property to be reset
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class DenyResetAttribute : AttributeBase {}
-    
+    public class DenyResetAttribute : AttributeBase { }
+
     //Default IPropertyValidator defined in ValidateScripts
     public class ValidateNullAttribute : ValidateAttribute
     {

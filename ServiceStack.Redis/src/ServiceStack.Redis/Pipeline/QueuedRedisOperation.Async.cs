@@ -41,7 +41,7 @@ namespace ServiceStack.Redis.Pipeline
             => SetAsyncReadCommand(DoubleReadCommandAsync);
         internal QueuedRedisOperation WithAsyncReadCommand(Func<CancellationToken, ValueTask<RedisData>> RedisDataReadCommandAsync)
             => SetAsyncReadCommand(RedisDataReadCommandAsync);
-        
+
         public async ValueTask ProcessResultAsync(CancellationToken token)
         {
             try
@@ -70,8 +70,8 @@ namespace ServiceStack.Redis.Pipeline
                         OnSuccessVoidCallback?.Invoke();
                         break;
                     case Func<CancellationToken, ValueTask<double>> DoubleReadCommandAsync:
-                         var f64 = await DoubleReadCommandAsync(token).ConfigureAwait(false);
-                         OnSuccessDoubleCallback?.Invoke(f64);
+                        var f64 = await DoubleReadCommandAsync(token).ConfigureAwait(false);
+                        OnSuccessDoubleCallback?.Invoke(f64);
                         break;
                     case Func<CancellationToken, ValueTask<byte[]>> BytesReadCommandAsync:
                         var bytes = await BytesReadCommandAsync(token).ConfigureAwait(false);

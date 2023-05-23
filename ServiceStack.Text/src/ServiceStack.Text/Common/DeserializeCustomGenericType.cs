@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ServiceStack.Text.Json;
+using System;
 using System.Linq;
-using ServiceStack.Text.Json;
 
 namespace ServiceStack.Text.Common
 {

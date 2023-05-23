@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace ServiceStack.Text.Common
@@ -111,7 +110,7 @@ namespace ServiceStack.Text.Common
             if (isEnumerable)
             {
                 var parseFn = DeserializeSpecializedCollections<T, TSerializer>.ParseStringSpan;
-                if (parseFn != null) 
+                if (parseFn != null)
                     return parseFn;
             }
 
@@ -120,8 +119,19 @@ namespace ServiceStack.Text.Common
                 //at first try to find more faster `ParseStringSpan` method
                 var staticParseStringSpanMethod = StaticParseMethod<T>.ParseStringSpan;
                 if (staticParseStringSpanMethod != null)
+
+                    /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+                    Before:
+                                        return value => staticParseStringSpanMethod(Serializer.UnescapeSafeString(value));
+
+                                    //then try to find `Parse` method
+                    After:
+                                        return value => staticParseStringSpanMethod(Serializer.UnescapeSafeString(value));
+
+                                    //then try to find `Parse` method
+                    */
                     return value => staticParseStringSpanMethod(Serializer.UnescapeSafeString(value));
-                
+
                 //then try to find `Parse` method
                 var staticParseMethod = StaticParseMethod<T>.Parse;
                 if (staticParseMethod != null)
@@ -143,7 +153,7 @@ namespace ServiceStack.Text.Common
                 return typeConstructor;
 
             var stringConstructor = DeserializeTypeUtils.GetParseStringSpanMethod(type);
-            if (stringConstructor != null) 
+            if (stringConstructor != null)
                 return stringConstructor;
 
             return DeserializeType<TSerializer>.ParseAbstractType<T>;

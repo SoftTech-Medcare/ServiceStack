@@ -1,7 +1,7 @@
+using ServiceStack.Text;
 using System;
 using System.IO;
 using System.Runtime.Serialization;
-using ServiceStack.Text;
 
 namespace ServiceStack.Serialization
 {
@@ -31,7 +31,7 @@ namespace ServiceStack.Serialization
 
         public static string BclSerializeToString<T>(T obj)
         {
-            if (obj == null) 
+            if (obj == null)
                 return null;
 
             var type = obj.GetType();

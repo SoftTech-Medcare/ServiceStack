@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -9,7 +8,7 @@ namespace ServiceStack.Redis
     {
         private readonly IRedisNativeClient redisClient;
         private List<string> activeChannels;
-		public long SubscriptionCount { get; private set; }
+        public long SubscriptionCount { get; private set; }
         public bool IsPSubscription { get; private set; }
 
         private const int MsgIndex = 2;

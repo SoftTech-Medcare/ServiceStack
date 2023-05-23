@@ -1,15 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using ServiceStack.DataAnnotations;
 using ServiceStack.Html;
 using ServiceStack.Logging;
 using ServiceStack.Text;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
+Before:
+using System.Threading.Tasks;
+using ServiceStack.DataAnnotations;
+using ServiceStack.Html;
+using ServiceStack.Logging;
+After:
+using System.Diagnostics.CodeAnalysis;
+using ServiceStack.Linq;
+using ServiceStack.Reflection;
+using System.Runtime.Serialization;
+*/
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace ServiceStack;
 
@@ -132,10 +144,10 @@ public class AppMetadata : IMeta
     public Dictionary<string, string> ContentTypeFormats { get; set; }
     public Dictionary<string, string> HttpHandlers { get; set; }
     public PluginInfo Plugins { get; set; }
-    public Dictionary<string,CustomPluginInfo> CustomPlugins { get; set; }
+    public Dictionary<string, CustomPluginInfo> CustomPlugins { get; set; }
     public MetadataTypes Api { get; set; }
     public Dictionary<string, string> Meta { get; set; }
-    
+
     [IgnoreDataMember]
     public AppMetadataCache Cache { get; set; }
 }
@@ -231,9 +243,9 @@ public class AuthInfo : IMeta
     public bool? IncludesOAuthTokens { get; set; }
     public string HtmlRedirect { get; set; }
     public List<MetaAuthProvider> AuthProviders { get; set; }
-    
+
     public Dictionary<string, List<LinkInfo>> RoleLinks { get; set; }
-    public Dictionary<string,string[]> ServiceRoutes { get; set; }
+    public Dictionary<string, string[]> ServiceRoutes { get; set; }
     public Dictionary<string, string> Meta { get; set; }
 }
 
@@ -259,11 +271,11 @@ public class ValidationInfo : IMeta
 {
     public bool? HasValidationSource { get; set; }
     public bool? HasValidationSourceAdmin { get; set; }
-    public Dictionary<string,string[]> ServiceRoutes { get; set; }
+    public Dictionary<string, string[]> ServiceRoutes { get; set; }
     public List<ScriptMethodType> TypeValidators { get; set; }
     public List<ScriptMethodType> PropertyValidators { get; set; }
     public string AccessRole { get; set; }
-    
+
     public Dictionary<string, string> Meta { get; set; }
 }
 
@@ -286,7 +298,7 @@ public class RequestLogsInfo : IMeta
     public string[] RequiredRoles { get; set; }
     public string RequestLogger { get; set; }
     public int DefaultLimit { get; set; }
-    public Dictionary<string,string[]> ServiceRoutes { get; set; }
+    public Dictionary<string, string[]> ServiceRoutes { get; set; }
     public Dictionary<string, string> Meta { get; set; }
 }
 
@@ -329,11 +341,11 @@ public class AdminUsersInfo : IMeta
     public List<string> AllRoles { get; set; }
     public List<string> AllPermissions { get; set; }
     public List<string> QueryUserAuthProperties { get; set; }
-    
+
     public List<MediaRule> QueryMediaRules { get; set; }
-    
+
     public List<InputInfo> FormLayout { get; set; }
-    public ApiCss Css { get; set; } 
+    public ApiCss Css { get; set; }
     public Dictionary<string, string> Meta { get; set; }
 }
 
@@ -399,21 +411,21 @@ public class InputInfo : IMeta
     public bool? Required { get; set; }
     public bool? Disabled { get; set; }
     public string Autocomplete { get; set; }
-    public string Autofocus  { get; set; }
+    public string Autofocus { get; set; }
     public string Min { get; set; }
     public string Max { get; set; }
     public int? Step { get; set; }
     public int? MinLength { get; set; }
     public int? MaxLength { get; set; }
-    public string Accept  { get; set; }
-    public string Capture  { get; set; }
+    public string Accept { get; set; }
+    public string Capture { get; set; }
     public bool? Multiple { get; set; }
     public string[] AllowableValues { get; set; }
-    public KeyValuePair<string,string>[] AllowableEntries { get; set; }
-    public string Options  { get; set; }
+    public KeyValuePair<string, string>[] AllowableEntries { get; set; }
+    public string Options { get; set; }
     public bool? Ignore { get; set; }
     public FieldCss Css { get; set; }
-    
+
     public Dictionary<string, string> Meta { get; set; }
 
     public InputInfo() { }
@@ -444,17 +456,17 @@ public class CustomPluginInfo : IMeta
     /// Which User Roles have access to this Plugins Services. See RoleNames for built-in Roles.
     /// </summary>
     public string AccessRole { get; set; }
-    
+
     /// <summary>
     /// What Services Types (and their user-defined routes) are enabled in this plugin
     /// </summary>
-    public Dictionary<string,string[]> ServiceRoutes { get; set; }
-    
+    public Dictionary<string, string[]> ServiceRoutes { get; set; }
+
     /// <summary>
     /// List of enabled features in this plugin
     /// </summary>
     public List<string> Enabled { get; set; }
-    
+
     /// <summary>
     /// Additional custom metadata about this plugin
     /// </summary>
@@ -539,7 +551,7 @@ public class AppInfo : IMeta
     /// The configured JsConfig.TextCase
     /// </summary>
     public string JsTextCase { get; set; }
-    
+
     /// <summary>
     /// Custom User-Defined Attributes
     /// </summary>
@@ -561,7 +573,7 @@ public class UiInfo : IMeta
     /// Hide APIs with tags 
     /// </summary>
     public List<string> HideTags { get; set; }
-    
+
     /// <summary>
     /// The module paths that are loaded
     /// </summary>
@@ -576,32 +588,32 @@ public class UiInfo : IMeta
     /// Admin UI Links
     /// </summary>
     public List<LinkInfo> AdminLinks { get; set; }
-    
+
     /// <summary>
     /// Default Themes for all UIs
     /// </summary>
     public ThemeInfo Theme { get; set; }
-    
+
     /// <summary>
     /// The default styles to use for rendering AutoQuery UI Forms 
     /// </summary>
-    public LocodeUi Locode { get; set; } 
-    
+    public LocodeUi Locode { get; set; }
+
     /// <summary>
     /// The default styles to use for rendering API Explorer Forms 
     /// </summary>
     public ExplorerUi Explorer { get; set; }
-    
+
     /// <summary>
     /// The default styles to use for rendering Admin UI 
     /// </summary>
     public AdminUi Admin { get; set; }
-    
+
     /// <summary>
     /// The default formats for displaying info
     /// </summary>
     public ApiFormat DefaultFormats { get; set; }
-    
+
     /// <summary>
     /// Custom User-Defined Attributes
     /// </summary>
@@ -699,8 +711,8 @@ public class MetadataOperationType
 
 public class ApiUiInfo : IMeta
 {
-    public ApiCss LocodeCss { get; set; } 
-    public ApiCss ExplorerCss { get; set; } 
+    public ApiCss LocodeCss { get; set; }
+    public ApiCss ExplorerCss { get; set; }
     public List<InputInfo> FormLayout { get; set; }
     public Dictionary<string, string> Meta { get; set; }
 }
@@ -717,7 +729,7 @@ public class MetadataType : IMeta
 
     [IgnoreDataMember]
     public bool IsClass => Type?.IsClass ?? !(IsEnum == true || IsInterface == true);
-    
+
     public string Name { get; set; }
     public string Namespace { get; set; }
     public string[] GenericArgs { get; set; }
@@ -726,7 +738,7 @@ public class MetadataType : IMeta
     public string DisplayType { get; set; }
     public string Description { get; set; }
     public string Notes { get; set; }
-    public ImageInfo Icon { get; set; } 
+    public ImageInfo Icon { get; set; }
     public bool? IsNested { get; set; }
     public bool? IsEnum { get; set; }
     public bool? IsEnumInt { get; set; }
@@ -759,7 +771,7 @@ public class MetadataType : IMeta
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((MetadataType) obj);
+        return Equals((MetadataType)obj);
     }
 
     public override int GetHashCode()
@@ -837,7 +849,7 @@ public class MetadataPropertyType
     public int? AllowableMax { get; set; }
 
     public List<MetadataAttribute> Attributes { get; set; }
-    
+
     public string UploadTo { get; set; }
     public InputInfo Input { get; set; }
     public FormatInfo Format { get; set; }
@@ -871,14 +883,14 @@ public static class MetadataTypeExtensions
     public static bool ReferencesAny(this MetadataOperationType op, params string[] typeNames) =>
         (op.Request.Inherits != null && (typeNames.Contains(op.Request.Inherits.Name) ||
                                          op.Request.Inherits.GenericArgs?.Length > 0 &&
-                                         op.Request.Inherits.GenericArgs.Any(typeNames.Contains))) 
+                                         op.Request.Inherits.GenericArgs.Any(typeNames.Contains)))
         ||
         (op.Response != null && (typeNames.Contains(op.Response.Name) ||
                                  op.Response.GenericArgs?.Length > 0 &&
-                                 op.Response.GenericArgs.Any(typeNames.Contains))) 
+                                 op.Response.GenericArgs.Any(typeNames.Contains)))
         ||
         (op.Request.Implements != null && op.Request.Implements.Any(i =>
-             i.GenericArgs?.Length > 0 && i.GenericArgs.Any(typeNames.Contains))) 
+             i.GenericArgs?.Length > 0 && i.GenericArgs.Any(typeNames.Contains)))
         ||
         (op.Response?.Inherits != null && (typeNames.Contains(op.Response.Inherits.Name) ||
                                            op.Response.Inherits.GenericArgs?.Length > 0 &&
@@ -903,8 +915,8 @@ public static class MetadataTypeExtensions
                 : $"{firstParam} |> {method.Name}(" + string.Join(", ", method.ParamNames?.Skip(1) ?? new string[0]) + $"){ret}";
         return sig;
     }
-    
-    public static List<MetadataOperationType> GetOperationsByTags(this MetadataTypes types, string[] tags) => 
+
+    public static List<MetadataOperationType> GetOperationsByTags(this MetadataTypes types, string[] tags) =>
         types.Operations.Where(x => x.Tags != null && x.Tags.Any(t => Array.IndexOf(tags, t) >= 0)).ToList();
 
 
@@ -913,7 +925,7 @@ public static class MetadataTypeExtensions
     {
         if (metaRef.Namespace == null)
             return false;
-        return metaRef.Namespace.StartsWith("System") || 
+        return metaRef.Namespace.StartsWith("System") ||
                metaRef.Namespace.StartsWith("ServiceStack") ||
                metaRef.Name.IndexOfAny(SystemTypeChars) >= 0;
     }
@@ -944,7 +956,7 @@ public static class AppMetadataUtils
             {
                 allOps[op.Request.Name] = op;
             }
-            
+
             var allTypes = new Dictionary<string, MetadataType>();
             foreach (var type in app.Api.Types)
             {
@@ -956,9 +968,9 @@ public static class AppMetadataUtils
             foreach (var op in app.Api.Operations)
             {
                 var type = op.Response;
-                if (type == null || allTypes.ContainsKey(type.Name)) 
+                if (type == null || allTypes.ContainsKey(type.Name))
                     continue;
-                
+
                 allTypes[type.Name] = type;
                 if (type.Namespace != null)
                     allTypes[type.Namespace + "." + type.Name] = type;
@@ -967,26 +979,26 @@ public static class AppMetadataUtils
         }
         return app.Cache;
     }
-    public static MetadataOperationType GetOperation(this AppMetadata app, string name) => 
+    public static MetadataOperationType GetOperation(this AppMetadata app, string name) =>
         app.GetCache().OperationsMap.TryGetValue(name, out var op) ? op : null;
 
-    public static MetadataType GetType(this AppMetadata app, Type type) => 
+    public static MetadataType GetType(this AppMetadata app, Type type) =>
         app.GetType(type.Namespace, type.Name);
 
-    public static MetadataType GetType(this AppMetadata app, string name) => 
+    public static MetadataType GetType(this AppMetadata app, string name) =>
         app.GetCache().TypesMap.TryGetValue(name, out var type) ? type : null;
 
     public static MetadataType GetType(this AppMetadata app, MetadataTypeName typeRef) =>
         typeRef == null ? null : app.GetType(typeRef.Namespace, typeRef.Name);
 
-    public static MetadataType GetType(this AppMetadata app, string @namespace, string name) => 
-        X.Map(app.GetCache().TypesMap, x => x.TryGetValue(@namespace + "." + name, out var type) 
-            ? type 
-            : x.TryGetValue(name, out type) 
-                ? type 
+    public static MetadataType GetType(this AppMetadata app, string @namespace, string name) =>
+        X.Map(app.GetCache().TypesMap, x => x.TryGetValue(@namespace + "." + name, out var type)
+            ? type
+            : x.TryGetValue(name, out type)
+                ? type
                 : null);
 
-    public static void EachOperation(this AppMetadata app, Action<MetadataOperationType> configure) 
+    public static void EachOperation(this AppMetadata app, Action<MetadataOperationType> configure)
     {
         foreach (var entry in app.GetCache().OperationsMap)
         {
@@ -994,7 +1006,7 @@ public static class AppMetadataUtils
         }
     }
 
-    public static void EachOperation(this AppMetadata app, Action<MetadataOperationType> configure, Predicate<MetadataOperationType> where) 
+    public static void EachOperation(this AppMetadata app, Action<MetadataOperationType> configure, Predicate<MetadataOperationType> where)
     {
         foreach (var entry in app.GetCache().OperationsMap)
         {
@@ -1004,7 +1016,7 @@ public static class AppMetadataUtils
         }
     }
 
-    public static void EachType(this AppMetadata app, Action<MetadataType> configure) 
+    public static void EachType(this AppMetadata app, Action<MetadataType> configure)
     {
         foreach (var entry in app.GetCache().TypesMap)
         {
@@ -1012,7 +1024,7 @@ public static class AppMetadataUtils
         }
     }
 
-    public static void EachType(this AppMetadata app, Action<MetadataType> configure, Predicate<MetadataType> where) 
+    public static void EachType(this AppMetadata app, Action<MetadataType> configure, Predicate<MetadataType> where)
     {
         foreach (var entry in app.GetCache().TypesMap)
         {
@@ -1029,7 +1041,7 @@ public static class AppMetadataUtils
         {
             appResponseJson = await baseUrl.CombineWith("/metadata/app.json")
                 .GetJsonFromUrlAsync();
-        
+
             if (!appResponseJson.Trim().StartsWith("{"))
                 throw new Exception("Not a remote ServiceStack Instance");
         }
@@ -1039,7 +1051,7 @@ public static class AppMetadataUtils
             try
             {
                 ssMetadata = await baseUrl.CombineWith("/metadata")
-                    .GetStringFromUrlAsync(requestFilter:req => req.With(c => c.UserAgent = "ServiceStack"));
+                    .GetStringFromUrlAsync(requestFilter: req => req.With(c => c.UserAgent = "ServiceStack"));
             }
             catch (Exception ssEx)
             {
@@ -1107,28 +1119,29 @@ public static class AppMetadataUtils
         : new FormatInfo { Method = attr.Method, Options = attr.Options, Locale = attr.Locale };
 
     static string LowerFirst(this string s) => char.ToLower(s[0]) + s.Substring(1);
-    
+
     public static FormatInfo ToFormat(this Intl attr)
     {
-        if (attr == null) 
-            return null; 
-        
+        if (attr == null)
+            return null;
+
         var to = new FormatInfo
         {
-            Method = attr.Type switch {
+            Method = attr.Type switch
+            {
                 IntlFormat.Number => "Intl.NumberFormat",
                 IntlFormat.DateTime => "Intl.DateTimeFormat",
                 IntlFormat.RelativeTime => "Intl.RelativeTimeFormat",
                 _ => throw new NotSupportedException($"{attr.Type}")
-            }, 
-            Options = attr.Options, 
+            },
+            Options = attr.Options,
             Locale = attr.Locale,
         };
 
         if (to.Options == null)
         {
             var args = new Dictionary<string, object>();
-            
+
             if (attr.Type == IntlFormat.Number)
             {
                 var style = attr.Number;
@@ -1144,7 +1157,7 @@ public static class AppMetadataUtils
                 }
                 if (style != NumberStyle.Undefined)
                     args["style"] = style.ToString().LowerFirst();
-                
+
                 if (attr.Notation != Notation.Undefined)
                     args[nameof(attr.Notation).LowerFirst()] = attr.Notation.ToString().LowerFirst();
                 if (attr.RoundingMode != RoundingMode.Undefined)
@@ -1176,19 +1189,22 @@ public static class AppMetadataUtils
                 if (attr.Time != TimeStyle.Undefined)
                     args["timeStyle"] = attr.Time.ToString().LowerFirst();
 
-                void AddDateText(Dictionary<string, object> args, string name, DateText value) {
+                void AddDateText(Dictionary<string, object> args, string name, DateText value)
+                {
                     if (value != DateText.Undefined)
                         args[name.LowerFirst()] = value.ToString().ToLower();
                 }
-                void AddDatePart(Dictionary<string, object> args, string name, DatePart value) {
+                void AddDatePart(Dictionary<string, object> args, string name, DatePart value)
+                {
                     if (value != DatePart.Undefined)
                         args[name.LowerFirst()] = value == DatePart.Digits2 ? "2-digit" : value.ToString().ToLower();
                 }
-                void AddDateMonth(Dictionary<string, object> args, string name, DateMonth value) {
+                void AddDateMonth(Dictionary<string, object> args, string name, DateMonth value)
+                {
                     if (value != DateMonth.Undefined)
                         args[name.LowerFirst()] = value == DateMonth.Digits2 ? "2-digit" : value.ToString().ToLower();
                 }
-                
+
                 AddDateText(args, nameof(attr.Weekday), attr.Weekday);
                 AddDateText(args, nameof(attr.Era), attr.Era);
                 AddDatePart(args, nameof(attr.Year), attr.Year);
@@ -1220,7 +1236,8 @@ public static class AppMetadataUtils
                         sb.Append(",");
                     sb.Append(entry.Key);
                     sb.Append(':');
-                    sb.Append(entry.Value switch {
+                    sb.Append(entry.Value switch
+                    {
                         string s => $"'{s}'",
                         int i => i.ToString(),
                         bool b => b.ToString().ToLower(),
@@ -1232,13 +1249,13 @@ public static class AppMetadataUtils
                 to.Options = StringBuilderCache.ReturnAndFree(sb);
             }
         }
-        
+
         return to;
     }
 
     public static MetadataPropertyType Property(this MetadataType type, string name) =>
         type.Properties?.FirstOrDefault(x => x.Name == name);
-   
+
     public static MetadataPropertyType RequiredProperty(this MetadataType type, string name) =>
         type.Properties?.FirstOrDefault(x => x.Name == name) ?? throw new Exception($"{type.Name} does not contain property ${name}");
 
@@ -1247,14 +1264,14 @@ public static class AppMetadataUtils
         var prop = type.Properties?.FirstOrDefault(x => x.Name == name);
         if (prop != null) configure(prop);
     }
-    
+
     /// <summary>
     /// Reorder where the DB Column appears in Type (changes API &amp; UI ordering)
     /// </summary>
     public static MetadataPropertyType ReorderProperty(this MetadataType type, string name, string before = null, string after = null)
     {
         var prop = type.Property(name);
-        if (prop == null) 
+        if (prop == null)
             return null;
         var beforeProp = before != null
             ? type.Properties.FirstOrDefault(x => x.Name.Equals(before, StringComparison.OrdinalIgnoreCase))
@@ -1291,9 +1308,9 @@ public static class AppMetadataUtils
     /// <summary>
     /// Apply custom lambda to each matching property
     /// </summary>
-    public static void EachProperty(this MetadataType type, Func<MetadataPropertyType,bool> where, Action<MetadataPropertyType> configure)
+    public static void EachProperty(this MetadataType type, Func<MetadataPropertyType, bool> where, Action<MetadataPropertyType> configure)
     {
-        if (type.Properties == null) 
+        if (type.Properties == null)
             return;
         foreach (var prop in type.Properties.Where(where))
         {
@@ -1304,7 +1321,7 @@ public static class AppMetadataUtils
     /// <summary>
     /// Omit properties that match filter from inclusion in code-gen type
     /// </summary>
-    public static void RemoveProperty(this MetadataType type, Predicate<MetadataPropertyType> where) => 
+    public static void RemoveProperty(this MetadataType type, Predicate<MetadataPropertyType> where) =>
         type.Properties?.RemoveAll(where);
 
     /// <summary>
@@ -1312,7 +1329,7 @@ public static class AppMetadataUtils
     /// </summary>
     public static void RemoveProperty(this MetadataType type, string name)
     {
-        if (name != null) 
+        if (name != null)
             type.Properties?.RemoveAll(x => x.Name == name);
     }
     public static bool IsSystemType(this MetadataPropertyType prop) =>
@@ -1607,7 +1624,7 @@ public static class AppMetadataUtils
         return genericArgs;
     }
 
-    public static ImageInfo GetIcon(this Type type) => 
+    public static ImageInfo GetIcon(this Type type) =>
         X.Map(type.FirstAttribute<IconAttribute>() ?? type.GetCollectionType()?.FirstAttribute<IconAttribute>(),
             x => new ImageInfo { Svg = x.Svg, Uri = x.Uri, Cls = x.Cls, Alt = x.Alt });
 

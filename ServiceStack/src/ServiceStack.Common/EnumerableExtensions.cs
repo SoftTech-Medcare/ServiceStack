@@ -1,10 +1,10 @@
+using ServiceStack.Text;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {
@@ -127,7 +127,7 @@ namespace ServiceStack
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsEmpty(IEnumerable items) => EnumerableUtils.NullIfEmpty(items) == null;
     }
-    
+
     public static class EnumerableExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -144,7 +144,7 @@ namespace ServiceStack
         public static HashSet<T> ToSet<T>(this IEnumerable<T> items) => new(items);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static HashSet<T> ToSet<T>(this IEnumerable<T> items, IEqualityComparer<T> comparer) => new(items,comparer);
+        public static HashSet<T> ToSet<T>(this IEnumerable<T> items, IEqualityComparer<T> comparer) => new(items, comparer);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Each<T>(this IEnumerable<T> values, Action<T> action)
@@ -208,7 +208,7 @@ namespace ServiceStack
             }
             return list;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static List<object> ToObjects<T>(this IEnumerable<T> items)
         {
@@ -303,7 +303,7 @@ namespace ServiceStack
             return hasNoMoreLeftAsWell;
         }
 
-        public static bool EquivalentTo<K, V>(this IDictionary<K, V> a, IDictionary<K, V> b, Func<V,V,bool> comparer = null)
+        public static bool EquivalentTo<K, V>(this IDictionary<K, V> a, IDictionary<K, V> b, Func<V, V, bool> comparer = null)
         {
             if (comparer == null)
                 comparer = (v1, v2) => v1.Equals(v2);
@@ -506,7 +506,7 @@ namespace ServiceStack
             }
             return typeof(string);
         }
-     
+
         public static T[] CombineDistinct<T>(this T[] original, params T[][] others)
         {
             var count = original.Length;
@@ -514,7 +514,7 @@ namespace ServiceStack
             {
                 count += arr.Length;
             }
-            
+
             var all = new List<T>(count);
             all.AddRange(original);
             foreach (var arr in others)

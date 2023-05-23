@@ -1,4 +1,5 @@
 #if !NET6_0_OR_GREATER
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
@@ -501,8 +501,8 @@ public static partial class HttpUtils
         responseFilter?.Invoke((HttpWebResponse)webRes);
         return stream.ReadToEnd(UseEncoding);
     }
-    
-    public static async Task<string> SendStringToUrlAsync(this HttpWebRequest webReq, 
+
+    public static async Task<string> SendStringToUrlAsync(this HttpWebRequest webReq,
         string method, string requestBody, string contentType, string accept,
         Action<HttpWebRequest> requestFilter, Action<HttpWebResponse> responseFilter)
     {
@@ -639,7 +639,7 @@ public static partial class HttpUtils
         using var stream = webRes.GetResponseStream();
         return stream.ReadFully();
     }
- 
+
     public static async Task<byte[]> SendBytesToUrlAsync(this HttpWebRequest webReq, string method, byte[] requestBody,
         string contentType, string accept, Action<HttpWebRequest> requestFilter, Action<HttpWebResponse> responseFilter, CancellationToken token)
     {
@@ -671,7 +671,7 @@ public static partial class HttpUtils
         using var stream = webRes.GetResponseStream();
         return await stream.ReadFullyAsync(token).ConfigAwait();
     }
-   
+
     public static Stream GetStreamFromUrl(this string url, string accept = "*/*",
         Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null)
     {
@@ -1086,7 +1086,7 @@ public static partial class HttpUtils
 
         return await webRequest.GetResponseAsync().ConfigAwait();
     }
-    
+
     private static byte[] GetHeaderBytes(string fileName, string mimeType, string field, string boundary)
     {
         var header = "\r\n--" + boundary +
@@ -1096,7 +1096,7 @@ public static partial class HttpUtils
         return headerBytes;
     }
 
-    public static void DownloadFileTo(this string downloadUrl, string fileName, 
+    public static void DownloadFileTo(this string downloadUrl, string fileName,
         List<NameValue> headers = null)
     {
         var webClient = new WebClient();
@@ -1109,8 +1109,8 @@ public static partial class HttpUtils
         }
         webClient.DownloadFile(downloadUrl, fileName);
     }
-    
-    public static void SetRange(this HttpWebRequest request, long from, long? to) 
+
+    public static void SetRange(this HttpWebRequest request, long from, long? to)
     {
         if (to != null)
             request.AddRange(from, to.Value);
@@ -1139,7 +1139,7 @@ public static partial class HttpUtils
     {
         var config = new HttpRequestConfig();
         configure(config);
-        
+
         if (config.Accept != null)
             httpReq.Accept = config.Accept;
 
@@ -1153,9 +1153,9 @@ public static partial class HttpUtils
             httpReq.Referer = config.Referer;
 
         if (config.Authorization != null)
-            httpReq.Headers[HttpHeaders.Authorization] = 
+            httpReq.Headers[HttpHeaders.Authorization] =
                 config.Authorization.Name + " " + config.Authorization.Value;
-        
+
         if (config.Range != null)
             httpReq.SetRange(config.Range.From, config.Range.To);
 
@@ -1171,7 +1171,7 @@ public static partial class HttpUtils
         {
             httpReq.Headers[entry.Name] = entry.Value;
         }
-        
+
         return httpReq;
     }
 }
@@ -1233,9 +1233,9 @@ public static class HttpClientExt
     /// <summary>
     /// Case-insensitive, trimmed compare of two content types from start to ';', i.e. without charset suffix 
     /// </summary>
-    public static bool MatchesContentType(this HttpWebResponse res, string matchesContentType) => 
+    public static bool MatchesContentType(this HttpWebResponse res, string matchesContentType) =>
         MimeTypes.MatchesContentType(res.Headers[HttpHeaders.ContentType], matchesContentType);
-    
+
     /// <summary>
     /// Returns null for unknown Content-length
     /// Syntax + Behavior compatible with HttpClient HttpResponseMessage 

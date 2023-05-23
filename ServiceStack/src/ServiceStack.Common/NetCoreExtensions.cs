@@ -1,7 +1,11 @@
 ﻿#if NETCORE
-using System;
-using System.Data.Common;
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
 using System.Data;
+After:
+using System.Data.Common;
+*/
 using System.Net.Sockets;
 
 namespace ServiceStack
@@ -17,6 +21,6 @@ namespace ServiceStack
         {
             reader.Dispose();
         }
-}
+    }
 }
 #endif

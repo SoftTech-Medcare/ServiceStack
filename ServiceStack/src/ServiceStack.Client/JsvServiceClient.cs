@@ -1,6 +1,6 @@
-using System.IO;
 using ServiceStack.Text;
 using ServiceStack.Web;
+using System.IO;
 
 namespace ServiceStack
 {
@@ -9,15 +9,15 @@ namespace ServiceStack
     {
         public override string Format => "jsv";
 
-        public JsvServiceClient() {}
+        public JsvServiceClient() { }
 
-        public JsvServiceClient(string baseUri) 
+        public JsvServiceClient(string baseUri)
         {
             SetBaseUri(baseUri);
         }
 
-        public JsvServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri) 
-            : base(syncReplyBaseUri, asyncOneWayBaseUri) {}
+        public JsvServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri)
+            : base(syncReplyBaseUri, asyncOneWayBaseUri) { }
 
         public override string ContentType => $"application/{Format}";
 

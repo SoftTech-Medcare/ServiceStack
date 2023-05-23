@@ -1,13 +1,23 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Text;
+using ServiceStack.Text.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Text;
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
+After:
+using System.Linq;
+using System.Linq.Expressions;
+using ServiceStack.Text;
+*/
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace ServiceStack;
 
@@ -37,8 +47,8 @@ public static class ListExtensions
 
     public static IEnumerable<TFrom> SafeWhere<TFrom>(this List<TFrom> list, Func<TFrom, bool> predicate)
     {
-        return list == null 
-            ? Array.Empty<TFrom>() 
+        return list == null
+            ? Array.Empty<TFrom>()
             : list.Where(predicate);
     }
 
@@ -116,12 +126,12 @@ public static class ListExtensions
                 field = field.Substring(1);
 
             var sortMethod = first ?
-                desc ? "ThenByDescending" : "ThenBy" : 
+                desc ? "ThenByDescending" : "ThenBy" :
                 desc ? "OrderByDescending" : "OrderBy";
 
             result = result.OrderBy(field, sortMethod);
             first = true;
         }
         return result;
-    }    
+    }
 }

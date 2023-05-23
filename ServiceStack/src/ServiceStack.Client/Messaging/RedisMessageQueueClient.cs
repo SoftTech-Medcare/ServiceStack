@@ -1,9 +1,9 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
-using ServiceStack.Redis;
 
 namespace ServiceStack.Messaging
 {
@@ -27,10 +27,10 @@ namespace ServiceStack.Messaging
         }
 
         private IRedisNativeClient readWriteClient;
-        public IRedisNativeClient ReadWriteClient => readWriteClient ??= (IRedisNativeClient) clientsManager.GetClient();
+        public IRedisNativeClient ReadWriteClient => readWriteClient ??= (IRedisNativeClient)clientsManager.GetClient();
 
         private IRedisNativeClient readOnlyClient;
-        public IRedisNativeClient ReadOnlyClient => readOnlyClient ??= (IRedisNativeClient) clientsManager.GetReadOnlyClient();
+        public IRedisNativeClient ReadOnlyClient => readOnlyClient ??= (IRedisNativeClient)clientsManager.GetReadOnlyClient();
 
         public void Publish<T>(T messageBody)
         {

@@ -1,5 +1,7 @@
 ﻿#if NETCORE && !NETSTANDARD2_0
 
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Pools;
 using System;
 using System.Buffers.Text;
 using System.Globalization;
@@ -7,8 +9,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Pools;
 
 namespace ServiceStack.Text
 {
@@ -17,9 +17,9 @@ namespace ServiceStack.Text
         private static NetCoreMemory provider;
         public static NetCoreMemory Provider => provider ??= new NetCoreMemory();
         private NetCoreMemory() { }
-        
+
         public static void Configure() => Instance = Provider;
-        
+
         public override bool ParseBoolean(ReadOnlySpan<char> value) => bool.Parse(value);
 
         public override bool TryParseBoolean(ReadOnlySpan<char> value, out bool result) =>
@@ -39,7 +39,7 @@ namespace ServiceStack.Text
 
         public override decimal ParseDecimal(ReadOnlySpan<char> value) =>
             decimal.Parse(value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-        
+
         public override float ParseFloat(ReadOnlySpan<char> value) =>
             float.Parse(value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
 
@@ -65,7 +65,7 @@ namespace ServiceStack.Text
         public override ulong ParseUInt64(ReadOnlySpan<char> value) => ulong.Parse(value);
 
         public override Guid ParseGuid(ReadOnlySpan<char> value) => Guid.Parse(value);
-        
+
         public override byte[] ParseBase64(ReadOnlySpan<char> value)
         {
             byte[] bytes = BufferPool.GetBuffer(Base64.GetMaxDecodedFromUtf8Length(value.Length));
@@ -83,7 +83,7 @@ namespace ServiceStack.Text
                     return Convert.FromBase64CharArray(chars, 0, chars.Length);
                 }
             }
-            finally 
+            finally
             {
                 BufferPool.ReleaseBufferToPool(ref bytes);
             }
@@ -114,14 +114,14 @@ namespace ServiceStack.Text
         public override Task WriteAsync(Stream stream, ReadOnlyMemory<char> value, CancellationToken token = default) =>
             WriteAsync(stream, value.Span, token);
 
-        public override Task WriteAsync(Stream stream, ReadOnlySpan<char> value, CancellationToken token=default)
+        public override Task WriteAsync(Stream stream, ReadOnlySpan<char> value, CancellationToken token = default)
         {
             var utf8 = ToUtf8(value);
             if (stream is MemoryStream ms)
                 ms.Write(utf8.Span);
             else
                 return Task.FromResult(stream.WriteAsync(utf8, token));
-            
+
             return TypeConstants.EmptyTask;
         }
 
@@ -153,11 +153,11 @@ namespace ServiceStack.Text
         public override async Task<object> DeserializeAsync(Stream stream, Type type, DeserializeStringSpanDelegate deserializer)
         {
             var fromPool = false;
-            
+
             if (!(stream is MemoryStream ms))
             {
                 fromPool = true;
-                
+
                 if (stream.CanSeek)
                     stream.Position = 0;
 
@@ -174,7 +174,7 @@ namespace ServiceStack.Text
             try
             {
                 var charsWritten = Encoding.UTF8.GetChars(bytes, chars);
-                ReadOnlySpan<char> charsSpan = chars; 
+                ReadOnlySpan<char> charsSpan = chars;
                 var ret = deserializer(type, charsSpan.Slice(0, charsWritten));
                 return ret;
             }
@@ -225,7 +225,7 @@ namespace ServiceStack.Text
             ms.Write(source);
             return ms;
         }
-    }    
+    }
 }
 
 #endif

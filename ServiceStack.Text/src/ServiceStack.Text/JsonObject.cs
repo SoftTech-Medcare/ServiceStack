@@ -1,10 +1,25 @@
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+After:
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
+*/
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Json;
+using System;
+using System.Collections.Generic;
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Json;
+After:
+using System.Globalization;
+using System.IO;
+*/
+
 
 namespace ServiceStack.Text
 {
@@ -29,8 +44,8 @@ namespace ServiceStack.Text
         {
             if (map == null)
                 return TypeConstants<T>.EmptyArray;
-            return map.TryGetValue(key, out var value) 
-                ? (map is JsonObject obj ? value.FromJson<T[]>() : value.FromJsv<T[]>()) 
+            return map.TryGetValue(key, out var value)
+                ? (map is JsonObject obj ? value.FromJson<T[]>() : value.FromJsv<T[]>())
                 : TypeConstants<T>.EmptyArray;
         }
 
@@ -41,8 +56,8 @@ namespace ServiceStack.Text
         {
             if (map == null)
                 return null;
-            return map.TryGetValue(key, out var strVal) 
-                ? JsonTypeSerializer.Instance.UnescapeString(strVal) 
+            return map.TryGetValue(key, out var strVal)
+                ? JsonTypeSerializer.Instance.UnescapeString(strVal)
                 : null;
         }
 

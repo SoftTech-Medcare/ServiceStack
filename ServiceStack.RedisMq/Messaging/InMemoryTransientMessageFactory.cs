@@ -1,7 +1,7 @@
 #if !SL5
+using ServiceStack.Logging;
 using System;
 using System.Collections.Generic;
-using ServiceStack.Logging;
 
 namespace ServiceStack.Messaging
 {
@@ -9,7 +9,7 @@ namespace ServiceStack.Messaging
         : IMessageFactory
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(InMemoryTransientMessageFactory));
-        private readonly InMemoryTransientMessageService  transientMessageService;
+        private readonly InMemoryTransientMessageService transientMessageService;
         internal MessageQueueClientFactory MqFactory { get; set; }
 
         public InMemoryTransientMessageFactory()

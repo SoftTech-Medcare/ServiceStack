@@ -1,25 +1,33 @@
+
+/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.DataAnnotations;
+using ServiceStack.IO;
+using ServiceStack.Script;
+using ServiceStack.Text;
+using System;
+*/
+using ServiceStack.DataAnnotations;
+using ServiceStack.IO;
+using ServiceStack.Text;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using ServiceStack.DataAnnotations;
-using ServiceStack.IO;
-using ServiceStack.Script;
-using ServiceStack.Text;
 
 namespace ServiceStack.Script
 {
     // ReSharper disable InconsistentNaming
-    
+
     public class ProtectedScripts : ScriptMethods
     {
         public static readonly ProtectedScripts Instance = new ProtectedScripts();
@@ -35,7 +43,7 @@ namespace ServiceStack.Script
             var instance = scope.Context.Container.Resolve(t);
             return instance;
         }
-        
+
         public object @default(string typeName)
         {
             var type = assertTypeOf(typeName);
@@ -45,16 +53,16 @@ namespace ServiceStack.Script
         public object @new(string typeName)
         {
             var type = @typeof(typeName);
-            return type != null 
-                ? createInstance(type) 
+            return type != null
+                ? createInstance(type)
                 : null;
         }
 
         public object @new(string typeName, List<object> constructorArgs)
         {
             var type = @typeof(typeName);
-            return type != null 
-                ? createInstance(type, constructorArgs) 
+            return type != null
+                ? createInstance(type, constructorArgs)
                 : null;
         }
 
@@ -95,11 +103,12 @@ namespace ServiceStack.Script
         {
             var key = callKey(AssertCanCreateType(type), "<new>", constructorArgs);
 
-            var activator = (ObjectActivator) Context.Cache.GetOrAdd(key, k => {
-                
+            var activator = (ObjectActivator)Context.Cache.GetOrAdd(key, k =>
+            {
+
                 var args = constructorArgs;
                 var argTypes = args?.Select(x => x?.GetType()).ToArray() ?? TypeConstants.EmptyTypeArray;
-                
+
                 var ctorInfo = ResolveConstructor(type, argTypes);
                 return ctorInfo.GetActivator();
             });
@@ -179,7 +188,7 @@ namespace ServiceStack.Script
 
             var sb = StringBuilderCache.Allocate();
             sb.Append(type.Namespace).Append('.');
-            
+
             if (type.GenericTypeArguments.Length > 0)
             {
                 sb.Append(type.Name.LeftPart('`'))
@@ -190,7 +199,7 @@ namespace ServiceStack.Script
                 {
                     if (i++ > 0)
                         sb.Append(',');
-                    
+
                     sb.Append(typeQualifiedName(arg));
                 }
                 sb.Append('>');
@@ -205,7 +214,7 @@ namespace ServiceStack.Script
 
         public static string TypeNotFoundErrorMessage(string typeName) => $"Could not resolve Type '{typeName}'. " +
             $"Use ScriptContext.ScriptAssemblies or ScriptContext.AllowScriptingOfAllTypes + ScriptNamespaces to increase Type resolution";
-        
+
         public Type assertTypeOf(string name)
         {
             var type = @typeof(name);
@@ -220,10 +229,10 @@ namespace ServiceStack.Script
         public Type @typeof(string typeName)
         {
             typeName = typeName?.Trim();
-            
+
             if (string.IsNullOrEmpty(typeName))
                 return null;
-            
+
             var key = "type:" + typeName;
 
             Type cookType(Type type, List<string> genericArgs, bool isArray, bool isNullable)
@@ -242,12 +251,12 @@ namespace ServiceStack.Script
                 {
                     type = type.MakeArrayType();
                 }
-            
+
                 return isNullable
                     ? typeof(Nullable<>).MakeGenericType(type)
                     : type;
             }
-            
+
             Type onlyTypeOf(string _typeName)
             {
                 var isArray = _typeName.EndsWith("[]");
@@ -267,7 +276,7 @@ namespace ServiceStack.Script
                 var isNullable = _typeName.EndsWith("?");
                 if (isNullable)
                     _typeName = _typeName.Substring(0, _typeName.Length - 1);
-                
+
                 if (_typeName.IndexOf('.') >= 0)
                 {
                     if (Context.ScriptTypeQualifiedNameMap.TryGetValue(_typeName, out var type))
@@ -282,7 +291,8 @@ namespace ServiceStack.Script
                 }
                 else
                 {
-                    var ret = _typeName switch {
+                    var ret = _typeName switch
+                    {
                         "int" => !isArray ? typeof(int) : typeof(int[]),
                         "long" => !isArray ? typeof(long) : typeof(long[]),
                         "bool" => !isArray ? typeof(bool) : typeof(bool[]),
@@ -320,7 +330,7 @@ namespace ServiceStack.Script
                     var lookupType = ns + "." + _typeName;
                     if (Context.ScriptTypeQualifiedNameMap.TryGetValue(lookupType, out var type))
                         return cookType(type, genericArgs, isArray, isNullable);
-                    
+
                     if (Context.AllowScriptingOfAllTypes)
                     {
                         type = AssemblyUtils.FindType(lookupType);
@@ -332,7 +342,8 @@ namespace ServiceStack.Script
                 return null;
             }
 
-            var resolvedType = (Type) Context.Cache.GetOrAdd(key, k => {
+            var resolvedType = (Type)Context.Cache.GetOrAdd(key, k =>
+            {
 
                 var type = onlyTypeOf(typeName);
                 if (type != null)
@@ -348,7 +359,7 @@ namespace ServiceStack.Script
                         {
                             if (i > 0)
                                 nameBuilder += '.';
-                            
+
                             nameBuilder += parts[i];
                             var parentType = onlyTypeOf(nameBuilder);
                             if (parentType != null)
@@ -373,7 +384,7 @@ namespace ServiceStack.Script
 
             return resolvedType;
         }
-        
+
         public Type typeofProgId(string name) => Env.IsWindows
 #pragma warning disable CA1416
             ? Type.GetTypeFromProgID(name) // .NET Core throws TargetInvocationException CoreCLR_REMOVED -- Unmanaged activation removed
@@ -404,7 +415,7 @@ namespace ServiceStack.Script
                 }
                 sb.Append('>');
             }
-            
+
             appendArgTypes(sb, args);
             return StringBuilderCache.ReturnAndFree(sb);
         }
@@ -440,17 +451,18 @@ namespace ServiceStack.Script
                 throw new ArgumentNullException(nameof(instance));
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
-            
+
             var type = instance.GetType();
 
             var key = callKey(type, name, args);
 
-            var invoker = (Delegate)Context.Cache.GetOrAdd(key, k => {
+            var invoker = (Delegate)Context.Cache.GetOrAdd(key, k =>
+            {
                 var argTypes = args?.Select(x => x?.GetType()).ToArray();
                 var targetMethod = ResolveMethod(type, name, argTypes, argTypes?.Length ?? 0, out var fn);
                 if (targetMethod != null && targetMethod.IsStatic)
                     throw new NotSupportedException($"Cannot call static method {instance.GetType().Name}.{targetMethod.Name}");
-                
+
                 return fn ?? targetMethod.GetInvokerDelegate();
             });
 
@@ -480,7 +492,7 @@ namespace ServiceStack.Script
             var genericArgsCount = genericArgs.Count;
 
             var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
-                .Where(x => x.Name == name && (argsCount == null || x.GetParameters().Length == argsCount.Value) 
+                .Where(x => x.Name == name && (argsCount == null || x.GetParameters().Length == argsCount.Value)
                     && ((genericArgs.Count == 0 && !x.IsGenericMethod) || (x.IsGenericMethod && x.GetGenericArguments().Length == genericArgsCount)))
                 .ToArray();
 
@@ -490,7 +502,7 @@ namespace ServiceStack.Script
                 var argsTypesCount = argTypes?.Length ?? 0;
                 if (argsTypesCount == 0)
                 {
-                    var prop = type.GetProperty(name,BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+                    var prop = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 
                     if (prop != null)
                     {
@@ -503,17 +515,17 @@ namespace ServiceStack.Script
                     }
                     else
                     {
-                        var field = type.GetField(name,BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+                        var field = type.GetField(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
                         if (field != null)
                         {
                             if (field.IsStatic)
                             {
-                                invokerDelegate = (StaticMethodInvoker) ((args) => field.GetValue(null));
+                                invokerDelegate = (StaticMethodInvoker)((args) => field.GetValue(null));
                                 return null;
                             }
                             else
                             {
-                                invokerDelegate = (MethodInvoker) ((instance, args) => field.GetValue(instance));
+                                invokerDelegate = (MethodInvoker)((instance, args) => field.GetValue(instance));
                                 return null;
                             }
                         }
@@ -521,10 +533,10 @@ namespace ServiceStack.Script
                 }
                 else if (argsTypesCount == 1)
                 {
-                    var prop = type.GetProperty(name,BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+                    var prop = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
                     if (prop != null)
                     {
-                        targetMethod = prop.SetMethod ?? 
+                        targetMethod = prop.SetMethod ??
                             throw new NotSupportedException($"Property {typeQualifiedName(type)}.{name} does not have a setter");
                     }
                 }
@@ -601,10 +613,11 @@ namespace ServiceStack.Script
             if (qualifiedConstructorName.IndexOf('(') == -1)
                 throw new NotSupportedException($"Invalid Constructor Name '{qualifiedConstructorName}', " +
                     $"format: <type>(<arg-types>), e.g. Uri(String), see: https://sharpscript.net/docs/script-net");
-            
+
             var name = qualifiedConstructorName;
 
-            var activator = (ObjectActivator) Context.Cache.GetOrAdd(nameof(Constructor) + ":" + name, k => {
+            var activator = (ObjectActivator)Context.Cache.GetOrAdd(nameof(Constructor) + ":" + name, k =>
+            {
                 var argList = name.LastRightPart('(');
                 argList = argList?.Substring(0, argList.Length - 1);
                 var argTypes = typeGenericTypes(StringUtils.SplitGenericArgs(argList));
@@ -617,7 +630,7 @@ namespace ServiceStack.Script
 
                 return ctor.GetActivator();
             });
-            
+
             return activator;
         }
 
@@ -654,7 +667,7 @@ namespace ServiceStack.Script
                 throw new NotSupportedException($"Invalid Function Name '{qualifiedMethodName}', " +
                     $"format: <type>.<method>(<arg-types>), e.g. Console.WriteLine(string), see: https://sharpscript.net/docs/script-net");
 
-            var invoker = (Delegate) Context.Cache.GetOrAdd(nameof(Function) + ":" + qualifiedMethodName, k => 
+            var invoker = (Delegate)Context.Cache.GetOrAdd(nameof(Function) + ":" + qualifiedMethodName, k =>
                 ResolveFunction(qualifiedMethodName));
 
             return invoker;
@@ -678,13 +691,13 @@ namespace ServiceStack.Script
                                                 $"format: <type>.<method>(<arg-types>), e.g. Console.WriteLine(string), see: https://sharpscript.net/docs/script-net");
 
             var key = nameof(Function) + ":" + qualifiedMethodName + argTypesString(args);
-            var invoker = (Delegate)Context.Cache.GetOrAdd(key, k => 
+            var invoker = (Delegate)Context.Cache.GetOrAdd(key, k =>
                 ResolveFunction(qualifiedMethodName, args?.Select(x => x?.GetType()).ToArray()));
 
             return invoker;
         }
 
-        private Delegate ResolveFunction(string name, Type[] argTypes=null)
+        private Delegate ResolveFunction(string name, Type[] argTypes = null)
         {
             var hasArgsList = name.IndexOf('(') >= 0;
             var argList = hasArgsList
@@ -738,12 +751,12 @@ namespace ServiceStack.Script
             return fn ?? method.GetInvokerDelegate();
         }
 
-        static string MethodNotExists(string methodName) => $"Method {methodName} does not exist"; 
+        static string MethodNotExists(string methodName) => $"Method {methodName} does not exist";
 
         public MemoryVirtualFiles vfsMemory() => new();
 
         public FileSystemVirtualFiles vfsFileSystem(string dirPath) => new(dirPath);
-        
+
         public GistVirtualFiles vfsGist(string gistId) => new(gistId);
         public GistVirtualFiles vfsGist(string gistId, string accessToken) => new(gistId, accessToken);
 
@@ -773,7 +786,7 @@ namespace ServiceStack.Script
             {
                 file = virtualFiles.GetFile(pathMapping);
                 if (file != null)
-                    return file;                    
+                    return file;
                 Context.RemovePathMapping(pathMapKey, pathMapping);
             }
 
@@ -831,7 +844,7 @@ namespace ServiceStack.Script
         }
 
         IVirtualPathProvider VirtualFiles => Context.VirtualFiles;
-        
+
         // Old Aliases for Backwards compatibility
         [Alias("allFiles")]
         public IEnumerable<IVirtualFile> vfsAllFiles() => allFiles(VirtualFiles);
@@ -842,9 +855,9 @@ namespace ServiceStack.Script
         [Alias("combinePath")]
         public string vfsCombinePath(string basePath, string relativePath) => combinePath(VirtualFiles, basePath, relativePath);
         [Alias("findFilesInDirectory")]
-        public IEnumerable<IVirtualFile> dirFilesFind(string dirPath, string globPattern) => findFilesInDirectory(VirtualFiles,dirPath,globPattern);
+        public IEnumerable<IVirtualFile> dirFilesFind(string dirPath, string globPattern) => findFilesInDirectory(VirtualFiles, dirPath, globPattern);
         [Alias("findFiles")]
-        public IEnumerable<IVirtualFile> filesFind(string globPattern) => findFiles(VirtualFiles,globPattern);
+        public IEnumerable<IVirtualFile> filesFind(string globPattern) => findFiles(VirtualFiles, globPattern);
         [Alias("writeFile")]
         public string fileWrite(string virtualPath, object contents) => writeFile(VirtualFiles, virtualPath, contents);
         [Alias("appendToFile")]
@@ -854,10 +867,10 @@ namespace ServiceStack.Script
         [Alias("deleteFile")]
         public string dirDelete(string virtualPath) => deleteFile(VirtualFiles, virtualPath);
         [Alias("fileTextContents")]
-        public string fileReadAll(string virtualPath) => fileTextContents(VirtualFiles,virtualPath);
+        public string fileReadAll(string virtualPath) => fileTextContents(VirtualFiles, virtualPath);
         [Alias("fileBytesContent")]
         public byte[] fileReadAllBytes(string virtualPath) => fileBytesContent(VirtualFiles, virtualPath);
-        
+
         public IEnumerable<IVirtualFile> allFiles() => allFiles(VirtualFiles);
         public IEnumerable<IVirtualFile> allFiles(IVirtualPathProvider vfs) => vfs.GetAllFiles();
 
@@ -868,31 +881,31 @@ namespace ServiceStack.Script
         public string combinePath(string basePath, string relativePath) => combinePath(VirtualFiles, basePath, relativePath);
         public string combinePath(IVirtualPathProvider vfs, string basePath, string relativePath) => vfs.CombineVirtualPath(basePath, relativePath);
 
-        public IVirtualDirectory dir(string virtualPath) => dir(VirtualFiles,virtualPath);
+        public IVirtualDirectory dir(string virtualPath) => dir(VirtualFiles, virtualPath);
         public IVirtualDirectory dir(IVirtualPathProvider vfs, string virtualPath) => vfs.GetDirectory(virtualPath);
         public bool dirExists(string virtualPath) => VirtualFiles.DirectoryExists(virtualPath);
         public bool dirExists(IVirtualPathProvider vfs, string virtualPath) => vfs.DirectoryExists(virtualPath);
-        public IVirtualFile dirFile(string dirPath, string fileName) => dirFile(VirtualFiles,dirPath,fileName);
+        public IVirtualFile dirFile(string dirPath, string fileName) => dirFile(VirtualFiles, dirPath, fileName);
         public IVirtualFile dirFile(IVirtualPathProvider vfs, string dirPath, string fileName) => vfs.GetDirectory(dirPath)?.GetFile(fileName);
-        public IEnumerable<IVirtualFile> dirFiles(string dirPath) => dirFiles(VirtualFiles,dirPath);
+        public IEnumerable<IVirtualFile> dirFiles(string dirPath) => dirFiles(VirtualFiles, dirPath);
         public IEnumerable<IVirtualFile> dirFiles(IVirtualPathProvider vfs, string dirPath) => vfs.GetDirectory(dirPath)?.GetFiles() ?? new List<IVirtualFile>();
-        public IVirtualDirectory dirDirectory(string dirPath, string dirName) => dirDirectory(VirtualFiles,dirPath,dirName);
+        public IVirtualDirectory dirDirectory(string dirPath, string dirName) => dirDirectory(VirtualFiles, dirPath, dirName);
         public IVirtualDirectory dirDirectory(IVirtualPathProvider vfs, string dirPath, string dirName) => vfs.GetDirectory(dirPath)?.GetDirectory(dirName);
-        public IEnumerable<IVirtualDirectory> dirDirectories(string dirPath) => dirDirectories(VirtualFiles,dirPath);
+        public IEnumerable<IVirtualDirectory> dirDirectories(string dirPath) => dirDirectories(VirtualFiles, dirPath);
         public IEnumerable<IVirtualDirectory> dirDirectories(IVirtualPathProvider vfs, string dirPath) => vfs.GetDirectory(dirPath)?.GetDirectories() ?? new List<IVirtualDirectory>();
-        public IEnumerable<IVirtualFile> findFilesInDirectory(string dirPath, string globPattern) => findFilesInDirectory(VirtualFiles,dirPath,globPattern);
+        public IEnumerable<IVirtualFile> findFilesInDirectory(string dirPath, string globPattern) => findFilesInDirectory(VirtualFiles, dirPath, globPattern);
         public IEnumerable<IVirtualFile> findFilesInDirectory(IVirtualPathProvider vfs, string dirPath, string globPattern) => vfs.GetDirectory(dirPath)?.GetAllMatchingFiles(globPattern);
 
-        public IEnumerable<IVirtualFile> findFiles(string globPattern) => findFiles(VirtualFiles,globPattern);
+        public IEnumerable<IVirtualFile> findFiles(string globPattern) => findFiles(VirtualFiles, globPattern);
 
         public IEnumerable<IVirtualFile> dirFindFiles(IVirtualDirectory dir, string globPattern) => dir.GetAllMatchingFiles(globPattern);
         public IEnumerable<IVirtualFile> dirFindFiles(IVirtualDirectory dir, string globPattern, int maxDepth) => dir.GetAllMatchingFiles(globPattern, maxDepth);
         public IEnumerable<IVirtualFile> findFiles(IVirtualPathProvider vfs, string globPattern) => vfs.GetAllMatchingFiles(globPattern);
         public IEnumerable<IVirtualFile> findFiles(IVirtualPathProvider vfs, string globPattern, int maxDepth) => vfs.GetAllMatchingFiles(globPattern, maxDepth);
-        
-        public bool fileExists(string virtualPath) => fileExists(VirtualFiles,virtualPath);
+
+        public bool fileExists(string virtualPath) => fileExists(VirtualFiles, virtualPath);
         public bool fileExists(IVirtualPathProvider vfs, string virtualPath) => vfs.FileExists(virtualPath);
-        public IVirtualFile file(string virtualPath) => file(VirtualFiles,virtualPath);
+        public IVirtualFile file(string virtualPath) => file(VirtualFiles, virtualPath);
         public IVirtualFile file(IVirtualPathProvider vfs, string virtualPath) => vfs.GetFile(virtualPath);
         public string writeFile(string virtualPath, object contents) => writeFile(VirtualFiles, virtualPath, contents);
         public string writeFile(IVirtualPathProvider vfs, string virtualPath, object contents)
@@ -901,13 +914,13 @@ namespace ServiceStack.Script
             return virtualPath;
         }
 
-        public object writeFiles(IVirtualPathProvider vfs, Dictionary<string,object> files)
+        public object writeFiles(IVirtualPathProvider vfs, Dictionary<string, object> files)
         {
             vfs.WriteFiles(files);
             return IgnoreResult.Value;
         }
 
-        public object writeTextFiles(IVirtualPathProvider vfs, Dictionary<string,string> textFiles)
+        public object writeTextFiles(IVirtualPathProvider vfs, Dictionary<string, string> textFiles)
         {
             vfs.WriteFiles(textFiles);
             return IgnoreResult.Value;
@@ -935,7 +948,7 @@ namespace ServiceStack.Script
             return virtualPath;
         }
 
-        public string fileTextContents(string virtualPath) => fileTextContents(VirtualFiles,virtualPath);
+        public string fileTextContents(string virtualPath) => fileTextContents(VirtualFiles, virtualPath);
         public string fileTextContents(IVirtualPathProvider vfs, string virtualPath) => vfs.GetFile(virtualPath)?.ReadAllText();
 
         public object fileContents(IVirtualPathProvider vfs, string virtualPath) =>
@@ -949,12 +962,12 @@ namespace ServiceStack.Script
                 : file is IVirtualFile ifile
                     ? ifile.GetContents()
                 : throw new NotSupportedException(nameof(fileContents) + " expects string virtualPath or IVirtualFile but was " + file.GetType().Name);
-        
+
         public string textContents(IVirtualFile file) => file?.ReadAllText();
         public byte[] fileBytesContent(string virtualPath) => fileBytesContent(VirtualFiles, virtualPath);
         public byte[] fileBytesContent(IVirtualPathProvider vfs, string virtualPath) => vfs.GetFile(virtualPath)?.ReadAllBytes();
         public byte[] bytesContent(IVirtualFile file) => file?.ReadAllBytes();
-        public string fileHash(string virtualPath) => fileHash(VirtualFiles,virtualPath);
+        public string fileHash(string virtualPath) => fileHash(VirtualFiles, virtualPath);
         public string fileHash(IVirtualPathProvider vfs, string virtualPath) => vfs.GetFileHash(virtualPath);
         public string fileHash(IVirtualFile file) => file?.GetFileHash();
         public bool fileIsBinary(IVirtualFile file) => MimeTypes.IsBinary(MimeTypes.GetMimeType(file.Extension));
@@ -991,20 +1004,20 @@ namespace ServiceStack.Script
         private static HttpWebRequest initWebRequest(string url, Dictionary<string, object> scopedParams)
         {
 #pragma warning disable CS0618, SYSLIB0014
-            var webReq = (HttpWebRequest) WebRequest.Create(url);
+            var webReq = (HttpWebRequest)WebRequest.Create(url);
 #pragma warning restore CS0618, SYSLIB0014
             var dataType = scopedParams.TryGetValue("dataType", out object value)
-                ? ConvertDataTypeToContentType((string) value)
+                ? ConvertDataTypeToContentType((string)value)
                 : null;
 
             if (scopedParams.TryGetValue("method", out value))
-                webReq.Method = (string) value;
+                webReq.Method = (string)value;
             if (scopedParams.TryGetValue("contentType", out value) || dataType != null)
-                webReq.ContentType = (string) value ?? dataType;
+                webReq.ContentType = (string)value ?? dataType;
             if (scopedParams.TryGetValue("accept", out value) || dataType != null)
-                webReq.Accept = (string) value ?? dataType;
+                webReq.Accept = (string)value ?? dataType;
             if (scopedParams.TryGetValue("userAgent", out value))
-                PclExport.Instance.SetUserAgent(webReq, (string) value);
+                PclExport.Instance.SetUserAgent(webReq, (string)value);
             return webReq;
         }
 
@@ -1027,7 +1040,8 @@ namespace ServiceStack.Script
         }
 
         public string urlTextContents(ScriptScopeContext scope, string url) =>
-            urlTextContents(scope, url, new Dictionary<string, object> {
+            urlTextContents(scope, url, new Dictionary<string, object>
+            {
                 ["method"] = HttpMethods.Get
             });
 
@@ -1070,7 +1084,7 @@ namespace ServiceStack.Script
                 case "form":
                     return MimeTypes.FormUrlEncoded;
             }
-            
+
             throw new NotSupportedException($"Unknown dataType '{dataType}'");
         }
 
@@ -1101,11 +1115,11 @@ namespace ServiceStack.Script
             throw new NotSupportedException($"Can not serialize to unknown Content-Type '{contentType}'");
         }
 
-        public static string CreateCacheKey(string url, Dictionary<string,object> options=null)
+        public static string CreateCacheKey(string url, Dictionary<string, object> options = null)
         {
             var sb = StringBuilderCache.Allocate()
                 .Append(url);
-            
+
             if (options != null)
             {
                 foreach (var entry in options)
@@ -1118,7 +1132,7 @@ namespace ServiceStack.Script
 
             return StringBuilderCache.ReturnAndFree(sb);
         }
-        
+
         //alias
         public Task fileContentsWithCache(ScriptScopeContext scope, string virtualPath) => includeFileWithCache(scope, virtualPath, null);
         public Task fileContentsWithCache(ScriptScopeContext scope, string virtualPath, object options) => includeFileWithCache(scope, virtualPath, options);
@@ -1130,7 +1144,7 @@ namespace ServiceStack.Script
             var expireIn = scopedParams.TryGetValue("expireInSecs", out object value)
                 ? TimeSpan.FromSeconds(value.ConvertTo<int>())
                 : (TimeSpan)scope.Context.Args[ScriptConstants.DefaultFileCacheExpiry];
-            
+
             var cacheKey = CreateCacheKey("file:" + scope.PageResult.VirtualPath + ">" + virtualPath, scopedParams);
             if (Context.ExpiringCache.TryGetValue(cacheKey, out Tuple<DateTime, object> cacheEntry))
             {
@@ -1152,7 +1166,7 @@ namespace ServiceStack.Script
 
                 ms.Position = 0;
                 var bytes = ms.ToArray();
-                Context.ExpiringCache[cacheKey] = Tuple.Create(DateTime.UtcNow.Add(expireIn),(object)bytes);
+                Context.ExpiringCache[cacheKey] = Tuple.Create(DateTime.UtcNow.Add(expireIn), (object)bytes);
                 await scope.OutputStream.WriteAsync(bytes);
             }
         }
@@ -1160,7 +1174,7 @@ namespace ServiceStack.Script
         //alias
         public Task urlContentsWithCache(ScriptScopeContext scope, string url) => includeUrlWithCache(scope, url, null);
         public Task urlContentsWithCache(ScriptScopeContext scope, string url, object options) => includeUrlWithCache(scope, url, options);
-        
+
         public Task includeUrlWithCache(ScriptScopeContext scope, string url) => includeUrlWithCache(scope, url, null);
         public async Task includeUrlWithCache(ScriptScopeContext scope, string url, object options)
         {
@@ -1198,7 +1212,7 @@ namespace ServiceStack.Script
                 var expireAt = DateTime.UtcNow.Add(expireIn);
 
                 var bytes = ms.ToArray();
-                Context.ExpiringCache[cacheKey] = cacheEntry = Tuple.Create(expireAt,(object)bytes);
+                Context.ExpiringCache[cacheKey] = cacheEntry = Tuple.Create(expireAt, (object)bytes);
                 await scope.OutputStream.WriteAsync(bytes);
             }
         }
@@ -1234,14 +1248,14 @@ namespace ServiceStack.Script
         {
             if (o == null)
                 return TypeConstants<ScriptMethodInfo>.EmptyArray;
-            
+
             var type = o is Type t
                 ? t
                 : o.GetType();
 
             return filterMethods(type.GetInstanceMethods());
         }
-        
+
         public List<string> staticMethods(object o)
         {
             if (o == null)
@@ -1255,7 +1269,7 @@ namespace ServiceStack.Script
         {
             if (o == null)
                 return TypeConstants<ScriptMethodInfo>.EmptyArray;
-            
+
             var type = o is Type t
                 ? t
                 : o.GetType();
@@ -1267,7 +1281,7 @@ namespace ServiceStack.Script
         {
             if (o == null)
                 return TypeConstants<ScriptMethodInfo>.EmptyArray;
-            
+
             var type = o is Type t
                 ? t
                 : o.GetType();
@@ -1280,14 +1294,14 @@ namespace ServiceStack.Script
         {
             if (o == null)
                 return TypeConstants<MemberInfo>.EmptyArray;
-            
+
             var type = o is Type t
                 ? t
                 : o.GetType();
 
             return type.GetMembers(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
-        
+
         static readonly string[] AllCacheNames = {
             nameof(ScriptContext.Cache),
             nameof(ScriptContext.CacheMemory),
@@ -1327,13 +1341,13 @@ namespace ServiceStack.Script
             {
                 caches = strName.EqualsIgnoreCase("all")
                     ? AllCacheNames
-                    : new[]{ strName };
+                    : new[] { strName };
             }
             else if (cacheNames is IEnumerable<string> nameList)
             {
                 caches = nameList;
             }
-            else throw new NotSupportedException(nameof(cacheClear) + 
+            else throw new NotSupportedException(nameof(cacheClear) +
                  " expects a cache name or list of cache names but received: " + (cacheNames.GetType()?.Name ?? "null"));
 
             int entriesRemoved = 0;
@@ -1361,7 +1375,7 @@ namespace ServiceStack.Script
         {
             if (string.IsNullOrEmpty(arguments))
                 return null;
-            
+
             if (options == null)
                 options = new Dictionary<string, object>();
 
@@ -1377,7 +1391,7 @@ namespace ServiceStack.Script
                 return proc(scope, "/bin/bash", options);
             }
         }
-        
+
         public string proc(ScriptScopeContext scope, string fileName) => proc(scope, fileName, null);
         public string proc(ScriptScopeContext scope, string fileName, Dictionary<string, object> options)
         {
@@ -1394,12 +1408,12 @@ namespace ServiceStack.Script
 
             if (options.TryGetValue("arguments", out var oArguments))
                 process.StartInfo.Arguments = oArguments.AsString();
-            
+
             if (options.TryGetValue("dir", out var oWorkDir))
                 process.StartInfo.WorkingDirectory = oWorkDir.AsString();
 
-            try 
-            { 
+            try
+            {
                 using (process)
                 {
                     process.StartInfo.RedirectStandardError = true;
@@ -1415,7 +1429,7 @@ namespace ServiceStack.Script
                         throw new Exception($"`{fileName} {process.StartInfo.Arguments}` command failed: " + error);
 
                     return output;
-                }            
+                }
             }
             catch (Exception ex)
             {
@@ -1432,7 +1446,7 @@ namespace ServiceStack.Script
                     StartInfo =
                     {
                         UseShellExecute = false,
-                        FileName = Env.IsWindows 
+                        FileName = Env.IsWindows
                             ? "where"  //Win 7/Server 2003+
                             : "which", //macOS / Linux
                         Arguments = exeName,
@@ -1453,7 +1467,7 @@ namespace ServiceStack.Script
                     }
                 }
             }
-            catch {}               
+            catch { }
             return null;
         }
 
@@ -1469,8 +1483,8 @@ namespace ServiceStack.Script
             return IgnoreResult.Value;
         }
 
-        private static string check(string target) => 
-            string.IsNullOrWhiteSpace(target?.Replace("\"","")) ? null : target;
+        private static string check(string target) =>
+            string.IsNullOrWhiteSpace(target?.Replace("\"", "")) ? null : target;
         private static string winpath(string path) => path?.Replace('/', '\\');
         private static string unixpath(string path) => path?.Replace('\\', '/');
 
@@ -1534,7 +1548,7 @@ namespace ServiceStack.Script
                 ? sh(scope, $"CALL >> {winpath(target)}")
                 : sh(scope, $"touch {unixpath(target)}");
         }
-        
+
         public FileScripts File() => new();
         public DirectoryScripts Directory() => new();
 
@@ -1559,41 +1573,41 @@ namespace ServiceStack.Script
             : target is byte[] b
                 ? HexHash(SHA512.Create(), b)
                 : throw new NotSupportedException(target?.GetType().Name);
-        
+
         public IgnoreResult Delete(string path) => System.IO.File.Exists(path)
             ? File().Delete(path)
             : System.IO.Directory.Exists(path)
                 ? Directory().Delete(path)
                 : IgnoreResult.Value;
         public IgnoreResult Delete(IOScript os, string path) => os.Delete(path);
-        
+
         public bool Exists(string path) => System.IO.File.Exists(path) || System.IO.Directory.Exists(path);
         public bool Exists(IOScript os, string path) => os.Exists(path);
 
         public IgnoreResult Move(string from, string to) => System.IO.File.Exists(from)
-            ? File().Move( from, to)
+            ? File().Move(from, to)
             : System.IO.Directory.Exists(from)
-                ? Directory().Move( from, to)
+                ? Directory().Move(from, to)
                 : IgnoreResult.Value;
-        public IgnoreResult Move(IOScript os, string from, string to) => os.Move( from, to);
+        public IgnoreResult Move(IOScript os, string from, string to) => os.Move(from, to);
 
         public IgnoreResult Copy(string from, string to) => System.IO.File.Exists(from)
-            ? File().Copy( from, to)
+            ? File().Copy(from, to)
             : System.IO.Directory.Exists(from)
                 ? Directory().Copy(from, to)
                 : IgnoreResult.Value;
-        public IgnoreResult Copy(IOScript os, string from, string to) => os.Copy( from, to);
-        
-        public IgnoreResult Create(string from, string to) => File().Copy( from, to);
-        public IgnoreResult Create(FileScripts fs, string from, string to) => fs.Copy( from, to);
-        
-        public IgnoreResult Decrypt(string path) => File().Decrypt( path);
-        public IgnoreResult Decrypt(FileScripts fs, string path) => fs.Decrypt( path);
-        public IgnoreResult Encrypt(string path) => File().Encrypt( path);
-        public IgnoreResult Encrypt(FileScripts fs, string path) => fs.Encrypt( path);
-        
-        public IgnoreResult Replace(string from, string to, string backup) => File().Replace( from, to, backup);
-        public IgnoreResult Replace(FileScripts fs, string from, string to, string backup) => fs.Replace( from, to, backup);
+        public IgnoreResult Copy(IOScript os, string from, string to) => os.Copy(from, to);
+
+        public IgnoreResult Create(string from, string to) => File().Copy(from, to);
+        public IgnoreResult Create(FileScripts fs, string from, string to) => fs.Copy(from, to);
+
+        public IgnoreResult Decrypt(string path) => File().Decrypt(path);
+        public IgnoreResult Decrypt(FileScripts fs, string path) => fs.Decrypt(path);
+        public IgnoreResult Encrypt(string path) => File().Encrypt(path);
+        public IgnoreResult Encrypt(FileScripts fs, string path) => fs.Encrypt(path);
+
+        public IgnoreResult Replace(string from, string to, string backup) => File().Replace(from, to, backup);
+        public IgnoreResult Replace(FileScripts fs, string from, string to, string backup) => fs.Replace(from, to, backup);
 
         public byte[] ReadAllBytes(string path) => File().ReadAllBytes(path);
         public byte[] ReadAllBytes(FileScripts fs, string path) => fs.ReadAllBytes(path);
@@ -1608,12 +1622,12 @@ namespace ServiceStack.Script
         public IgnoreResult WriteAllLines(FileScripts fs, string path, string[] lines) => fs.WriteAllLines(path, lines);
         public IgnoreResult WriteAllText(string path, string text) => File().WriteAllText(path, text);
         public IgnoreResult WriteAllText(FileScripts fs, string path, string text) => fs.WriteAllText(path, text);
-        
+
         public IgnoreResult AppendAllLines(string path, string[] lines) => File().AppendAllLines(path, lines);
         public IgnoreResult AppendAllLines(FileScripts fs, string path, string[] lines) => fs.AppendAllLines(path, lines);
         public IgnoreResult AppendAllText(string path, string text) => File().AppendAllText(path, text);
         public IgnoreResult AppendAllText(FileScripts fs, string path, string text) => fs.AppendAllText(path, text);
-        
+
         public IgnoreResult CreateDirectory(string path) => Directory().CreateDirectory(path);
         public IgnoreResult CreateDirectory(DirectoryScripts ds, string path) => ds.CreateDirectory(path);
 
@@ -1737,8 +1751,8 @@ namespace ServiceStack.Script
             CopyAllTo(from, to);
             return IgnoreResult.Value;
         }
-        
-        public static void CopyAllTo(string src, string dst, string[] excludePaths=null)
+
+        public static void CopyAllTo(string src, string dst, string[] excludePaths = null)
         {
             var d = Path.DirectorySeparatorChar;
 
@@ -1763,6 +1777,6 @@ namespace ServiceStack.Script
                     Console.WriteLine(ex.Message);
                 }
             }
-        }        
+        }
     }
 }

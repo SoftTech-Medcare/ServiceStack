@@ -1,10 +1,10 @@
 #nullable enable
+using ServiceStack.Model;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ServiceStack.Model;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
@@ -16,7 +16,7 @@ public static class ApiResult
 
     public static ApiResult<TResponse> CreateError<TResponse>(ResponseStatus errorStatus) => new(errorStatus);
     public static ApiResult<EmptyResponse> CreateError(ResponseStatus errorStatus) => new(errorStatus);
-    
+
     public static ApiResult<TResponse> CreateError<TResponse>(string message, string? errorCode = nameof(Exception)) =>
         new(ErrorUtils.CreateError(message, errorCode));
     public static ApiResult<EmptyResponse> CreateError(string message, string? errorCode = nameof(Exception)) =>
@@ -62,7 +62,7 @@ public class ApiResult<TResponse> : IHasErrorStatus
     public ApiResult() { }
     public ApiResult(TResponse response) => Response = response;
     public ApiResult(ResponseStatus errorStatus) => Error = errorStatus;
-    
+
     public string? FieldErrorMessage(string fieldName) => Error.FieldErrorMessage(fieldName);
 
     public ResponseError? FieldError(string fieldName) => Error.FieldError(fieldName);
@@ -73,7 +73,8 @@ public class ApiResult<TResponse> : IHasErrorStatus
 
     public void AddFieldError(string fieldName, string message, string? errorCode = ApiResult.FieldErrorCode)
     {
-        Error ??= new ResponseStatus {
+        Error ??= new ResponseStatus
+        {
             ErrorCode = ErrorUtils.FieldErrorCode,
             Message = message,
         };
@@ -144,14 +145,16 @@ public static class ErrorUtils
 
     public static ResponseStatus AsResponseStatus(this Exception ex) => CreateError(ex);
 
-    public static ResponseStatus CreateError(Exception ex) => ex switch {
+    public static ResponseStatus CreateError(Exception ex) => ex switch
+    {
         IResponseStatusConvertible rsc => rsc.ToResponseStatus(),
         IHasResponseStatus hasStatus => hasStatus.ResponseStatus,
         ArgumentException { ParamName: { } } ae => CreateFieldError(ae.ParamName, ex.Message, ex.GetType().Name),
         _ => CreateError(ex.Message, ex.GetType().Name)
     };
 
-    public static ResponseStatus CreateError(string message, string? errorCode = nameof(Exception)) => new() {
+    public static ResponseStatus CreateError(string message, string? errorCode = nameof(Exception)) => new()
+    {
         ErrorCode = errorCode,
         Message = message,
     };
@@ -172,7 +175,8 @@ public static class ErrorUtils
         else
         {
             status.Errors ??= new List<ResponseError>();
-            status.Errors.Add(new ResponseError {
+            status.Errors.Add(new ResponseError
+            {
                 FieldName = fieldName,
                 Message = errorMessage,
                 ErrorCode = errorCode,
@@ -187,10 +191,12 @@ public static class ApiResultUtils
     public static void ThrowIfError<TResponse>(this ApiResult<TResponse> api)
     {
         if (!api.Failed) return;
-        throw new WebServiceException(api.ErrorMessage) {
+        throw new WebServiceException(api.ErrorMessage)
+        {
             StatusCode = 500,
             StatusDescription = api.ErrorMessage,
-            ResponseDto = new ErrorResponse {
+            ResponseDto = new ErrorResponse
+            {
                 ResponseStatus = api.Error,
             }
         };
@@ -270,7 +276,8 @@ public static class ApiResultUtils
     /// <summary>
     /// Convert AutoLogin RegisterResponse into AuthenticateResponse to avoid additional trip
     /// </summary>
-    public static AuthenticateResponse ToAuthenticateResponse(this RegisterResponse from) => new() {
+    public static AuthenticateResponse ToAuthenticateResponse(this RegisterResponse from) => new()
+    {
         // don't use automapping/reflection as needs to work in AOT/Blazor 
         UserId = from.UserId,
         SessionId = from.SessionId,

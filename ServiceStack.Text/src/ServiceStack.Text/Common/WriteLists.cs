@@ -14,9 +14,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Reflection;
 using System.Threading;
 using System.Linq;
+After:
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+*/
+using System.Threading;
 
 namespace ServiceStack.Text.Common
 {
@@ -217,15 +226,16 @@ namespace ServiceStack.Text.Common
         static WriteListsOfElements()
         {
             var fn = JsWriter.GetTypeSerializer<TSerializer>().GetWriteFn<T>();
-            ElementWriteFn = (writer, obj) => {
-                try 
-                { 
+            ElementWriteFn = (writer, obj) =>
+            {
+                try
+                {
                     if (!JsState.Traverse(obj))
                         return;
-                    
+
                     fn(writer, obj);
                 }
-                finally 
+                finally
                 {
                     JsState.UnTraverse();
                 }

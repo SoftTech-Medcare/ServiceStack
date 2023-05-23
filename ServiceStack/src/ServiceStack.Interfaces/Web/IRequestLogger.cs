@@ -17,7 +17,7 @@ namespace ServiceStack.Web
         /// Turn On/Off Raw Request Body Tracking
         /// </summary>
         bool EnableRequestBodyTracking { get; set; }
-        
+
         /// <summary>
         /// Turn On/Off Raw Request Body Tracking per-request
         /// </summary>
@@ -63,7 +63,7 @@ namespace ServiceStack.Web
         /// By default Auth and Registration requests are hidden.
         /// </summary>
         Type[] HideRequestBodyForRequestDtoTypes { get; set; }
-        
+
         /// <summary>
         /// Don't log Response DTO Types
         /// </summary>
@@ -77,8 +77,8 @@ namespace ServiceStack.Web
         /// <summary>
         /// Customize which instances should not be serialized
         /// </summary>
-        Func<object,bool> IgnoreFilter { get; set; }
-        
+        Func<object, bool> IgnoreFilter { get; set; }
+
         /// <summary>
         /// Change what DateTime to use for the current Date (defaults to UtcNow)
         /// </summary>

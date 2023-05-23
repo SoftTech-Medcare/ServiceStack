@@ -35,7 +35,7 @@ namespace ServiceStack.Redis
         {
             // flush send buffers
             RedisClient.FlushAndResetSendBuffer();
-            
+
             try
             {
                 //receive expected results
@@ -51,7 +51,7 @@ namespace ServiceStack.Redis
                 RedisClient.DisposeConnection();
                 throw;
             }
-            
+
             ClosePipeline();
         }
 

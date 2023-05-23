@@ -10,14 +10,22 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Model;
+using ServiceStack.Text;
+using System;
+*/
+using ServiceStack.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Authentication;
-using ServiceStack.Model;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -79,7 +87,7 @@ namespace ServiceStack.Redis
                             break;
                         case "sslprotocols":
                             value = value?.Replace("|", ",");
-                            if (!Enum.TryParse(value, true, out SslProtocols protocols)) 
+                            if (!Enum.TryParse(value, true, out SslProtocols protocols))
                                 throw new ArgumentOutOfRangeException("Keyword '" + name + "' requires an SslProtocol value (multiple values separated by '|').");
                             endpoint.SslProtocols = protocols;
                             break;

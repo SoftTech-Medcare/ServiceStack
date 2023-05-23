@@ -1,15 +1,15 @@
-﻿using System;
-using ServiceStack.Model;
+﻿using ServiceStack.Model;
+using System;
 
 namespace ServiceStack.Messaging
 {
     public class MessagingException : Exception, IHasResponseStatus, IResponseStatusConvertible
     {
-        public MessagingException() {}
+        public MessagingException() { }
 
-        public MessagingException(string message) : base(message) {}
+        public MessagingException(string message) : base(message) { }
 
-        public MessagingException(string message, Exception innerException) : base(message, innerException) {}
+        public MessagingException(string message, Exception innerException) : base(message, innerException) { }
 
         public MessagingException(ResponseStatus responseStatus, Exception innerException = null)
             : base(responseStatus.Message ?? responseStatus.ErrorCode, innerException)

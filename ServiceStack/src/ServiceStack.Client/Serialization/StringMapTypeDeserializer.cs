@@ -1,12 +1,12 @@
+using ServiceStack.Logging;
+using ServiceStack.Text;
+using ServiceStack.Text.Common;
+using ServiceStack.Text.Jsv;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Runtime.Serialization;
-using ServiceStack.Logging;
-using ServiceStack.Text;
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Jsv;
 
 namespace ServiceStack.Serialization
 {
@@ -17,14 +17,14 @@ namespace ServiceStack.Serialization
     {
         private static ILog Log = LogManager.GetLogger(typeof(StringMapTypeDeserializer));
 
-        public static Dictionary<string,IStringSerializer> ContentTypeStringSerializers { get; } = new ()
+        public static Dictionary<string, IStringSerializer> ContentTypeStringSerializers { get; } = new()
         {
             [MimeTypes.Json] = new JsonStringSerializer(),
             [MimeTypes.Jsv] = new JsvStringSerializer(),
             [MimeTypes.Csv] = new CsvStringSerializer(),
         };
 
-        public static ConcurrentDictionary<Type,IStringSerializer> TypeStringSerializers { get; } = new ();
+        public static ConcurrentDictionary<Type, IStringSerializer> TypeStringSerializers { get; } = new();
 
         internal class PropertySerializerEntry
         {
@@ -59,7 +59,7 @@ namespace ServiceStack.Serialization
                 }
                 if (attr.StringSerializer != null)
                 {
-                    var serializer = TypeStringSerializers.GetOrAdd(attr.StringSerializer, 
+                    var serializer = TypeStringSerializers.GetOrAdd(attr.StringSerializer,
                         type => type.CreateInstance<IStringSerializer>());
                     return s => serializer.DeserializeFromString(s, propType);
                 }
@@ -74,12 +74,12 @@ namespace ServiceStack.Serialization
         public StringMapTypeDeserializer(Type type)
         {
             this.type = type;
-            
+
             foreach (var propertyInfo in type.GetSerializableProperties())
             {
                 var propertySetFn = propertyInfo.CreateSetter();
                 var propertyType = propertyInfo.PropertyType;
-                var propertySerializer = new PropertySerializerEntry(propertySetFn, 
+                var propertySerializer = new PropertySerializerEntry(propertySetFn,
                     ResolveStringParseFn(propertyType, propertyInfo.FirstAttribute<MultiPartFieldAttribute>()))
                 {
                     PropertyType = propertyType
@@ -164,7 +164,7 @@ namespace ServiceStack.Serialization
         }
 
 
-        private object PopulateFromKeyValue(object instance, string propertyName, string propertyTextValue, out PropertySerializerEntry propertySerializerEntry,  List<RequestBindingError> errors, 
+        private object PopulateFromKeyValue(object instance, string propertyName, string propertyTextValue, out PropertySerializerEntry propertySerializerEntry, List<RequestBindingError> errors,
             HashSet<string> ignoredWarningsOnPropertyNames = null)
         {
             propertySerializerEntry = null;
@@ -197,7 +197,7 @@ namespace ServiceStack.Serialization
                     return instance;
                 }
 
-                if (propertySerializerEntry.PropertyType == typeof (bool))
+                if (propertySerializerEntry.PropertyType == typeof(bool))
                 {
                     //InputExtensions.cs#530 MVC Checkbox helper emits extra hidden input field, generating 2 values, first is the real value
                     propertyTextValue = propertyTextValue.LeftPart(',');
@@ -230,7 +230,7 @@ namespace ServiceStack.Serialization
 
             return instance;
         }
-        
+
 
         public object CreateFromMap(IDictionary<string, string> keyValuePairs)
         {

@@ -1,9 +1,19 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
+using System;
+After:
+using ServiceStack.Text;
+using ServiceStack.Text.Common;
+using System;
+*/
+using ServiceStack.Text;
+using ServiceStack.Text.Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,15 +21,13 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
-using ServiceStack.Text.Common;
 
 namespace ServiceStack
 {
     public class LicenseException : Exception
     {
         public LicenseException(string message) : base(message) { }
-        public LicenseException(string message, Exception innerException) : base(message, innerException) {}
+        public LicenseException(string message, Exception innerException) : base(message, innerException) { }
     }
 
     public enum LicenseType
@@ -184,8 +192,19 @@ namespace ServiceStack
             internal __ActivatedLicense(LicenseKey licenseKey) => LicenseKey = licenseKey;
         }
 
+
+        /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+        Before:
+                public static string LicenseWarningMessage { get; private set; }
+
+                private static string GetLicenseWarningMessage()
+        After:
+                public static string LicenseWarningMessage { get; private set; }
+
+                private static string GetLicenseWarningMessage()
+        */
         public static string LicenseWarningMessage { get; private set; }
-        
+
         private static string GetLicenseWarningMessage()
         {
             var key = __activatedLicense?.LicenseKey;
@@ -226,8 +245,19 @@ namespace ServiceStack
                 {
                     ValidateFreeLicenseKey(licenseKeyText);
                     return;
+
+                    /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+                    Before:
+                                    }
+
+                                    var parts = licenseKeyText.SplitOnFirst('-');
+                    After:
+                                    }
+
+                                    var parts = licenseKeyText.SplitOnFirst('-');
+                    */
                 }
-                
+
                 var parts = licenseKeyText.SplitOnFirst('-');
                 subId = parts[0];
 
@@ -268,7 +298,7 @@ namespace ServiceStack
                     }
                     catch (Exception exFallback)
                     {
-                        if (exFallback is FileNotFoundException or FileLoadException or BadImageFormatException) 
+                        if (exFallback is FileNotFoundException or FileLoadException or BadImageFormatException)
                             throw;
 
                         throw new LicenseException(msg, exFallback).Trace();
@@ -298,8 +328,19 @@ namespace ServiceStack
             LicenseWarningMessage = GetLicenseWarningMessage();
             if (LicenseWarningMessage != null)
                 Console.WriteLine(LicenseWarningMessage);
+
+            /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+            Before:
+                    }
+
+                    private const string IndividualPrefix = "Individual (c) ";
+            After:
+                    }
+
+                    private const string IndividualPrefix = "Individual (c) ";
+            */
         }
-        
+
         private const string IndividualPrefix = "Individual (c) ";
         private const string OpenSourcePrefix = "OSS ";
 
@@ -309,8 +350,19 @@ namespace ServiceStack
         private static void ValidateFreeLicenseKey(string licenseText)
         {
             if (!IsFreeLicenseKey(licenseText))
+
+                /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+                Before:
+                                throw new NotSupportedException("Not a free License Key");
+
+                            var envKey = Environment.GetEnvironmentVariable("SERVICESTACK_LICENSE");
+                After:
+                                throw new NotSupportedException("Not a free License Key");
+
+                            var envKey = Environment.GetEnvironmentVariable("SERVICESTACK_LICENSE");
+                */
                 throw new NotSupportedException("Not a free License Key");
-            
+
             var envKey = Environment.GetEnvironmentVariable("SERVICESTACK_LICENSE");
             if (envKey == licenseText)
                 throw new LicenseException("Cannot use SERVICESTACK_LICENSE Environment variable with free License Keys, " +
@@ -341,7 +393,8 @@ namespace ServiceStack
 
         internal static string Info => __activatedLicense?.LicenseKey == null
             ? "NO"
-            : __activatedLicense.LicenseKey.Type switch {
+            : __activatedLicense.LicenseKey.Type switch
+            {
                 LicenseType.Free => "FR",
                 LicenseType.FreeIndividual => "FI",
                 LicenseType.FreeOpenSource => "FO",
@@ -386,9 +439,9 @@ namespace ServiceStack
                 var verified = ((System.Security.Cryptography.RSACryptoServiceProvider)rsa)
                     .VerifyData(keyText.ToUtf8Bytes(), "SHA256", Convert.FromBase64String(keySign));
 #else
-                var verified = rsa.VerifyData(keyText.ToUtf8Bytes(), 
-                    Convert.FromBase64String(keySign), 
-                    System.Security.Cryptography.HashAlgorithmName.SHA256, 
+                var verified = rsa.VerifyData(keyText.ToUtf8Bytes(),
+                    Convert.FromBase64String(keySign),
+                    System.Security.Cryptography.HashAlgorithmName.SHA256,
                     System.Security.Cryptography.RSASignaturePadding.Pkcs1);
 #endif
                 if (verified)
@@ -396,7 +449,8 @@ namespace ServiceStack
                     var yearStr = keyText.Substring(IndividualPrefix.Length).LeftPart(' ');
                     if (yearStr.Length == 4 && int.TryParse(yearStr, out var year))
                     {
-                        return new LicenseKey {
+                        return new LicenseKey
+                        {
                             Expiry = new DateTime(year + 1, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                             Hash = keySign,
                             Name = keyText,
@@ -432,9 +486,9 @@ namespace ServiceStack
                 var verified = ((System.Security.Cryptography.RSACryptoServiceProvider)rsa)
                     .VerifyData(keyText.ToUtf8Bytes(), "SHA256", Convert.FromBase64String(keySign));
 #else
-                var verified = rsa.VerifyData(keyText.ToUtf8Bytes(), 
-                    Convert.FromBase64String(keySign), 
-                    System.Security.Cryptography.HashAlgorithmName.SHA256, 
+                var verified = rsa.VerifyData(keyText.ToUtf8Bytes(),
+                    Convert.FromBase64String(keySign),
+                    System.Security.Cryptography.HashAlgorithmName.SHA256,
                     System.Security.Cryptography.RSASignaturePadding.Pkcs1);
 #endif
                 if (verified)
@@ -442,7 +496,8 @@ namespace ServiceStack
                     var yearStr = keyText.Substring(OpenSourcePrefix.Length).RightPart(' ').LeftPart(' ');
                     if (yearStr.Length == 4 && int.TryParse(yearStr, out var year))
                     {
-                        return new LicenseKey {
+                        return new LicenseKey
+                        {
                             Expiry = new DateTime(year + 1, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                             Hash = keySign,
                             Name = keyText,
@@ -479,8 +534,19 @@ namespace ServiceStack
             if ((LicenseFeature.All & licensedFeatures) == LicenseFeature.All) //Standard Usage
                 return;
             if ((requestedFeature & licensedFeatures) == requestedFeature) //Has License for quota restriction
+
+                /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+                Before:
+                                return;
+
+                            if (actualUsage > allowedUsage)
+                After:
+                                return;
+
+                            if (actualUsage > allowedUsage)
+                */
                 return;
-            
+
             if (actualUsage > allowedUsage)
                 throw new LicenseException(message.Fmt(allowedUsage)).Trace();
         }
@@ -569,7 +635,7 @@ namespace ServiceStack
             {
                 case LicenseType.Free:
                     return LicenseFeature.Free;
-                
+
                 case LicenseType.FreeIndividual:
                 case LicenseType.FreeOpenSource:
                 case LicenseType.Indie:
@@ -669,7 +735,7 @@ namespace ServiceStack
             }
             return ex;
         }
-        
+
         //License Utils
         public static bool VerifySignedHash(byte[] DataToVerify, byte[] SignedData, System.Security.Cryptography.RSAParameters Key)
         {
@@ -706,7 +772,7 @@ namespace ServiceStack
             return licenseKeyText.ToLicenseKey();
 #endif
         }
-        
+
         private static void FromXml(this System.Security.Cryptography.RSA rsa, string xml)
         {
 #if NETFX
@@ -717,7 +783,7 @@ namespace ServiceStack
             rsa.ImportParameters(csp);
 #endif
         }
-        
+
 #if !NET45
         private static System.Security.Cryptography.RSAParameters ExtractFromXml(string xml)
         {
@@ -733,7 +799,8 @@ namespace ServiceStack
                     if (elName == "RSAKeyValue")
                         continue;
 
-                    do {
+                    do
+                    {
                         reader.Read();
                     } while (reader.NodeType != System.Xml.XmlNodeType.Text && reader.NodeType != System.Xml.XmlNodeType.EndElement);
 
@@ -774,7 +841,7 @@ namespace ServiceStack
             }
         }
 #endif
-        
+
         public static bool VerifyLicenseKeyText(this string licenseKeyText, out LicenseKey key)
         {
             var publicRsaProvider = new System.Security.Cryptography.RSACryptoServiceProvider();
@@ -846,6 +913,6 @@ namespace ServiceStack
         {
             using var sha = System.Security.Cryptography.SHA1.Create();
             return RSAalg.VerifyData(unsignedData, sha, encryptedData);
-        }        
+        }
     }
 }

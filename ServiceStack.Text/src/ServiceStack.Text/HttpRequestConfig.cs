@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ServiceStack;
 
-public class HttpRequestConfig 
+public class HttpRequestConfig
 {
-    public string? Accept { get; set; } 
-    public string? UserAgent { get; set; } 
+    public string? Accept { get; set; }
+    public string? UserAgent { get; set; }
     public string? ContentType { get; set; }
     public string? Referer { get; set; }
     public string? Expect { get; set; }
@@ -20,7 +20,7 @@ public class HttpRequestConfig
     public List<NameValue> Headers { get; set; } = new();
 
     public void SetAuthBearer(string value) => Authorization = new("Bearer", value);
-    public void SetAuthBasic(string name, string value) => 
+    public void SetAuthBasic(string name, string value) =>
         Authorization = new("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(name + ":" + value)));
     public void SetAuthBasicRaw(string value) => Authorization = new("Basic", value);
     public void SetRange(long from, long? to = null) => Range = new(from, to);

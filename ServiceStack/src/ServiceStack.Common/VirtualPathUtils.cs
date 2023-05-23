@@ -2,11 +2,11 @@
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
 
+using ServiceStack.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ServiceStack.IO;
 
 namespace ServiceStack
 {
@@ -98,7 +98,7 @@ namespace ServiceStack
             System.Threading.Thread.Sleep(nextTryMs);
 #endif
         }
-        
+
         static readonly HashSet<char> InvalidFileNameChars = new(Path.GetInvalidFileNameChars()) { ':' };
 
         public static string SafeFileName(string uri) => new(uri.Where(c => !InvalidFileNameChars.Contains(c)).ToArray());
@@ -111,9 +111,9 @@ namespace ServiceStack
                 return false;
             foreach (var c in path)
             {
-                if (c == '/') 
+                if (c == '/')
                     continue;
-                if (InvalidFileNameChars.Contains(c)) 
+                if (InvalidFileNameChars.Contains(c))
                     return false;
             }
             return true;

@@ -1,18 +1,18 @@
 #nullable enable
 
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Net.Sockets;
-using ServiceStack.Text;
 
 namespace ServiceStack;
 
 public class Diagnostics
 {
     private static readonly Diagnostics Instance = new();
-    private Diagnostics(){}
+    private Diagnostics() { }
 
     private bool includeStackTrace;
     public static bool IncludeStackTrace
@@ -20,7 +20,7 @@ public class Diagnostics
         get => Instance.includeStackTrace;
         set => Instance.includeStackTrace = value;
     }
-    
+
     public static class Listeners
     {
         public const string ServiceStack = "ServiceStack";
@@ -31,7 +31,7 @@ public class Diagnostics
         // HttpClient Listener
         public const string HttpClient = "HttpHandlerDiagnosticListener";
     }
-    
+
     public static class Keys
     {
         public const string OperationId = nameof(OperationId);
@@ -48,59 +48,59 @@ public class Diagnostics
         public static readonly System.Net.Http.HttpRequestOptionsKey<object> HttpRequestResponseType = new(ResponseType);
 #endif
     }
-    
+
     public static class Events
     {
         public static class ServiceStack
         {
             private const string Prefix = Listeners.ServiceStack + ".";
-            
+
             public const string WriteRequestBefore = Prefix + nameof(WriteRequestBefore);
             public const string WriteRequestAfter = Prefix + nameof(WriteRequestAfter);
             public const string WriteRequestError = Prefix + nameof(WriteRequestError);
-            
+
             public const string WriteGatewayBefore = Prefix + nameof(WriteGatewayBefore);
             public const string WriteGatewayAfter = Prefix + nameof(WriteGatewayAfter);
             public const string WriteGatewayError = Prefix + nameof(WriteGatewayError);
-            
+
             public const string WriteMqRequestBefore = Prefix + nameof(WriteMqRequestBefore);
             public const string WriteMqRequestAfter = Prefix + nameof(WriteMqRequestAfter);
             public const string WriteMqRequestError = Prefix + nameof(WriteMqRequestError);
             public const string WriteMqRequestPublish = Prefix + nameof(WriteMqRequestPublish);
         }
-        
+
         public static class Client
         {
             private const string Prefix = Listeners.Client + ".";
-            
+
             public const string WriteRequestBefore = Prefix + nameof(WriteRequestBefore);
             public const string WriteRequestAfter = Prefix + nameof(WriteRequestAfter);
             public const string WriteRequestError = Prefix + nameof(WriteRequestError);
         }
-        
+
         public static class HttpClient
         {
             private const string Prefix = "System.Net.Http.";
-            
+
             public const string Request = Prefix + nameof(Request);
             public const string Response = Prefix + nameof(Response);
 
             public const string OutStart = Prefix + "HttpRequestOut.Start";
             public const string OutStop = Prefix + "HttpRequestOut.Stop";
         }
-        
+
         public static class OrmLite
         {
             private const string Prefix = Listeners.OrmLite + ".";
-            
+
             public const string WriteCommandBefore = Prefix + nameof(WriteCommandBefore);
             public const string WriteCommandAfter = Prefix + nameof(WriteCommandAfter);
             public const string WriteCommandError = Prefix + nameof(WriteCommandError);
-            
+
             public const string WriteConnectionOpenBefore = Prefix + nameof(WriteConnectionOpenBefore);
             public const string WriteConnectionOpenAfter = Prefix + nameof(WriteConnectionOpenAfter);
             public const string WriteConnectionOpenError = Prefix + nameof(WriteConnectionOpenError);
-            
+
             public const string WriteConnectionCloseBefore = Prefix + nameof(WriteConnectionCloseBefore);
             public const string WriteConnectionCloseAfter = Prefix + nameof(WriteConnectionCloseAfter);
             public const string WriteConnectionCloseError = Prefix + nameof(WriteConnectionCloseError);
@@ -115,29 +115,29 @@ public class Diagnostics
             public const string WriteTransactionRollbackAfter = Prefix + nameof(WriteTransactionRollbackAfter);
             public const string WriteTransactionRollbackError = Prefix + nameof(WriteTransactionRollbackError);
         }
-        
+
         public static class Redis
         {
             private const string Prefix = Listeners.Redis + ".";
-            
+
             public const string WriteCommandBefore = Prefix + nameof(WriteCommandBefore);
             public const string WriteCommandAfter = Prefix + nameof(WriteCommandAfter);
             public const string WriteCommandRetry = Prefix + nameof(WriteCommandRetry);
             public const string WriteCommandError = Prefix + nameof(WriteCommandError);
-            
+
             public const string WriteConnectionOpenBefore = Prefix + nameof(WriteConnectionOpenBefore);
             public const string WriteConnectionOpenAfter = Prefix + nameof(WriteConnectionOpenAfter);
             public const string WriteConnectionOpenError = Prefix + nameof(WriteConnectionOpenError);
-            
+
             public const string WriteConnectionCloseBefore = Prefix + nameof(WriteConnectionCloseBefore);
             public const string WriteConnectionCloseAfter = Prefix + nameof(WriteConnectionCloseAfter);
             public const string WriteConnectionCloseError = Prefix + nameof(WriteConnectionCloseError);
-            
+
             public const string WritePoolRent = Prefix + nameof(WritePoolRent);
             public const string WritePoolReturn = Prefix + nameof(WritePoolReturn);
         }
     }
-    
+
     public static class Activity
     {
         public const string HttpBegin = nameof(HttpBegin);
@@ -158,7 +158,7 @@ public class Diagnostics
     public static DiagnosticListener Client => Instance.client;
     public static DiagnosticListener OrmLite => Instance.ormlite;
     public static DiagnosticListener Redis => Instance.redis;
-    
+
     public static string? CreateStackTrace(Exception? e)
     {
         if (e?.StackTrace == null)
@@ -166,7 +166,7 @@ public class Diagnostics
 
         var sb = StringBuilderCache.Allocate();
         sb.AppendLine(e.StackTrace);
-            
+
         var innerEx = e.InnerException;
         while (innerEx != null)
         {
@@ -244,9 +244,9 @@ public static class DiagnosticsUtils
     }
 
     public static string? GetTraceId(this Activity? activity) => GetRoot(activity)?.ParentId;
-    public static string? GetUserId(this Activity? activity) => 
+    public static string? GetUserId(this Activity? activity) =>
         GetRoot(activity)?.GetTagItem(Diagnostics.Activity.UserId) as string;
-    public static string? GetTag(this Activity? activity) => 
+    public static string? GetTag(this Activity? activity) =>
         GetRoot(activity)?.GetTagItem(Diagnostics.Activity.Tag) as string;
 
     public static T Init<T>(this T evt, Activity? activity)

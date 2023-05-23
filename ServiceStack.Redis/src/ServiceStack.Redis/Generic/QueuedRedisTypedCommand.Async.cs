@@ -1,9 +1,38 @@
-﻿using System;
+﻿
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ServiceStack.Redis.Generic;
+After:
+using ServiceStack.Collections.Generic;
+using ServiceStack.Redis.Internal;
+*/
 using ServiceStack.Redis.Internal;
 using ServiceStack.Redis.Pipeline;
+using System;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using System.Collections.Pipeline;
+using System;
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+After:
+using System;
+using System.Collections.Pipeline;
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+*/
+
+
+/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
+Before:
+using ServiceStack.Redis.Internal;
+using ServiceStack.Redis.Pipeline;
+After:
+using System.Collections.Generic;
+using System.Redis.Pipeline;
+*/
+using System.Threading.Tasks;
 
 namespace ServiceStack.Redis.Generic
 {

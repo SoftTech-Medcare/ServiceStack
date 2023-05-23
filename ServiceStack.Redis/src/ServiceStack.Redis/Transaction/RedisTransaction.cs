@@ -10,8 +10,8 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-using System;
 using ServiceStack.Redis.Pipeline;
+using System;
 
 namespace ServiceStack.Redis
 {
@@ -23,7 +23,7 @@ namespace ServiceStack.Redis
     {
         private int numCommands = 0;
         public RedisTransaction(RedisClient redisClient)
-            : this(redisClient, false) {}
+            : this(redisClient, false) { }
 
         internal RedisTransaction(RedisClient redisClient, bool isAsync)
             : base(redisClient)
@@ -71,20 +71,23 @@ namespace ServiceStack.Redis
                 numCommands = QueuedCommands.Count / 2;
 
                 //insert multi command at beginning
-                QueuedCommands.Insert(0, new QueuedRedisCommand {
+                QueuedCommands.Insert(0, new QueuedRedisCommand
+                {
                     VoidReturnCommand = r => Init(),
                     VoidReadCommand = RedisClient.ExpectOk,
                 });
 
                 //the first half of the responses will be "QUEUED",
                 // so insert reading of multiline after these responses
-                QueuedCommands.Insert(numCommands + 1, new QueuedRedisOperation {
+                QueuedCommands.Insert(numCommands + 1, new QueuedRedisOperation
+                {
                     IntReadCommand = RedisClient.ReadMultiDataResultCount,
                     OnSuccessIntCallback = handleMultiDataResultCount
                 });
 
                 // add Exec command at end (not queued)
-                QueuedCommands.Add(new RedisCommand {
+                QueuedCommands.Add(new RedisCommand
+                {
                     VoidReturnCommand = r => Exec()
                 });
 

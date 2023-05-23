@@ -10,8 +10,8 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-using System;
 using ServiceStack.Text.Json;
+using System;
 
 namespace ServiceStack.Text.Common
 {
@@ -87,8 +87,8 @@ namespace ServiceStack.Text.Common
                 switch (typeCode)
                 {
                     case TypeCode.Boolean:
-                        return value => value.IsNullOrEmpty() 
-                            ? (bool?)null 
+                        return value => value.IsNullOrEmpty()
+                            ? (bool?)null
                             : value.ParseBoolean();
                     case TypeCode.SByte:
                         return SignedInteger<sbyte>.ParseNullableObject;

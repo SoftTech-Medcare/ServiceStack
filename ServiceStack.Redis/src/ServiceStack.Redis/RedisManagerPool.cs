@@ -1,13 +1,13 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
+using ServiceStack.Caching;
+using ServiceStack.Logging;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ServiceStack.Caching;
-using ServiceStack.Logging;
-using ServiceStack.Text;
 
 namespace ServiceStack.Redis
 {
@@ -95,7 +95,7 @@ namespace ServiceStack.Redis
             Interlocked.Increment(ref RedisState.TotalFailovers);
 
             Log.Info($"FailoverTo: {string.Join(",", readWriteHosts)} Total: {RedisState.TotalFailovers}");
-            
+
             lock (clients)
             {
                 for (var i = 0; i < clients.Length; i++)
@@ -153,7 +153,7 @@ namespace ServiceStack.Redis
                         poolIndex++;
                         inActiveClient.Activate();
 
-                        return !AssertAccessOnlyOnSameThread 
+                        return !AssertAccessOnlyOnSameThread
                             ? inActiveClient
                             : inActiveClient.LimitAccessToThread(Thread.CurrentThread.ManagedThreadId, Environment.StackTrace);
                     }
@@ -281,7 +281,7 @@ namespace ServiceStack.Redis
         private RedisClient InitNewClient(RedisClient client)
         {
             client.Id = Interlocked.Increment(ref RedisClientCounter);
-            client.Activate(newClient:true);
+            client.Activate(newClient: true);
             client.ClientManager = this;
             client.ConnectionFilter = ConnectionFilter;
 

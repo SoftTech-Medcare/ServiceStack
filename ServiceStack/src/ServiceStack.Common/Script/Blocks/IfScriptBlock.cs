@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ServiceStack.Text;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack.Text;
 
 namespace ServiceStack.Script
 {
@@ -14,7 +14,7 @@ namespace ServiceStack.Script
     public class IfScriptBlock : ScriptBlock
     {
         public override string Name => "if";
-        
+
         public override async Task WriteAsync(ScriptScopeContext scope, PageBlockFragment block, CancellationToken token)
         {
             var result = await block.Argument.GetJsExpressionAndEvaluateToBoolAsync(scope,

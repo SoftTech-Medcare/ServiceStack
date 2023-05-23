@@ -10,14 +10,24 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+
+/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
+Before:
 using System.Reflection;
 using System.Threading;
 using System.Linq;
 using ServiceStack.Text.Json;
+After:
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+*/
+using System.Threading;
 
 namespace ServiceStack.Text.Common
 {
@@ -207,8 +217,8 @@ namespace ServiceStack.Text.Common
             }
 
             if (map is JsonObject jsonObject)
-                map = (IDictionary<TKey,TValue>) jsonObject.ToUnescapedDictionary();
-            
+                map = (IDictionary<TKey, TValue>)jsonObject.ToUnescapedDictionary();
+
             writer.Write(JsWriter.MapStartChar);
 
             var encodeMapKey = Serializer.GetTypeInfo(typeof(TKey)).EncodeMapKey;

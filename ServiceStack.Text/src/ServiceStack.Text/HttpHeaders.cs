@@ -30,7 +30,7 @@ public static class HttpHeaders
     public const string XStatus = "X-Status";
 
     public const string XPoweredBy = "X-Powered-By";
-        
+
     public const string Referer = "Referer";
 
     public const string CacheControl = "Cache-Control";
@@ -114,7 +114,7 @@ public static class HttpHeaders
     public const string Expect = "Expect";
 
     public const string Pragma = "Pragma";
-        
+
     public const string ProxyAuthenticate = "Proxy-Authenticate";
 
     public const string ProxyAuthorization = "Proxy-Authorization";
@@ -165,7 +165,7 @@ public static class CompressionTypes
 #if NET6_0_OR_GREATER        
         Brotli,
 #endif
-        Deflate, 
+        Deflate,
         GZip,
     };
 

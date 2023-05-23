@@ -1,6 +1,6 @@
+using ServiceStack.DataAnnotations;
 using System;
 using System.Runtime.Serialization;
-using ServiceStack.DataAnnotations;
 
 namespace ServiceStack
 {

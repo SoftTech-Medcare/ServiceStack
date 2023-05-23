@@ -22,6 +22,6 @@ namespace ServiceStack.DataAnnotations
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
     public class ExcludeMetadataAttribute : ExcludeAttribute
     {
-        public ExcludeMetadataAttribute() : base(Feature.Metadata | Feature.Soap) {}
+        public ExcludeMetadataAttribute() : base(Feature.Metadata | Feature.Soap) { }
     }
 }

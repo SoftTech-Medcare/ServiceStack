@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ServiceStack.Redis.Internal;
+using System;
 using System.Collections.Generic;
-using ServiceStack.Redis.Internal;
+using System.Threading.Tasks;
 
 namespace ServiceStack.Redis.Pipeline
 {

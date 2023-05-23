@@ -10,9 +10,9 @@
 // Licensed under the same terms of ServiceStack.
 //
 
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
-using ServiceStack.Text;
 
 namespace ServiceStack
 {

@@ -1,6 +1,6 @@
+using ServiceStack.Logging;
 using System;
 using System.Collections.Generic;
-using ServiceStack.Logging;
 
 namespace ServiceStack
 {
