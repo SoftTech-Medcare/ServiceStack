@@ -1,26 +1,7 @@
-
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
+using ServiceStack.Text;
 using System;
-After:
-using ServiceStack.IO;
-*/
-using ServiceStack.Text;
-
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-After:
-using System;
-*/
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using ServiceStack.IO;
-using ServiceStack.Text;
-After:
 using System.Collections.Generic;
 using System.Globalization;
-*/
 
 
 namespace ServiceStack.Script

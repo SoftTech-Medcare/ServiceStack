@@ -1,24 +1,12 @@
-﻿
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using System.Reflection;
-After:
-using ServiceStack.Text;
-*/
-using ServiceStack.Text;
+﻿using ServiceStack.Text;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using System.Collections.Concurrent;
-using ServiceStack.Text;
-After:
 using System.Text;
+
 using static System.String;
-*/
 
 
 namespace ServiceStack
@@ -358,10 +346,7 @@ namespace ServiceStack
 
     public class RestRoute
     {
-        private static readonly char[] ArrayBrackets = { '[', ']' };
-        public const string EmptyArray = "[]";
-
-        public static Func<object, string> FormatVariable = value =>
+        public static Func<object, string> FormatVariable { get; set; } = value =>
         {
             if (value == null) return null;
 
@@ -369,8 +354,7 @@ namespace ServiceStack
             valueString = valueString ?? value.ToJsv().Trim(ArrayBrackets);
             return Uri.EscapeDataString(valueString);
         };
-
-        public static Func<object, string> FormatQueryParameterValue = value =>
+        public static Func<object, string> FormatQueryParameterValue { get; set; } = value =>
         {
             if (value == null) return null;
 
@@ -387,6 +371,8 @@ namespace ServiceStack
             return Uri.EscapeDataString(valueString);
         };
 
+        private static readonly char[] ArrayBrackets = { '[', ']' };
+        public const string EmptyArray = "[]";
         private static readonly char[] PathSeparatorChars = { '/', '.' };
         private const string VariablePrefix = "{";
         private const char VariablePrefixChar = '{';
@@ -436,7 +422,7 @@ namespace ServiceStack
 
         public List<string> QueryStringVariables
         {
-            get { return this.queryProperties.Where(x => !x.Value.IgnoreInQueryString).Select(x => x.Key).ToList(); }
+            get { return queryProperties.Where(x => !x.Value.IgnoreInQueryString).Select(x => x.Key).ToList(); }
         }
 
         public RouteResolutionResult Apply(object request, string httpMethod)

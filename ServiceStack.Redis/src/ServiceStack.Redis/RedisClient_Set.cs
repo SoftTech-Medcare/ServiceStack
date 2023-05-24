@@ -10,42 +10,8 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using ServiceStack.Common;
 using ServiceStack.Model;
-After:
-using ServiceStack.Common;
-using ServiceStack.Model;
-using ServiceStack.Redis.Generic;
 using ServiceStack.Redis.Pipeline;
-using ServiceStack.Text;
-using System;
-*/
-using ServiceStack.Model;
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using System.Collections.Pipeline;
-
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-After:
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-*/
-
-
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using ServiceStack.Redis.Pipeline;
-using ServiceStack.Text;
-After:
-using System.Linq;
-using System.Threading;
-*/
 using System;
 using System.Collections.Generic;
 

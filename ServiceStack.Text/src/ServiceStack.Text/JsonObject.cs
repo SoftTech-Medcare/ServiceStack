@@ -1,24 +1,10 @@
 
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System;
-using System.Collections;
-After:
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Json;
-*/
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
 using System;
 using System.Collections.Generic;
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Json;
-After:
 using System.Globalization;
 using System.IO;
-*/
 
 
 namespace ServiceStack.Text

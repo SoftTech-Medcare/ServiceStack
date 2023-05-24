@@ -1,13 +1,6 @@
-using ServiceStack;
 using System;
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-using ServiceStack;
-After:
 using System.IO;
 using System.Text;
-*/
 
 
 namespace ServiceStack.Redis.Support
@@ -20,22 +13,13 @@ namespace ServiceStack.Redis.Support
         internal const ushort RawDataFlag = 0xfa52;
         internal static readonly byte[] EmptyArray = new byte[0];
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        
         public override byte[] Serialize(object value)
         {
             var temp = SerializeToWrapper(value);
             return base.Serialize(temp);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="someBytes"></param>
-        /// <returns></returns>
         public override object Deserialize(byte[] someBytes)
         {
             var temp = (SerializedObjectWrapper)base.Deserialize(someBytes);
@@ -46,7 +30,6 @@ namespace ServiceStack.Redis.Support
         /// serialize value and wrap with <see cref="SerializedObjectWrapper"/>
         /// </summary>
         /// <param name="value"></param>
-        /// <returns></returns>
         SerializedObjectWrapper SerializeToWrapper(object value)
         {
             // raw data is a special case when some1 passes in a buffer (byte[] or ArraySegment<byte>)

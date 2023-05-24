@@ -1,22 +1,8 @@
 ﻿using ServiceStack.IO;
 using ServiceStack.Logging;
-
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using System.IO;
-using System.Linq;
-using ServiceStack.IO;
-using ServiceStack.Logging;
-using ServiceStack.Text;
-After:
-using ServiceStack.Text;
-using System;
-using System.Collections.IO;
-using System.IO;
-using System.Text;
-*/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ServiceStack.VirtualPath

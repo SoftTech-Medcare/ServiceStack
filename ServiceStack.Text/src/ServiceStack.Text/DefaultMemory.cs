@@ -458,17 +458,6 @@ namespace ServiceStack.Text
             }
         }
 
-        public override Task WriteAsync(Stream stream, ReadOnlySpan<char> value, CancellationToken token = default)
-        {
-            // encode the span into a buffer; this should never fail, so if it does: something
-            // is very very ill; don't stress about returning to the pool
-            byte[] bytes = BufferPool.GetBuffer(Encoding.UTF8.GetMaxByteCount(value.Length));
-            var chars = value.ToArray();
-            int bytesCount = Encoding.UTF8.GetBytes(chars, 0, chars.Length, bytes, 0);
-            // now do the write async - this returns to the pool
-            return WriteAsyncAndReturn(stream, bytes, 0, bytesCount, token);
-        }
-
         private static async Task WriteAsyncAndReturn(Stream stream, byte[] bytes, int offset, int count, CancellationToken token)
         {
             try
@@ -479,6 +468,16 @@ namespace ServiceStack.Text
             {
                 BufferPool.ReleaseBufferToPool(ref bytes);
             }
+        }
+        public override Task WriteAsync(Stream stream, ReadOnlySpan<char> value, CancellationToken token = default)
+        {
+            // encode the span into a buffer; this should never fail, so if it does: something
+            // is very very ill; don't stress about returning to the pool
+            byte[] bytes = BufferPool.GetBuffer(Encoding.UTF8.GetMaxByteCount(value.Length));
+            var chars = value.ToArray();
+            int bytesCount = Encoding.UTF8.GetBytes(chars, 0, chars.Length, bytes, 0);
+            // now do the write async - this returns to the pool
+            return WriteAsyncAndReturn(stream, bytes, 0, bytesCount, token);
         }
 
         public override Task WriteAsync(Stream stream, ReadOnlyMemory<char> value, CancellationToken token = default) =>

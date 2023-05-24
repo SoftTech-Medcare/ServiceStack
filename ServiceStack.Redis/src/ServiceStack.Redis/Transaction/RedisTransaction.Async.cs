@@ -12,12 +12,7 @@
 
 using ServiceStack.Redis.Pipeline;
 using System.Threading;
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using ServiceStack.Redis.Pipeline;
-After:
 using System.Threading.Tasks;
-*/
 
 
 namespace ServiceStack.Redis
@@ -26,7 +21,7 @@ namespace ServiceStack.Redis
     /// Adds support for Redis Transactions (i.e. MULTI/EXEC/DISCARD operations).
     /// </summary>
     public partial class RedisTransaction
-        : IRedisTransactionAsync, IRedisQueueCompletableOperationAsync
+        : IRedisTransactionAsync
     {
         /// <summary>
         /// Issue exec command (not queued)

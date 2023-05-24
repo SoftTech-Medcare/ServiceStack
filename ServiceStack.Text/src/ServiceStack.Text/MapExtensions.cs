@@ -11,28 +11,8 @@
 //
 
 
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System.Collections.Generic;
-using System.Text;
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
-After:
-using System.Text;
-using ServiceStack.Text;
-using ServiceStack.Generic;
-using ServiceStack.Text;
-*/
-using ServiceStack.Text.Common;
-
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System.Collections.Text.Common;
-using System.Collections.Generic;
-After:
-using System.Collections.Generic;
-using System.Collections.Text.Common;
-*/
 using System.Collections.Generic;
 
 namespace ServiceStack

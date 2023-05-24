@@ -1,26 +1,6 @@
-﻿
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using System;
-After:
-using ServiceStack.IO;
-*/
-using ServiceStack.Text;
-
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using System.ComponentModel;
+﻿using ServiceStack.Text;
+using System.Collections.Generic;
 using System.Security.Authentication;
-using System.Text;
-using ServiceStack.IO;
-using ServiceStack.Text;
-After:
-using System;
-using System.Collections.Authentication;
-using System.ComponentModel;
-using System.Security.Authentication;
-using System.Text;
-*/
 
 namespace ServiceStack.Redis
 {

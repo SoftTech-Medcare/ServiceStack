@@ -1,29 +1,10 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
+using ServiceStack.DataAnnotations;
 using System;
-After:
-using ServiceStack.DataAnnotations;
-*/
-using ServiceStack.DataAnnotations;
-
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using ServiceStack.Model;
-After:
-using System;
-*/
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using ServiceStack.DataAnnotations;
-using ServiceStack.Model;
-After:
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-*/
 
 
 namespace ServiceStack;

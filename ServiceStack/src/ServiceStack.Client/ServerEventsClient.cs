@@ -417,29 +417,7 @@ namespace ServiceStack
                     log.Debug("[SSE-CLIENT] Sending Heartbeat...");
             });
 
-            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-            Before:
-
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
 #endif
-
-            taskString.Success(t =>
-After:
-#endif
-
-                        taskString.Success(t =>
-*/
-#endif
-
-            taskString.Success(t =>
-            After:
-            #endif
-
-                        taskString.Success(t =>
-            */
-#endif
-
             taskString.Success(t =>
                 {
                     if (cancel.IsCancellationRequested)
@@ -620,17 +598,6 @@ After:
         public void ProcessResponse(Stream stream)
         {
             if (Interlocked.CompareExchange(ref status, 0, 0) != WorkerStatus.Started)
-
-                /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-                Before:
-                                return;
-
-                            if (!stream.CanRead) return;
-                After:
-                                return;
-
-                            if (!stream.CanRead) return;
-                */
                 return;
 
             if (!stream.CanRead) return;
@@ -791,17 +758,6 @@ After:
             }
 
             return e;
-
-            /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-            Before:
-                    }
-
-                    void ProcessEventMessage(ServerEventMessage e)
-            After:
-                    }
-
-                    void ProcessEventMessage(ServerEventMessage e)
-            */
         }
 
         void ProcessEventMessage(ServerEventMessage e)

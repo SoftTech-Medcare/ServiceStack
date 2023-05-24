@@ -1,55 +1,19 @@
-﻿
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
+﻿using ServiceStack.Text;
 using System;
-After:
-using ServiceStack.Script;
-*/
-using ServiceStack.Text;
-
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-After:
-using System;
-*/
 using System.Collections;
 using System.Collections.Generic;
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using ServiceStack.Script;
-using ServiceStack.Text;
-After:
 using System.Linq;
 using System.Text;
-*/
 
 
 namespace ServiceStack.Script
 {
-
-    /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-    Before:
-        // ReSharper disable InconsistentNaming
-
-        public class HtmlScripts : ScriptMethods, IConfigureScriptContext
-        {
-
-            public static List<string> EvaluateWhenSkippingFilterExecution = new List<string> {
-    After:
-        // ReSharper disable InconsistentNaming
-
-        public class HtmlScripts : ScriptMethods, IConfigureScriptContext
-        {
-
-            public static List<string> EvaluateWhenSkippingFilterExecution = new List<string> {
-    */
     // ReSharper disable InconsistentNaming
 
     public class HtmlScripts : ScriptMethods, IConfigureScriptContext
     {
-
-        public static List<string> EvaluateWhenSkippingFilterExecution = new List<string> {
+        public static List<string> EvaluateWhenSkippingFilterExecution { get; } = new()
+        {
             nameof(htmlError),
             nameof(htmlErrorMessage),
             nameof(htmlErrorDebug),
@@ -62,17 +26,6 @@ namespace ServiceStack.Script
 
         public IRawString htmlList(IEnumerable target) => HtmlList(target, new HtmlDumpOptions { Defaults = Context.DefaultMethods }).ToRawString();
         public IRawString htmlList(IEnumerable target, Dictionary<string, object> options) =>
-
-            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-            Before:
-                        HtmlList(target, HtmlDumpOptions.Parse(options, Context.DefaultMethods)).ToRawString();
-
-                    public IRawString htmlDump(object target) => HtmlDump(target, new HtmlDumpOptions { Defaults = Context.DefaultMethods }).ToRawString();
-            After:
-                        HtmlList(target, HtmlDumpOptions.Parse(options, Context.DefaultMethods)).ToRawString();
-
-                    public IRawString htmlDump(object target) => HtmlDump(target, new HtmlDumpOptions { Defaults = Context.DefaultMethods }).ToRawString();
-            */
             HtmlList(target, HtmlDumpOptions.Parse(options, Context.DefaultMethods)).ToRawString();
 
         public IRawString htmlDump(object target) => HtmlDump(target, new HtmlDumpOptions { Defaults = Context.DefaultMethods }).ToRawString();
@@ -394,19 +347,6 @@ namespace ServiceStack.Script
 
         public IRawString htmlErrorDebug(ScriptScopeContext scope) => htmlErrorDebug(scope, scope.PageResult.LastFilterError);
         public IRawString htmlErrorDebug(ScriptScopeContext scope, object ex) =>
-
-            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-            Before:
-                        htmlErrorDebug(scope, ex as Exception ?? scope.PageResult.LastFilterError, ex as Dictionary<string, object>);
-
-
-                    public IRawString htmlErrorDebug(ScriptScopeContext scope, Exception ex, object options)
-            After:
-                        htmlErrorDebug(scope, ex as Exception ?? scope.PageResult.LastFilterError, ex as Dictionary<string, object>);
-
-
-                    public IRawString htmlErrorDebug(ScriptScopeContext scope, Exception ex, object options)
-            */
             htmlErrorDebug(scope, ex as Exception ?? scope.PageResult.LastFilterError, ex as Dictionary<string, object>);
 
 
@@ -417,17 +357,6 @@ namespace ServiceStack.Script
 
             var scopedParams = options as Dictionary<string, object> ?? TypeConstants.EmptyObjectDictionary;
             var className = (scopedParams.TryGetValue("className", out object oClassName) ? oClassName : null)
-
-                            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                            Before:
-                                                        ?? Context.Args[ScriptConstants.DefaultErrorClassName];
-
-                                        var sb = StringBuilderCache.Allocate();
-                            After:
-                                                        ?? Context.Args[ScriptConstants.DefaultErrorClassName];
-
-                                        var sb = StringBuilderCache.Allocate();
-                            */
                             ?? Context.Args[ScriptConstants.DefaultErrorClassName];
 
             var sb = StringBuilderCache.Allocate();
@@ -469,17 +398,6 @@ namespace ServiceStack.Script
         public string htmlAttrsList(Dictionary<string, object> attrs)
         {
             if (attrs == null || attrs.Count == 0)
-
-                /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                Before:
-                                return string.Empty;
-
-                            var sb = StringBuilderCache.Allocate();
-                After:
-                                return string.Empty;
-
-                            var sb = StringBuilderCache.Allocate();
-                */
                 return string.Empty;
 
             var sb = StringBuilderCache.Allocate();
@@ -492,24 +410,21 @@ namespace ServiceStack.Script
 
                 var value = attrs[key];
                 if (ViewUtils.IsNull(value))
-
-                    /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                    Before:
-                                        continue;
-
-                                    var useKey = key == "className"
-                    After:
-                                        continue;
-
-                                    var useKey = key == "className"
-                    */
                     continue;
 
-                var useKey = key == "className"
-                    ? "class"
-                    : key == "htmlFor"
-                        ? "for"
-                        : key;
+                string useKey;
+                if (key == "className")
+                {
+                    useKey = "class";
+                }
+                else if (key == "htmlFor")
+                {
+                    useKey = "for";
+                }
+                else
+                {
+                    useKey = key;
+                }
 
                 if (value is bool boolAttr)
                 {
@@ -522,17 +437,6 @@ namespace ServiceStack.Script
                 {
                     sb.Append(' ').Append(useKey).Append('=').Append('"').Append(value?.ToString().HtmlEncode()).Append('"');
                 }
-
-                /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                Before:
-                            }
-
-                            return sb.ToString();
-                After:
-                            }
-
-                            return sb.ToString();
-                */
             }
 
             return sb.ToString();
@@ -547,17 +451,6 @@ namespace ServiceStack.Script
         public string htmlClassList(object target)
         {
             if (target == null)
-
-                /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                Before:
-                                return null;
-
-                            if (target is string clsName)
-                After:
-                                return null;
-
-                            if (target is string clsName)
-                */
                 return null;
 
             if (target is string clsName)
@@ -588,7 +481,7 @@ namespace ServiceStack.Script
                     }
                 }
             }
-            else if (target != null)
+            else
             {
                 throw new NotSupportedException($"{nameof(htmlClass)} expects a Dictionary, List or String argument but was '{target.GetType().Name}'");
             }
@@ -627,17 +520,6 @@ namespace ServiceStack.Script
 
         public string htmlAddClass(object target, string name)
         {
-
-            /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-            Before:
-                        var className = htmlClassList(target) ?? "";
-
-                        if (htmlHasClass(target, name))
-            After:
-                        var className = htmlClassList(target) ?? "";
-
-                        if (htmlHasClass(target, name))
-            */
             var className = htmlClassList(target) ?? "";
 
             if (htmlHasClass(target, name))
@@ -675,33 +557,11 @@ namespace ServiceStack.Script
         public IRawString htmlHiddenInputs(Dictionary<string, object> inputValues) =>
             ViewUtils.HtmlHiddenInputs(inputValues).ToRawString();
 
-
-        /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-        Before:
-                public IRawString htmlOptions(object values) => htmlOptions(values, null);
-
-                public IRawString htmlOptions(object values, object options)
-        After:
-                public IRawString htmlOptions(object values) => htmlOptions(values, null);
-
-                public IRawString htmlOptions(object values, object options)
-        */
         public IRawString htmlOptions(object values) => htmlOptions(values, null);
 
         public IRawString htmlOptions(object values, object options)
         {
             if (values == null)
-
-                /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                Before:
-                                return RawString.Empty;
-
-                            var opt = options.AssertOptions(nameof(htmlOptions));
-                After:
-                                return RawString.Empty;
-
-                            var opt = options.AssertOptions(nameof(htmlOptions));
-                */
                 return RawString.Empty;
 
             var opt = options.AssertOptions(nameof(htmlOptions));
@@ -712,17 +572,6 @@ namespace ServiceStack.Script
             {
                 var selAttr = selected != null && value == selected ? " selected" : "";
                 _sb.AppendLine($"<option value=\"{value.HtmlEncode()}\"{selAttr}>{text?.HtmlEncode()}</option>");
-
-                /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-                Before:
-                            }
-
-                            if (values is IEnumerable<KeyValuePair<string, object>> kvps)
-                After:
-                            }
-
-                            if (values is IEnumerable<KeyValuePair<string, object>> kvps)
-                */
             }
 
             if (values is IEnumerable<KeyValuePair<string, object>> kvps)

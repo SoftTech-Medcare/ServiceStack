@@ -1,42 +1,12 @@
-﻿
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
+﻿using ServiceStack.Text;
 using System;
-After:
-using ServiceStack.Script;
-*/
-using ServiceStack.Text;
-
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-After:
-using System;
-*/
 using System.Collections;
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using ServiceStack.Script;
-using ServiceStack.Text;
-After:
 using System.Collections.Generic;
 using System.Linq;
-*/
 
 
 namespace ServiceStack.Script
 {
-
-    /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-    Before:
-        // ReSharper disable InconsistentNaming
-
-        public partial class DefaultScripts
-    After:
-        // ReSharper disable InconsistentNaming
-
-        public partial class DefaultScripts
-    */
     // ReSharper disable InconsistentNaming
 
     public partial class DefaultScripts

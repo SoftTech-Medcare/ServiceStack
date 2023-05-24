@@ -1,9 +1,4 @@
-/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-After:
 using System;
-*/
 
 namespace ServiceStack.Redis
 {
@@ -199,7 +194,7 @@ namespace ServiceStack.Redis
         public readonly static byte[] EvalSha = "EVALSHA".ToUtf8Bytes();
         public readonly static byte[] Script = "SCRIPT".ToUtf8Bytes();
         public readonly static byte[] Load = "LOAD".ToUtf8Bytes();
-        //public readonly static byte[] Exists = "EXISTS".ToUtf8Bytes();
+
         public readonly static byte[] Flush = "FLUSH".ToUtf8Bytes();
         public readonly static byte[] Slowlog = "SLOWLOG".ToUtf8Bytes();
 

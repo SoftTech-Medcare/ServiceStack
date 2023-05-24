@@ -10,36 +10,10 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System;
-using System.IO;
-using System.Text;
-using System.Reflection;
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
-using ServiceStack.Text.Pools;
-After:
-using ServiceStack.Text.Common;
-using ServiceStack.Text.Json;
-using ServiceStack.Text.Pools;
-using System;
-using ServiceStack.Text.IO;
-using System.Reflection;
-using System.Text;
-*/
-using ServiceStack.Text.Common;
-
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System.Json;
-using System;
-After:
 using System;
 using System.IO;
-*/
-using System;
 
 namespace ServiceStack.Text
 {

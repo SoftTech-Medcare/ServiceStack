@@ -11,31 +11,11 @@
 //
 
 using ServiceStack.Text.Json;
-
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System.Globalization;
-using System.IO;
-using System.Text;
-using ServiceStack.Text.Json;
-using ServiceStack.Text.Support;
-After:
-using System.Text.Pools;
 using ServiceStack.Text.Support;
 using System;
 using System.Globalization;
 using System.IO;
-*/
-using ServiceStack.Text.Support;
-using System;
-using System.Globalization;
-using System.IO;
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text.Pools;
-After:
 using System.Text.RegularExpressions;
-*/
 
 
 namespace ServiceStack.Text.Common

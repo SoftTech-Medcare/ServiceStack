@@ -29,52 +29,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using System;
-using System.Collections;
-After:
 using ServiceStack.Text;
-using ServiceStack.Web;
-*/
-using ServiceStack.Text;
-using System;
-
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-using ServiceStack.Web;
-using System.Text;
-
-using System.Collections.Specialized;
-After:
-using ServiceStack.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Text;
-*/
 using System.Collections.Specialized;
+using System.Text;
 
 #if NETCORE
-//namespace System.Collections.Specialized
+
 namespace ServiceStack.Pcl
 {
-    using ServiceStack.Text;
     using System;
-
-    /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-    Before:
-    /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-    After:
-        /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-    */
-    /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-        Before:
-            using ServiceStack.Text;
-        After:
-            using System.Text;
-        */
 
 
     public class HttpUtility

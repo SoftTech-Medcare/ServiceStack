@@ -29,36 +29,13 @@
 //
 
 /*** REMINDER: Keep this file in sync with ServiceStack.Text/Pcl.NameValueCollection.cs ***/
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using System.Globalization;
 
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-After:
-using System.Globalization;
-using System.Reflection;
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-*/
-
-
-
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using System.Reflection;
-using System.Threading;
-After:
+using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-*/
-using System.Threading;
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using ServiceStack.Text;
-using System.Globalization;
-After:
 using System.Threading;
 using System.Threading.Tasks;
-*/
 
 
 //Dummy namespaces
@@ -68,23 +45,6 @@ namespace ServiceStack.Pcl { }
 
 namespace ServiceStack
 {
-
-    /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-    Before:
-        using System;
-        using System.Collections.Generic;
-        using System.Web;
-        using ServiceStack.Web;
-        using ServiceStack.Pcl;
-    After:
-        using ServiceStack.Pcl;
-        using ServiceStack.Web;
-        using System;
-        using System.Collections.Generic;
-        using System.Collections.Specialized;
-    */
-    using System;
-
     public class PclExportClient
     {
         public static PclExportClient Instance

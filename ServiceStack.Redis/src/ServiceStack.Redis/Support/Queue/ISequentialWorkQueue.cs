@@ -1,11 +1,4 @@
-﻿/* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-Before:
-using System.Collections.Generic;
-using ServiceStack.Redis.Support.Queue.Implementation;
-After:
-using System;
-using System.Collections.Generic;
-*/
+﻿using System;
 
 namespace ServiceStack.Redis.Support.Queue
 {

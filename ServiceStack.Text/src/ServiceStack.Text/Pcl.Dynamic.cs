@@ -2,31 +2,11 @@
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
 
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using ServiceStack.Text;
-After:
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
 using ServiceStack.Text.Json;
 using System;
-*/
-using ServiceStack.Text;
-
-/* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
-Before:
 using System.Collections.Generic;
-using System.Dynamic;
-using System;
-After:
-using System;
-using System.Collections.Generic;
-using System.Collections.Generic;
-*/
-using System;
 using System.Dynamic;
 using System.Linq;
 

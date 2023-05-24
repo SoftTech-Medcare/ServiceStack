@@ -3,13 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-/* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-Before:
-using System.Threading.Tasks;
-using ServiceStack.DataAnnotations;
-After:
-using System.Threading.Tasks;
-*/
 
 
 namespace ServiceStack
@@ -23,16 +16,6 @@ namespace ServiceStack
     {
         public ValidateRequestAttribute() { }
 
-        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-        Before:
-                public ValidateRequestAttribute(string validator) => Validator = validator;
-
-                /// <summary>
-        After:
-                public ValidateRequestAttribute(string validator) => Validator = validator;
-
-                /// <summary>
-        */
         public ValidateRequestAttribute(string validator) => Validator = validator;
 
         /// <summary>
@@ -69,17 +52,6 @@ namespace ServiceStack
         ///  - {PropertyName}
         ///  - {PropertyValue}
         /// </summary>
-
-        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-        Before:
-                public string Message { get; set; }
-
-                /// <summary>
-        After:
-                public string Message { get; set; }
-
-                /// <summary>
-        */
         public string Message { get; set; }
 
         /// <summary>
@@ -122,65 +94,24 @@ namespace ServiceStack
         }
     }
 
-
-    /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-    Before:
-        /* Default ITypeValidator defined in ValidateScripts */
-
-    public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
-After:
-    /* Default ITypeValidator defined in ValidateScripts */
-
-    public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
-*/
     /* Default ITypeValidator defined in ValidateScripts */
 
     public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
     {
         public ValidateIsAuthenticatedAttribute() : base("IsAuthenticated") { }
 
-        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-        Before:
-            }
-
-            public class ValidateIsAdminAttribute : ValidateRequestAttribute
-        After:
-            }
-
-            public class ValidateIsAdminAttribute : ValidateRequestAttribute
-        */
     }
 
     public class ValidateIsAdminAttribute : ValidateRequestAttribute
     {
         public ValidateIsAdminAttribute() : base("IsAdmin") { }
 
-        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-        Before:
-            }
-
-            public class ValidateHasRoleAttribute : ValidateRequestAttribute
-        After:
-            }
-
-            public class ValidateHasRoleAttribute : ValidateRequestAttribute
-        */
     }
 
     public class ValidateHasRoleAttribute : ValidateRequestAttribute
     {
         public ValidateHasRoleAttribute(string role) : base("HasRole(`" + role + "`)") { }
 
-        /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
-        Before:
-            }
-
-            public class ValidateHasPermissionAttribute : ValidateRequestAttribute
-        After:
-            }
-
-            public class ValidateHasPermissionAttribute : ValidateRequestAttribute
-        */
     }
 
     public class ValidateHasPermissionAttribute : ValidateRequestAttribute

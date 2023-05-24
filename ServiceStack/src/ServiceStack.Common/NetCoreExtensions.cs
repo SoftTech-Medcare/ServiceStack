@@ -1,11 +1,6 @@
 ﻿#if NETCORE
 
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using System.Data;
-After:
 using System.Data.Common;
-*/
 using System.Net.Sockets;
 
 namespace ServiceStack

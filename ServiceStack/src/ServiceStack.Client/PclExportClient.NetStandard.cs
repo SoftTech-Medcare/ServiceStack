@@ -3,30 +3,12 @@
 
 #if NETCORE
 
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using System.Collections.Specialized;
-using System.IO;
-After:
-using System.Pcl;
-using System.Web;
-*/
 using System;
 using System.Collections.Generic;
-/* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
-Before:
-using ServiceStack;
-using ServiceStack.Web;
-using ServiceStack.Pcl;
-using System.Collections.Generic;
 using System.Globalization;
-After:
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-*/
 
 
 
@@ -34,8 +16,6 @@ namespace ServiceStack
 {
     public class NetStandardPclExportClient : PclExportClient
     {
-        public static NetStandardPclExportClient Provider = new NetStandardPclExportClient();
-
         static readonly Dictionary<string, bool> multiHeaders = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase) {
                 {HttpHeaders.Allow,              false},
                 {HttpHeaders.Accept,             false},
@@ -74,9 +54,11 @@ namespace ServiceStack
                         ?.GetSetMethod(nonPublic: true)
                         ?.CreateDelegate(typeof(Action<HttpWebRequest, DateTime>));
 
+        public static NetStandardPclExportClient Provider { get; set; } = new NetStandardPclExportClient();
+
         public static PclExportClient Configure()
         {
-            Configure(Provider ?? (Provider = new NetStandardPclExportClient()));
+            Configure(Provider ??= new NetStandardPclExportClient());
             NetStandardPclExport.Configure();
             return Provider;
         }

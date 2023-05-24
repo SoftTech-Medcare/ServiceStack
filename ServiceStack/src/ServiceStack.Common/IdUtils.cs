@@ -1,19 +1,6 @@
 using ServiceStack.Model;
-/* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
-Before:
-using System.Linq;
-using System.Reflection;
-using ServiceStack.Model;
-using ServiceStack.Reflection;
-using ServiceStack.Text;
-After:
-using ServiceStack.Reflection;
-using System.Text;
 using System;
 using System.Linq;
-using System.Reflection;
-*/
-using System;
 using System.Reflection;
 
 namespace ServiceStack
