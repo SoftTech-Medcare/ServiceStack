@@ -450,7 +450,6 @@ namespace ServiceStack
 
         public virtual GithubGist CreateGithubGist(string description, bool isPublic, Dictionary<string, string> textFiles)
         {
-
             /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
             Before:
                         AssertAccessToken();
@@ -738,7 +737,6 @@ namespace ServiceStack
 #endif
     }
 
-
     public class GithubRepo
     {
         public int Id { get; set; }
@@ -1014,5 +1012,4 @@ namespace ServiceStack
                 : Tags.Any(x => searchTags.Any(x.EqualsIgnoreCase));
         }
     }
-
 }

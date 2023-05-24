@@ -395,7 +395,6 @@ namespace ServiceStack.Script
             }
             finally
             {
-
                 stackTrace.Pop();
             }
         }

@@ -130,5 +130,4 @@ public class AppTasks
         var desc = nextRun.GetDescription() ?? nextRun.FirstAttribute<NotesAttribute>()?.Notes;
         return desc;
     }
-
 }

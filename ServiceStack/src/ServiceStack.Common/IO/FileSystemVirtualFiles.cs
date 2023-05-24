@@ -205,6 +205,5 @@ namespace ServiceStack.IO
             }
             AssertDirectory(dirPath, timeoutMs);
         }
-
     }
 }

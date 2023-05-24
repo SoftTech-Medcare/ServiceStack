@@ -83,7 +83,6 @@ namespace ServiceStack.Text.Common
         public static object ParseCollectionType(string value, Type createType, Type elementType, ParseStringDelegate parseFn) =>
             ParseCollectionType(value.AsSpan(), createType, elementType, v => parseFn(v.ToString()));
 
-
         static Type[] arguments = { typeof(ReadOnlySpan<char>), typeof(Type), typeof(ParseStringSpanDelegate) };
 
         public static object ParseCollectionType(ReadOnlySpan<char> value, Type createType, Type elementType, ParseStringSpanDelegate parseFn)
@@ -101,7 +100,6 @@ namespace ServiceStack.Text.Common
                 snapshot = ParseDelegateCache;
                 newCache = new Dictionary<Type, ParseCollectionDelegate>(ParseDelegateCache);
                 newCache[elementType] = parseDelegate;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ParseDelegateCache, newCache, snapshot), snapshot));
 

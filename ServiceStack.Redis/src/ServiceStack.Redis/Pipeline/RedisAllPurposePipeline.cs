@@ -3,7 +3,6 @@ using System;
 
 namespace ServiceStack.Redis
 {
-
     public partial class RedisAllPurposePipeline : RedisCommandQueue, IRedisPipeline
     {
         /// <summary>
@@ -14,7 +13,6 @@ namespace ServiceStack.Redis
             : base(redisClient)
         {
             Init();
-
         }
 
         protected virtual void Init()

@@ -31,7 +31,6 @@ using System.Threading.Tasks;
 
 namespace ServiceStack
 {
-
     /**
      * Need to provide async request options
      * http://msdn.microsoft.com/en-us/library/86wf6409(VS.71).aspx
@@ -184,7 +183,6 @@ namespace ServiceStack
             }
         }
         private bool disableAutoCompression;
-
 
         private string requestCompressionType;
         public string RequestCompressionType
@@ -963,7 +961,6 @@ namespace ServiceStack
 
         protected virtual void SerializeRequestToStream(object request, Stream requestStream, bool keepOpen = false)
         {
-
             /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
             Before:
                         HttpLog?.AppendLine();
@@ -1308,7 +1305,6 @@ namespace ServiceStack
             return asyncClient.SendAsync<byte[]>(HttpMethods.Post, ResolveUrl(HttpMethods.Post, requestUri), requests, token);
         }
 
-
         public Task<TResponse> SendAsync<TResponse>(string httpMethod, string absoluteUrl, object request, CancellationToken token = default)
         {
             return asyncClient.SendAsync<TResponse>(httpMethod, absoluteUrl, request, token);
@@ -1334,7 +1330,6 @@ namespace ServiceStack
             return asyncClient.SendAsync<byte[]>(HttpMethods.Get, ResolveTypedUrl(HttpMethods.Get, requestDto), null, token);
         }
 
-
         public virtual Task<TResponse> DeleteAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token = default)
         {
             return asyncClient.SendAsync<TResponse>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, token);
@@ -1354,7 +1349,6 @@ namespace ServiceStack
         {
             return asyncClient.SendAsync<byte[]>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, token);
         }
-
 
         public virtual Task<TResponse> PostAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token = default)
         {
@@ -1376,7 +1370,6 @@ namespace ServiceStack
             return asyncClient.SendAsync<byte[]>(HttpMethods.Post, ResolveTypedUrl(HttpMethods.Post, requestDto), requestDto, token);
         }
 
-
         public virtual Task<TResponse> PutAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token = default)
         {
             return asyncClient.SendAsync<TResponse>(HttpMethods.Put, ResolveTypedUrl(HttpMethods.Put, requestDto), requestDto, token);
@@ -1397,7 +1390,6 @@ namespace ServiceStack
             return asyncClient.SendAsync<byte[]>(HttpMethods.Put, ResolveTypedUrl(HttpMethods.Put, requestDto), requestDto, token);
         }
 
-
         public virtual Task<TResponse> PatchAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token = default)
         {
             return asyncClient.SendAsync<TResponse>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto, token);
@@ -1417,7 +1409,6 @@ namespace ServiceStack
         {
             return asyncClient.SendAsync<byte[]>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto, token);
         }
-
 
         public virtual Task<TResponse> CustomMethodAsync<TResponse>(string httpVerb, IReturn<TResponse> requestDto, CancellationToken token = default)
         {
@@ -1576,7 +1567,6 @@ namespace ServiceStack
             Send<byte[]>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null);
         }
 
-
         /// <summary>
         /// APIs returning HttpWebResponse must be explicitly Disposed, e.g using (var res = client.Delete(url)) { ... }
         /// </summary>
@@ -1609,7 +1599,6 @@ namespace ServiceStack
         {
             return Send<TResponse>(HttpMethods.Delete, ResolveUrl(HttpMethods.Delete, relativeOrAbsoluteUrl), null);
         }
-
 
         public virtual void Post(IReturnVoid requestDto)
         {
@@ -1669,7 +1658,6 @@ namespace ServiceStack
             return Send<TResponse>(HttpMethods.Put, ResolveUrl(HttpMethods.Put, relativeOrAbsoluteUrl), requestDto);
         }
 
-
         public virtual void Patch(IReturnVoid requestDto)
         {
             Send<byte[]>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto);
@@ -1695,7 +1683,6 @@ namespace ServiceStack
         {
             return Send<TResponse>(HttpMethods.Patch, ResolveUrl(HttpMethods.Patch, relativeOrAbsoluteUrl), requestDto);
         }
-
 
         public virtual void CustomMethod(string httpVerb, IReturnVoid requestDto)
         {
@@ -2175,7 +2162,6 @@ namespace ServiceStack
                     var isBinary = typeof(TResponse) == typeof(Stream) || typeof(TResponse) == typeof(byte[]) || ContentType.IsBinary();
                     if (isBinary)
                     {
-
                         HttpLog.Append("(base64) ");
                         HttpLog.AppendLine(Convert.ToBase64String(stream.ReadFully()));
                     }

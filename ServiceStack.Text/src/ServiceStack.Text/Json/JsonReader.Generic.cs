@@ -38,7 +38,6 @@ namespace ServiceStack.Text.Json
                 {
                     [type] = parseFactoryFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ParseFnCache, newCache, snapshot), snapshot));
 

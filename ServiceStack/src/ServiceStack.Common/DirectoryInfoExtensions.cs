@@ -37,8 +37,6 @@ namespace ServiceStack
                 }
             }
         }
-
     }
-
 }
 #endif

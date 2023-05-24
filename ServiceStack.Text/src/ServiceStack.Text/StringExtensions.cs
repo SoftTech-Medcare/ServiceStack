@@ -212,7 +212,6 @@ namespace ServiceStack
 
                 if (number >= 'a' && number <= 'z')
                     number += (number > 'm') ? -13 : 13;
-
                 else if (number >= 'A' && number <= 'Z')
                     number += (number > 'M') ? -13 : 13;
 
@@ -1213,7 +1212,6 @@ namespace ServiceStack
                 ? (char)(i + '0')
                 : (char)(i - 10 + (upper ? 'A' : 'a'));
         }
-
     }
 }
 

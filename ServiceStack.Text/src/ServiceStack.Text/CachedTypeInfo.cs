@@ -103,5 +103,4 @@ namespace ServiceStack.Text
             return Enum.Parse(enumType, serializedValue, ignoreCase: true); //Also parses quoted int values, e.g. "1"
         }
     }
-
 }

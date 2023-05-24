@@ -207,5 +207,4 @@ namespace ServiceStack.Redis.Generic
         ValueTask<List<T>> GetLatestFromRecentsListAsync(int skip, int take, CancellationToken token = default);
         ValueTask<List<T>> GetEarliestFromRecentsListAsync(int skip, int take, CancellationToken token = default);
     }
-
 }

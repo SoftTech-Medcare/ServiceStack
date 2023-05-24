@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-
 namespace ServiceStack.Messaging
 {
     internal delegate IMessage MessageFactoryDelegate(object body);
@@ -90,6 +89,5 @@ namespace ServiceStack.Messaging
         {
             return $"CreatedDate={this.CreatedDate}, Id={this.Id:N}, Type={typeof(T).Name}, Retry={this.RetryAttempts}";
         }
-
     }
 }

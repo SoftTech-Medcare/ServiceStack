@@ -98,5 +98,4 @@ namespace ServiceStack.Script
 
         public override string ToString() => Signature;
     }
-
 }

@@ -173,7 +173,6 @@ namespace ServiceStack.Redis
 
         #endregion
 
-
         #region Set operations
 
         HashSet<string> GetAllItemsFromSet(string setId);
@@ -194,7 +193,6 @@ namespace ServiceStack.Redis
         string GetRandomItemFromSet(string setId);
 
         #endregion
-
 
         #region List operations
 
@@ -234,7 +232,6 @@ namespace ServiceStack.Redis
         string BlockingPopAndPushItemBetweenLists(string fromListId, string toListId, TimeSpan? timeOut);
 
         #endregion
-
 
         #region Sorted Set operations
 
@@ -300,7 +297,6 @@ namespace ServiceStack.Redis
 
         #endregion
 
-
         #region Hash operations
 
         bool HashContainsEntry(string hashId, string key);
@@ -318,7 +314,6 @@ namespace ServiceStack.Redis
         Dictionary<string, string> GetAllEntriesFromHash(string hashId);
 
         #endregion
-
 
         #region Eval/Lua operations
 

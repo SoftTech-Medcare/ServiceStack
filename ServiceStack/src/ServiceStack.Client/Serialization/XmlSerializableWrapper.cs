@@ -15,7 +15,6 @@ namespace ServiceStack.Serialization
         public XmlSerializerWrapper(Type type)
             : this(type, null, null)
         {
-
         }
 
         public XmlSerializerWrapper(Type type, string name, string ns)

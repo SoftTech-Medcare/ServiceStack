@@ -110,7 +110,6 @@ namespace ServiceStack.Text
             tsRowSeparatorString = sRowSeparatorString = null;
             tsEscapeStrings = sEscapeStrings = null;
         }
-
     }
 
     public static class CsvConfig<T>

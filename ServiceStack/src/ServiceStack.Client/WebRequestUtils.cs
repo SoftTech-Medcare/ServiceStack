@@ -219,7 +219,6 @@ namespace ServiceStack
             string ha1raw = userName + ":" + authInfo.realm + ":" + password;
             string ha1 = CalculateMD5Hash(ha1raw);
 
-
             string ha2raw = client.Method + ":" + client.RequestUri.PathAndQuery;
             string ha2 = CalculateMD5Hash(ha2raw);
 
@@ -402,6 +401,5 @@ namespace ServiceStack
             }
             sb.AppendLine();
         }
-
     }
 }

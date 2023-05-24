@@ -70,6 +70,5 @@ namespace ServiceStack.Messaging.Redis
                 this.ClientsManager = null;
             }
         }
-
     }
 }

@@ -295,7 +295,6 @@ namespace ServiceStack.Script
                 parentPath = parentPath.IndexOf('/') >= 0
                     ? parentPath.LastLeftPart('/')
                     : "";
-
             } while (true);
 
             page = null;
@@ -305,7 +304,6 @@ namespace ServiceStack.Script
 
         private SharpPage emptyPage;
         public SharpPage EmptyPage => emptyPage ??= OneTimePage("");
-
 
         private static InMemoryVirtualFile emptyFile;
         public InMemoryVirtualFile EmptyFile =>

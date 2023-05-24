@@ -60,5 +60,4 @@ namespace ServiceStack
 #endif
 
     }
-
 }

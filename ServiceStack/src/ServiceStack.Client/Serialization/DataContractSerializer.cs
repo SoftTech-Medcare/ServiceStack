@@ -82,7 +82,6 @@ namespace ServiceStack.Serialization
                 return ms.ToArray();
             }
         }
-
     }
 }
 #endif

@@ -167,7 +167,6 @@ namespace ServiceStack.Text.Common
                     if (success)
                         for (; index < strTypeLength; index++) { if (!JsonUtils.IsWhiteSpace(buffer[index])) break; } //Whitespace inline
                 }
-
             }
 
             return instance;

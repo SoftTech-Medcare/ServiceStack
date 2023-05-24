@@ -27,7 +27,6 @@ namespace ServiceStack.Text.Jsv
                 snapshot = DeserializerCache;
                 newCache = new Dictionary<Type, ParseStringDelegate>(DeserializerCache);
                 newCache[type] = parseFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref DeserializerCache, newCache, snapshot), snapshot));
 

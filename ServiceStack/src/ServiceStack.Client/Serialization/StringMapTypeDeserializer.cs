@@ -163,7 +163,6 @@ namespace ServiceStack.Serialization
             return instance;
         }
 
-
         private object PopulateFromKeyValue(object instance, string propertyName, string propertyTextValue, out PropertySerializerEntry propertySerializerEntry, List<RequestBindingError> errors,
             HashSet<string> ignoredWarningsOnPropertyNames = null)
         {
@@ -231,7 +230,6 @@ namespace ServiceStack.Serialization
             return instance;
         }
 
-
         public object CreateFromMap(IDictionary<string, string> keyValuePairs)
         {
             return PopulateFromMap(null, keyValuePairs, null);
@@ -241,7 +239,6 @@ namespace ServiceStack.Serialization
         {
             return PopulateFromMap(null, nameValues, null);
         }
-
     }
 
     public class RequestBindingError

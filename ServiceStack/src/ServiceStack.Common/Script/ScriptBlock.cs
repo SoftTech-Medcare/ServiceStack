@@ -93,7 +93,6 @@ namespace ServiceStack.Script
             element != null && !(element is string) && (element.GetType().IsClass || element.GetType().Name == "KeyValuePair`2");
 
         protected int AssertWithinMaxQuota(int value) => Context.DefaultMethods.AssertWithinMaxQuota(value);
-
     }
 
     public class DefaultScriptBlocks : IScriptPlugin
@@ -125,5 +124,4 @@ namespace ServiceStack.Script
             });
         }
     }
-
 }

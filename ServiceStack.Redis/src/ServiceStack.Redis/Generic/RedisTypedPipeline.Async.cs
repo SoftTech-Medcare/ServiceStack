@@ -126,7 +126,6 @@ namespace ServiceStack.Redis
                 {
                     await queuedCommand.ProcessResultAsync(token).ConfigureAwait(false);
                 }
-
             }
             finally
             {

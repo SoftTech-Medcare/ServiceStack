@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace ServiceStack.Text
 {
     public abstract class MemoryProvider

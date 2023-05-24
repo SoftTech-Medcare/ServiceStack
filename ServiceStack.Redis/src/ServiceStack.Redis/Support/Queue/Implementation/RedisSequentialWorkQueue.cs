@@ -18,7 +18,6 @@ using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 
-
 namespace ServiceStack.Redis.Support.Queue.Implementation
 {
     /// <summary>
@@ -138,7 +137,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
 
         public ISequentialData<T> Dequeue(int maxBatchSize)
         {
-
             using (var disposableClient = clientManager.GetDisposableClient<SerializingRedisClient>())
             {
                 var client = disposableClient.Client;
@@ -168,7 +166,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                                 pipe.QueueCommand(
                                     r => ((RedisNativeClient)r).LIndex(key, index),
                                     dequeueCallback);
-
                             }
                             pipe.Flush();
                         }
@@ -177,10 +174,8 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                         // don't lock if there are no work items to be processed (can't lock on null lock key)
                         if (workItems.Count > 0)
                             workItemDequeueManager.Lock(lockAcquisitionTimeout, client);
-
                     }
                     return new SequentialData<T>(workItemId, workItems, workItemDequeueManager);
-
                 }
                 catch (Exception)
                 {
@@ -261,7 +256,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
             return rc;
         }
 
-
         /// <summary>
         /// release lock held by crashed server
         /// </summary>
@@ -280,7 +274,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
             long lockValue = 0;
             using (var pipe = client.CreatePipeline())
             {
-
                 pipe.QueueCommand(r => ((RedisNativeClient)r).Watch(dequeueLockKey));
                 pipe.QueueCommand(r => ((RedisNativeClient)r).Get(dequeueLockKey),
                                   x => lockValue = (x != null) ? BitConverter.ToInt64(x, 0) : 0);
@@ -318,7 +311,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
 
                     rc = trans.Commit();
                 }
-
             }
             return rc;
         }
@@ -352,10 +344,8 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                         else
                             pipe.QueueCommand(r => ((RedisNativeClient)r).ZAdd(workItemIdPriorityQueue, len, client.Serialize(workItemId)));
 
-
                         pipe.Flush();
                     }
-
                 }
             }
         }

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 namespace ServiceStack.Script
 {
     // ReSharper disable InconsistentNaming
@@ -348,7 +347,6 @@ namespace ServiceStack.Script
         public IRawString htmlErrorDebug(ScriptScopeContext scope) => htmlErrorDebug(scope, scope.PageResult.LastFilterError);
         public IRawString htmlErrorDebug(ScriptScopeContext scope, object ex) =>
             htmlErrorDebug(scope, ex as Exception ?? scope.PageResult.LastFilterError, ex as Dictionary<string, object>);
-
 
         public IRawString htmlErrorDebug(ScriptScopeContext scope, Exception ex, object options)
         {

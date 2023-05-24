@@ -140,6 +140,5 @@ namespace ServiceStack.Redis.Generic
         {
             return DeserializeValue(client.SRandMember(fromSet.Id));
         }
-
     }
 }

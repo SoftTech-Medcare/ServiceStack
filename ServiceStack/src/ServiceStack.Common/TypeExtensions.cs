@@ -21,7 +21,6 @@ namespace ServiceStack
     /// </summary>
     public delegate object InstanceMapper(object instance);
 
-
     public static class TypeExtensions
     {
         public static Type[] GetReferencedTypes(this Type type)
@@ -148,7 +147,6 @@ namespace ServiceStack
             {
                 snapshot = activatorCache;
                 newCache = new Dictionary<ConstructorInfo, ObjectActivator>(activatorCache) { [ctor] = fn };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref activatorCache, newCache, snapshot), snapshot));
 
@@ -335,7 +333,6 @@ namespace ServiceStack
             {
                 snapshot = invokerCache;
                 newCache = new Dictionary<MethodInfo, MethodInvoker>(invokerCache) { [method] = fn };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref invokerCache, newCache, snapshot), snapshot));
 
@@ -359,7 +356,6 @@ namespace ServiceStack
             {
                 snapshot = staticInvokerCache;
                 newCache = new Dictionary<MethodInfo, StaticMethodInvoker>(staticInvokerCache) { [method] = fn };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref staticInvokerCache, newCache, snapshot), snapshot));
 
@@ -383,7 +379,6 @@ namespace ServiceStack
             {
                 snapshot = actionInvokerCache;
                 newCache = new Dictionary<MethodInfo, ActionInvoker>(actionInvokerCache) { [method] = fn };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref actionInvokerCache, newCache, snapshot), snapshot));
 
@@ -407,7 +402,6 @@ namespace ServiceStack
             {
                 snapshot = staticActionInvokerCache;
                 newCache = new Dictionary<MethodInfo, StaticActionInvoker>(staticActionInvokerCache) { [method] = fn };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref staticActionInvokerCache, newCache, snapshot), snapshot));
 
@@ -456,5 +450,4 @@ namespace ServiceStack
             return lambda;
         }
     }
-
 }

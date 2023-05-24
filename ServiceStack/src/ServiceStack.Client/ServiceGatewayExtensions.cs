@@ -76,7 +76,6 @@ public static class ServiceGatewayExtensions
                 {
                     [responseType] = sendFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref LateBoundSendSyncFns, newCache, snapshot), snapshot));
         }
@@ -100,7 +99,6 @@ public static class ServiceGatewayExtensions
                 {
                     [responseType] = sendFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref LateBoundSendAsyncFns, newCache, snapshot), snapshot));
         }

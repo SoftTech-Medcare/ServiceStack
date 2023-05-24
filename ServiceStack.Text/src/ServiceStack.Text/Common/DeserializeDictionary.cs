@@ -220,7 +220,6 @@ namespace ServiceStack.Text.Common
                 );
         }
 
-
         public static IDictionary<TKey, TValue> ParseDictionary<TKey, TValue>(
             ReadOnlySpan<char> value, Type createMapType,
             ParseStringSpanDelegate parseKeyFn, ParseStringSpanDelegate parseValueFn)
@@ -342,7 +341,6 @@ namespace ServiceStack.Text.Common
                 {
                     [key] = parseDelegate
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ParseDelegateCache, newCache, snapshot), snapshot));
 

@@ -48,6 +48,5 @@ namespace ServiceStack.Text.Common
             }
             return null;
         }
-
     }
 }

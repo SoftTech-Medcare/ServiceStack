@@ -8,7 +8,6 @@ namespace ServiceStack.Redis.Support
     /// </summary>
     public class RedisNamespace
     {
-
         private const string UniqueCharacter = "?";
 
         //make reserved keys unique by tacking N of these to the beginning of the string

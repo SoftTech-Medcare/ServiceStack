@@ -58,4 +58,3 @@ namespace ServiceStack
         Task PublishAllAsync(IEnumerable<object> requestDtos, CancellationToken token = default);
     }
 }
-

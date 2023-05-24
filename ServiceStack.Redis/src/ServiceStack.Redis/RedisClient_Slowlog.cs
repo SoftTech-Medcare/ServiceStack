@@ -38,7 +38,6 @@ namespace ServiceStack.Redis
                     .Select(t => t.FromUtf8Bytes())
                     .ToArray();
 
-
                 list[i] = new SlowlogItem(
                     Int32.Parse((string)log[0], CultureInfo.InvariantCulture),
                     DateTimeExtensions.FromUnixTime(Int32.Parse((string)log[1], CultureInfo.InvariantCulture)),
@@ -49,7 +48,6 @@ namespace ServiceStack.Redis
 
             return list;
         }
-
 
     }
 }

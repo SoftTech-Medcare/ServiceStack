@@ -29,7 +29,6 @@ namespace ServiceStack.Text.Controller
 
         public Dictionary<string, string> Options { get; private set; }
 
-
         public PathInfo(string actionName, params string[] arguments)
             : this(actionName, arguments.ToList(), null)
         {

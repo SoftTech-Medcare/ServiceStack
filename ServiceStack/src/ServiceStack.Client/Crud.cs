@@ -51,10 +51,8 @@ public static class Crud
     public static string[] CrudInterfaceMetadataNames(List<string> operations = null) =>
         (operations ?? Write).Select(x => $"I{x}Db`1").ToArray();
 
-
     public static string[] ReadInterfaces => new[] { Query, QueryInto };
     public static string[] WriteInterfaces => new[] { Create, Update, Patch, Delete, Save };
-
 
     /// <summary>
     /// Is AutoQuery or Crud Request API
@@ -164,7 +162,6 @@ public static class Crud
     public static bool IsCrudUpdate(Type type) => type.IsOrHasGenericInterfaceTypeOf(typeof(IUpdateDb<>));
     public static bool IsCrudPatch(Type type) => type.IsOrHasGenericInterfaceTypeOf(typeof(IPatchDb<>));
     public static bool IsCrudDelete(Type type) => type.IsOrHasGenericInterfaceTypeOf(typeof(IDeleteDb<>));
-
 
     public static string FirstGenericArg(this MetadataTypeName type) => type.GenericArgs?.Length > 0 ? type.GenericArgs[0] : null;
     public static string[] ApiMarkerInterfaces { get; } = {

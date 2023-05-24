@@ -128,7 +128,6 @@ namespace ServiceStack.Text.Common
             {
                 snapshot = ParseDelegateCache;
                 newCache = new Dictionary<Type, ParseStringSpanDelegate>(ParseDelegateCache) { [type] = parseFn };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ParseDelegateCache, newCache, snapshot), snapshot));
 

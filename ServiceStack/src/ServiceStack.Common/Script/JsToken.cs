@@ -52,7 +52,6 @@ namespace ServiceStack.Script
         private static readonly byte[] ExpressionTerminatorChars;
         public static readonly byte[] NewLineUtf8;
 
-
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
                 private const byte True = 1;
@@ -183,7 +182,6 @@ namespace ServiceStack.Script
         public static bool SafeCharEquals(this ReadOnlySpan<char> literal, int index, char c) =>
             index >= 0 && index < literal.Length && literal[index] == c;
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan<char> AdvancePastPipeOperator(this ReadOnlySpan<char> literal) =>
             literal.SafeCharEquals(1, '>')
@@ -272,7 +270,6 @@ namespace ServiceStack.Script
         internal static string DebugFirstChar(this ReadOnlyMemory<char> literal) => literal.Span.DebugFirstChar();
 
         internal static string DebugChar(this char c) => c == 0 ? "'<end>'" : $"'{c}'";
-
 
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
@@ -581,7 +578,6 @@ namespace ServiceStack.Script
                         {
                             literal = literal.Advance(1);
                             literal = literal.ParseJsExpression(out mapValueToken);
-
                         }
                         else
                         {
@@ -1155,7 +1151,6 @@ namespace ServiceStack.Script
 
         internal static ReadOnlySpan<char> ParseIdentifier(this ReadOnlySpan<char> literal, out JsToken token)
         {
-
             /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
             Before:
                         literal = literal.ParseVarName(out var identifier);
@@ -1183,12 +1178,10 @@ namespace ServiceStack.Script
 
             return literal;
         }
-
     }
 
     public static class CallExpressionUtils
     {
-
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
                 private const char WhitespaceArgument = ':'; 
@@ -1203,7 +1196,6 @@ namespace ServiceStack.Script
 
         public static ReadOnlySpan<char> ParseJsCallExpression(this ReadOnlySpan<char> literal, out JsCallExpression expression, bool filterExpression = false)
         {
-
             /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
             Before:
                         literal = literal.ParseIdentifier(out var token);

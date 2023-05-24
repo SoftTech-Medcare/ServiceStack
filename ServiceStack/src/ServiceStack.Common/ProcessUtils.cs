@@ -345,5 +345,4 @@ namespace ServiceStack
         /// </summary>
         public long? CallbackDurationMs { get; set; }
     }
-
 }

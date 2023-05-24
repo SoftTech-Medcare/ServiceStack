@@ -28,5 +28,4 @@ namespace ServiceStack.Redis.Generic
         ValueTask<bool> ContainsKeyAsync(TKey key, CancellationToken token = default);
         ValueTask<bool> RemoveAsync(TKey key, CancellationToken token = default);
     }
-
 }

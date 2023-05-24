@@ -37,7 +37,6 @@ namespace ServiceStack.Text.Jsv
                 {
                     [type] = parseFactoryFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ParseFnCache, newCache, snapshot), snapshot));
 

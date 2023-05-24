@@ -240,7 +240,6 @@ namespace ServiceStack.Redis
             }
         }
 
-
         public void ChangeDb(long db)
         {
             this.db = db;
@@ -1008,7 +1007,6 @@ namespace ServiceStack.Redis
             var cmdWithArgs = MergeCommandWithArgs(Commands.Watch, keys);
 
             SendExpectCode(cmdWithArgs);
-
         }
 
         public void UnWatch()
@@ -1088,7 +1086,6 @@ namespace ServiceStack.Redis
                                         Commands.Count, count.ToUtf8Bytes());
         }
 
-
         internal ScanResult SendExpectScanResult(byte[] cmd, params byte[][] args)
         {
             var cmdWithArgs = MergeCommandWithArgs(cmd, args);
@@ -1134,7 +1131,6 @@ namespace ServiceStack.Redis
         }
 
         #endregion
-
 
         #region Set Operations
 
@@ -1285,7 +1281,6 @@ namespace ServiceStack.Redis
         }
 
         #endregion
-
 
         #region List Operations
 
@@ -2007,7 +2002,6 @@ namespace ServiceStack.Redis
         }
 
         #endregion
-
 
         #region Hash Operations
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace ServiceStack.Redis.Support.Queue.Implementation
 {
     /// <summary>
@@ -14,7 +13,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
             : base(maxReadPoolSize, maxWritePoolSize, host, port)
         {
         }
-
 
         public RedisSimpleWorkQueue(int maxReadPoolSize, int maxWritePoolSize, string host, int port, string queueName)
             : base(maxReadPoolSize, maxWritePoolSize, host, port, queueName)
@@ -34,7 +32,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                 client.RPush(key, client.Serialize(msg));
             }
         }
-
 
         /// <summary>
         /// Dequeue next batch of work items for processing. After this method is called,
@@ -61,10 +58,8 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                                     if (x != null)
                                         dequeueItems.Add((T)client.Deserialize(x));
                                 });
-
                     }
                     pipe.Flush();
-
                 }
                 return dequeueItems;
             }

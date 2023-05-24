@@ -167,6 +167,5 @@ namespace ServiceStack.Text.Pools
             System.Diagnostics.Debug.Assert(condition);
 #endif
         }
-
     }
 }

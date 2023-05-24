@@ -14,7 +14,6 @@ using ServiceStack.Redis.Pipeline;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace ServiceStack.Redis
 {
     /// <summary>
@@ -32,7 +31,6 @@ namespace ServiceStack.Redis
             await RedisClient.FlushSendBufferAsync(token).ConfigureAwait(false);
             RedisClient.ResetSendBuffer();
         }
-
 
         /// <summary>
         /// Put "QUEUED" messages at back of queue
@@ -98,7 +96,6 @@ namespace ServiceStack.Redis
         }
         // note: this also means that Dispose doesn't need to be complex; if Rollback needed
         // splitting, we would need to override DisposeAsync and split the code, too
-
 
         private protected override async ValueTask<bool> ReplayAsync(CancellationToken token)
         {

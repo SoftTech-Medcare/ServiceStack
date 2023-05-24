@@ -257,5 +257,4 @@ namespace ServiceStack.Script
             return (Block != null ? Block.GetHashCode() : 0);
         }
     }
-
 }

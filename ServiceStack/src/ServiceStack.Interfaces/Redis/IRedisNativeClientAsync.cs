@@ -182,7 +182,6 @@ namespace ServiceStack.Redis
         ValueTask SDiffStoreAsync(string intoSetId, string fromSetId, params string[] withSetIds); // convenience API
         ValueTask<byte[]> SRandMemberAsync(string setId, CancellationToken token = default);
 
-
         ////Redis Sorted Set operations
         ValueTask<long> ZAddAsync(string setId, double score, byte[] value, CancellationToken token = default);
         ValueTask<long> ZAddAsync(string setId, long score, byte[] value, CancellationToken token = default);

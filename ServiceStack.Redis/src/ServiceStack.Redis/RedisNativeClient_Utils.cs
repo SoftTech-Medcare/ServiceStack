@@ -632,7 +632,6 @@ namespace ServiceStack.Redis
         }
 #endif
 
-
         protected T SendReceive<T>(byte[][] cmdWithBinaryArgs,
             Func<T> fn,
             Action<Func<T>> completePipelineFn = null,
@@ -1433,7 +1432,5 @@ namespace ServiceStack.Redis
         {
             SendExpectSuccess(Commands.Script, Commands.Kill);
         }
-
     }
-
 }

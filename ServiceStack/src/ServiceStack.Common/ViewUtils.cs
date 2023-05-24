@@ -25,7 +25,6 @@ After:
 using System.Threading;
 */
 
-
 namespace ServiceStack
 {
     /// <summary>
@@ -61,7 +60,6 @@ namespace ServiceStack
         /// <summary>
         /// Bootstrap Size of the Control: sm, lg
         /// </summary>
-
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
                 public string Size { get; set; }
@@ -108,7 +106,6 @@ namespace ServiceStack
         /// Sources can include prefixes to specify which Virtual File System Source to use, options:
         /// 'content:' (ContentRoot HostContext.VirtualFiles), 'filesystem:' (WebRoot FileSystem), 'memory:' (WebRoot Memory)
         /// </summary>
-
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
                 public List<string> Sources { get; set; } = new List<string>();
@@ -179,7 +176,6 @@ namespace ServiceStack
         public string[] Headers { get; set; }
         public bool IncludeRowNumbers { get; set; } = true;
 
-
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
                 public DefaultScripts Defaults { get; set; } = ViewUtils.DefaultScripts;
@@ -228,7 +224,6 @@ namespace ServiceStack
         public string CaptionIfEmpty { get; set; }
 
         public string[] Headers { get; set; }
-
 
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
@@ -402,7 +397,6 @@ namespace ServiceStack
         /// </summary>
         public string ActivePath { get; set; }
 
-
         /// <summary>
         /// Prefix to include before NavItem.Path (if any)
         /// </summary>
@@ -485,7 +479,6 @@ namespace ServiceStack
             if (vfs == null || cssFiles == null || cssFiles.Count == 0)
                 return null;
 
-
             var sb = StringBuilderCache.Allocate();
             sb.AppendLine("<style>");
 
@@ -528,7 +521,6 @@ namespace ServiceStack
                             var sb = StringBuilderCache.Allocate();
                 */
                 return null;
-
 
             var sb = StringBuilderCache.Allocate();
             sb.AppendLine("<script>");
@@ -856,7 +848,6 @@ namespace ServiceStack
                     public static string GetDefaultTableClassName(this DefaultScripts defaultScripts) => 
             */
         }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNull(object test) => test == null || test == JsNull.Value;
@@ -1769,7 +1760,6 @@ namespace ServiceStack
                         .Append(assetExt == "html" ? "-->" : "*/");
                 }
 
-
                 var minExt = ".min." + assetExt;
                 if (options.Bundle)
                 {
@@ -1893,5 +1883,4 @@ namespace ServiceStack
             }
         }
     }
-
 }

@@ -68,7 +68,6 @@ namespace ServiceStack.Redis
                 : (redisManager.GetReadOnlyCacheClient() as ICacheClientAsync ?? InvalidAsyncClient<ICacheClientAsync>(redisManager, nameof(redisManager.GetCacheClient))).AsValueTaskResult();
         }
 
-
         public static async ValueTask ExecAsync(this IRedisClientsManager redisManager, Func<IRedisClientAsync, ValueTask> lambda)
         {
             await using var redis = await redisManager.GetClientAsync().ConfigureAwait(false);
@@ -116,5 +115,4 @@ namespace ServiceStack.Redis
             return await lambda(redis.As<T>()).ConfigureAwait(false);
         }
     }
-
 }

@@ -27,5 +27,4 @@ namespace ServiceStack.Redis.Generic
         void GetDifferences(params IRedisSet<T>[] withSets);
         void PopulateWithDifferencesOf(IRedisSet<T> fromSet, params IRedisSet<T>[] withSets);
     }
-
 }

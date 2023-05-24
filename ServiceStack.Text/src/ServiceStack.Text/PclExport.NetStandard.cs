@@ -532,7 +532,6 @@ namespace ServiceStack
                 TranslateListWithConvertibleElements<TElement, TElement>.LateBoundTranslateToGenericICollection(null, typeof(List<TElement>));
             }
         }
-
     }
 }
 

@@ -195,5 +195,4 @@ namespace ServiceStack.Redis.Generic
         List<T> GetLatestFromRecentsList(int skip, int take);
         List<T> GetEarliestFromRecentsList(int skip, int take);
     }
-
 }

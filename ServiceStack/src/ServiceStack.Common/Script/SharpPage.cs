@@ -148,7 +148,6 @@ namespace ServiceStack.Script
                     if (line.Trim().Length == 0)
                         continue;
 
-
                     if (line.StartsWith(Format.ArgsSuffix) || (lineComment != null && line.StartsWith(lineComment + Format.ArgsSuffix)))
                         break;
 

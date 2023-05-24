@@ -89,7 +89,6 @@ namespace ServiceStack.Script
             {
                 if (args.TryGetValue(name, out var value))
                     scope.ScopedParams[name] = value;
-
             }
             return StopExecution.Value;
         }

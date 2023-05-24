@@ -30,7 +30,6 @@ namespace ServiceStack.Redis
             try
             {
 
-
                 // flush send buffers
                 RedisClient.FlushSendBuffer();
 
@@ -39,7 +38,6 @@ namespace ServiceStack.Redis
                 {
                     queuedCommand.ProcessResult();
                 }
-
             }
             finally
             {

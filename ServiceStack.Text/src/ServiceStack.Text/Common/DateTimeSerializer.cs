@@ -17,7 +17,6 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
-
 namespace ServiceStack.Text.Common
 {
     public static class DateTimeSerializer

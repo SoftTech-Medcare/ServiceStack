@@ -108,5 +108,4 @@ namespace ServiceStack
         public ArrayOfIntId(IEnumerable<int> collection) : base(collection) { }
         public ArrayOfIntId(params int[] args) : base(args) { }
     }
-
 }

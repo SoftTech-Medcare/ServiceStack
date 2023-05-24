@@ -277,7 +277,5 @@ namespace ServiceStack.Redis
                 RedisState.DisposeExpiredClients();
             }
         }
-
     }
-
 }

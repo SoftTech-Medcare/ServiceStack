@@ -41,7 +41,6 @@ namespace ServiceStack.Redis.Pipeline
 
         public virtual void Execute(IRedisClient client)
         {
-
         }
 
         public void ProcessResult()

@@ -74,5 +74,4 @@ namespace ServiceStack
         [DataMember(Order = 3)]
         public ResponseStatus ResponseStatus { get; set; }
     }
-
 }

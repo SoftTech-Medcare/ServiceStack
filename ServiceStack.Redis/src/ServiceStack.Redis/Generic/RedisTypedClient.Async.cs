@@ -167,7 +167,6 @@ namespace ServiceStack.Redis.Generic
         IRedisTypedPipelineAsync<T> IRedisTypedClientAsync<T>.CreatePipeline()
             => new RedisTypedPipeline<T>(this);
 
-
         ValueTask<IAsyncDisposable> IRedisTypedClientAsync<T>.AcquireLockAsync(TimeSpan? timeOut, CancellationToken token)
             => AsyncClient.AcquireLockAsync(this.TypeLockKey, timeOut, token);
 

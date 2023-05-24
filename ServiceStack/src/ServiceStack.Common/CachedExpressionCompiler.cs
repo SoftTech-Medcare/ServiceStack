@@ -48,7 +48,6 @@ namespace ServiceStack
 
 namespace ServiceStack.ExpressionUtil
 {
-
     // BinaryExpression fingerprint class
     // Useful for things like array[index]
 

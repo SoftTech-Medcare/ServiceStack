@@ -187,7 +187,6 @@ namespace ServiceStack
                         RemoveCachesOlderThan(ClearCachesOlderThan.Value);
                 }
             }
-
         }
 
         public void SetCache(ConcurrentDictionary<string, HttpCacheEntry> cache)

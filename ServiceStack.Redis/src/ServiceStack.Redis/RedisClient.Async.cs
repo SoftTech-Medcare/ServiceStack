@@ -77,7 +77,6 @@ namespace ServiceStack.Redis
             registeredTypeIdsWithinPipelineMap = new Dictionary<string, HashSet<string>>();
         }
 
-
         ValueTask<DateTime> IRedisClientAsync.GetServerTimeAsync(CancellationToken token)
             => NativeAsync.TimeAsync(token).Await(parts => ParseTimeResult(parts));
 
@@ -212,7 +211,6 @@ namespace ServiceStack.Redis
 
         ValueTask<bool> IRedisClientAsync.ContainsKeyAsync(string key, CancellationToken token)
             => NativeAsync.ExistsAsync(key, token).IsSuccessAsync();
-
 
         ValueTask<string> IRedisClientAsync.GetRandomKeyAsync(CancellationToken token)
             => NativeAsync.RandomKeyAsync(token);
@@ -383,7 +381,6 @@ namespace ServiceStack.Redis
         ValueTask<SlowlogItem[]> IRedisClientAsync.GetSlowlogAsync(int? numberOfRecords, CancellationToken token)
             => NativeAsync.SlowlogGetAsync(numberOfRecords, token).Await(ParseSlowlog);
 
-
         Task<bool> ICacheClientAsync.SetAsync<T>(string key, T value, CancellationToken token)
             => ExecAsync(r => ((IRedisNativeClientAsync)r).SetAsync(key, ToBytes(value), token: token)).AwaitAsTrueTask();
 
@@ -496,7 +493,6 @@ namespace ServiceStack.Redis
 
         Task<long> ICacheClientAsync.DecrementAsync(string key, uint amount, CancellationToken token)
             => ExecAsync(r => r.DecrementValueByAsync(key, (int)amount, token)).AsTask();
-
 
         Task<bool> ICacheClientAsync.AddAsync<T>(string key, T value, CancellationToken token)
             => ExecAsync(r => ((IRedisNativeClientAsync)r).SetAsync(key, ToBytes(value), exists: false, token: token)).AsTask();

@@ -66,7 +66,6 @@ namespace ServiceStack.Text.Common
 
         public static Queue<int> ParseIntQueue(string value) => ParseIntQueue(value.AsSpan());
 
-
         public static Queue<int> ParseIntQueue(ReadOnlySpan<char> value)
         {
             var parse = (IEnumerable<int>)DeserializeList<List<int>, TSerializer>.ParseStringSpan(value);

@@ -12,7 +12,6 @@ using ServiceStack.Extensions;
 
 namespace ServiceStack.Script
 {
-
     /// <summary>
     /// Inverse of the #Script Language Template Syntax where each line is a statement
     /// i.e. in contrast to #Script's default where text contains embedded template expressions {{ ... }} 
@@ -255,11 +254,9 @@ namespace ServiceStack.Script
             return ScriptLanguage.UnwrapValue(ret.Item2);
         }
 
-
         internal static JsStatement[] ParseCodeStatements(this ScriptContext context, ReadOnlyMemory<char> code)
         {
             var to = new List<JsStatement>();
-
 
             /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
             Before:
@@ -689,7 +686,6 @@ namespace ServiceStack.Script
             literal = literal.ParseJsExpression(out expr, filterExpression: true);
             filters = null;
 
-
             literal = literal.AdvancePastWhitespace();
             if (literal.FirstCharEquals(ScriptTemplateUtils.FilterSep))
             {
@@ -724,7 +720,6 @@ namespace ServiceStack.Script
 
             return literal;
         }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void AddExpression(this List<JsStatement> ret, ReadOnlyMemory<char> originalText,

@@ -149,7 +149,6 @@ namespace ServiceStack.Text
         public override SetMemberDelegate<T> CreateSetter<T>(PropertyInfo propertyInfo) =>
             ExpressionReflectionOptimizer.Provider.CreateSetter<T>(propertyInfo);
 
-
         public override GetMemberDelegate CreateGetter(FieldInfo fieldInfo)
         {
             var getter = CreateDynamicGetMethod(fieldInfo);
@@ -294,7 +293,6 @@ namespace ServiceStack.Text
         }
     }
 
-
     public static class DynamicProxy
     {
         public static T GetInstanceFor<T>()
@@ -425,7 +423,6 @@ namespace ServiceStack.Text
             getIl.Emit(OpCodes.Ldfld, backingField);
             getIl.Emit(OpCodes.Ret);
 
-
             //Setter
             MethodBuilder backingSet = typeBuilder.DefineMethod("set_" + propertyName, MethodAttributes.Public |
                 MethodAttributes.SpecialName | MethodAttributes.Virtual |
@@ -444,7 +441,6 @@ namespace ServiceStack.Text
             propertyBuilder.SetSetMethod(backingSet);
         }
     }
-
 }
 
 #endif

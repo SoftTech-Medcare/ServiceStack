@@ -38,5 +38,4 @@ namespace ServiceStack.Redis.Generic
         ValueTask<bool> RemoveAsync(T item, CancellationToken token = default);
         ValueTask AddAsync(T item, CancellationToken token = default);
     }
-
 }

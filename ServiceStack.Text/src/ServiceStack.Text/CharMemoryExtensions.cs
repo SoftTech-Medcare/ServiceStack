@@ -51,7 +51,6 @@ namespace ServiceStack.Text
             return i == 0 ? literal : literal.Slice(i < literal.Length ? i : literal.Length);
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ParseBoolean(this ReadOnlyMemory<char> value) => MemoryProvider.Instance.ParseBoolean(value.Span);
 

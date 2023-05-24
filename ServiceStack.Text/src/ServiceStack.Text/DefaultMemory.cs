@@ -1016,7 +1016,6 @@ namespace ServiceStack.Text
                         }
                         else throw new FormatException(MemoryProvider.BadFormat);
 
-
                         break;
                     case ParseState.Number:
                         if (c >= '0' && c <= '9')

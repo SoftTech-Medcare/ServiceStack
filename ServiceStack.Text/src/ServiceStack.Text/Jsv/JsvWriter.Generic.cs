@@ -24,7 +24,6 @@ namespace ServiceStack.Text.Jsv
                 snapshot = WriteFnCache;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(WriteFnCache);
                 newCache.Remove(forType);
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref WriteFnCache, newCache, snapshot), snapshot));
         }
@@ -48,7 +47,6 @@ namespace ServiceStack.Text.Jsv
                     snapshot = WriteFnCache;
                     newCache = new Dictionary<Type, WriteObjectDelegate>(WriteFnCache);
                     newCache[type] = writeFn;
-
                 } while (!ReferenceEquals(
                     Interlocked.CompareExchange(ref WriteFnCache, newCache, snapshot), snapshot));
 
@@ -168,6 +166,5 @@ namespace ServiceStack.Text.Jsv
             JsState.Depth = 0;
             CacheFn(writer, value);
         }
-
     }
 }

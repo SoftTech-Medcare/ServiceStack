@@ -406,6 +406,5 @@ namespace ServiceStack.Text
 
             return Read(CsvReader.ParseLines(value)).FirstOrDefault();
         }
-
     }
 }

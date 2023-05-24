@@ -70,5 +70,4 @@ namespace ServiceStack.Text.Common
             return enumInfo.Parse(str);
         }
     }
-
 }

@@ -848,7 +848,6 @@ public static partial class HttpUtils
             requestFilter, responseFilter);
     }
 
-
     public static HttpResponseMessage UploadFile(this HttpClient client, HttpRequestMessage httpReq, Stream fileStream,
         string fileName, string? mimeType = null, string accept = "*/*", string method = HttpMethods.Post, string fieldName = "file",
         Action<HttpRequestMessage>? requestFilter = null, Action<HttpResponseMessage>? responseFilter = null)

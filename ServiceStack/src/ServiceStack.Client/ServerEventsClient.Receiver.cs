@@ -113,7 +113,6 @@ namespace ServiceStack
                 throw new SerializationException($"Could not deserialize into '{typeof(T).Name}' from '{msg.Json}'", ex);
             }
 
-
             receiverCtx.Exec(receiver, requestDto);
         }
     }
@@ -276,5 +275,4 @@ namespace ServiceStack
             }
         }
     }
-
 }

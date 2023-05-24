@@ -31,7 +31,6 @@ After:
 using System.Threading.Tasks;
 */
 
-
 namespace ServiceStack.Redis
 {
     public class RedisSentinel : IRedisSentinel

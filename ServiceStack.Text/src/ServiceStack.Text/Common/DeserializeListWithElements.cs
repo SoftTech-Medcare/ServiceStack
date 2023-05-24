@@ -51,7 +51,6 @@ namespace ServiceStack.Text.Common
             {
                 snapshot = ParseDelegateCache;
                 newCache = new Dictionary<Type, ParseListDelegate>(ParseDelegateCache) { [elementType] = parseDelegate };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ParseDelegateCache, newCache, snapshot), snapshot));
 
@@ -202,7 +201,6 @@ namespace ServiceStack.Text.Common
                 }
                 else
                 {
-
                     while (i < valueLength)
                     {
                         var startIndex = i;
@@ -233,7 +231,6 @@ namespace ServiceStack.Text.Common
                         if (isEmpty)
                             to.Add(default);
                     }
-
                 }
             }
 
@@ -286,7 +283,6 @@ namespace ServiceStack.Text.Common
 
             return null;
         }
-
     }
 
     internal static class DeserializeEnumerable<T, TSerializer>
@@ -333,6 +329,5 @@ namespace ServiceStack.Text.Common
 
             return null;
         }
-
     }
 }

@@ -199,7 +199,6 @@ namespace ServiceStack.Script
             // Parse sExpression once for all Page Results
             var sExpr = (List<object>)scope.Context.CacheMemory.GetOrAdd(block.Argument, key =>
             {
-
                 var literal = block.Argument.Span.ParseVarName(out var name);
                 var strName = name.ToString();
 
@@ -502,7 +501,6 @@ namespace ServiceStack.Script
             }
         }
 
-
         // MapCar((a b c), fn) => (fn(a) fn(b) fn(c))
         static Cell MapCar(Cell j, Func<object, object> fn)
         {
@@ -590,7 +588,6 @@ namespace ServiceStack.Script
             }
         }
 
-
         // Expression keyword
         sealed class Keyword : Sym
         {
@@ -661,7 +658,6 @@ namespace ServiceStack.Script
             }
         }
 
-
         /// <summary>Common base class of Lisp functions</summary>
         public abstract class LispFunc
         {
@@ -730,7 +726,6 @@ namespace ServiceStack.Script
             }
         }
 
-
         // Common base class of functions which are defined with Lisp expressions
         abstract class DefinedFunc : LispFunc
         {
@@ -743,10 +738,8 @@ namespace ServiceStack.Script
             }
         }
 
-
         // Common function type which represents any factory method of DefinedFunc
         delegate DefinedFunc FuncFactory(int carity, Cell body, Cell env);
-
 
         // Compiled macro expression
         sealed class Macro : DefinedFunc
@@ -772,7 +765,6 @@ namespace ServiceStack.Script
             }
         }
 
-
         // Compiled lambda expression (Within another function)
         sealed class Lambda : DefinedFunc
         {
@@ -785,7 +777,6 @@ namespace ServiceStack.Script
                 return new Lambda(carity, body);
             }
         }
-
 
         // Compiled lambda expression (Closure with environment)
         sealed class Closure : DefinedFunc
@@ -814,7 +805,6 @@ namespace ServiceStack.Script
             public static DefinedFunc Make(int carity, Cell body, Cell env) =>
                 new Closure(carity, body, env);
         }
-
 
         /// <summary>Function type which represents any built-in function body
         /// </summary>
@@ -860,7 +850,6 @@ namespace ServiceStack.Script
             }
         }
 
-
         // Bound variable in a compiled lambda/macro expression
         sealed class Arg
         {
@@ -897,7 +886,6 @@ namespace ServiceStack.Script
                 return frame[Offset];
             }
         }
-
 
         // Exception which indicates on absence of a variable
         sealed class NotVariableException : LispEvalException
@@ -1333,7 +1321,6 @@ namespace ServiceStack.Script
                     var cacheKey = nameof(Lisp) + ":load:" + path;
                     var importSymbols = (Dictionary<Sym, object>)scope.Context.Cache.GetOrAdd(cacheKey, k =>
                     {
-
                         var span = lispContents(scope, path);
                         var interp = new Interpreter(I); // start from copy of these symbols
                         Run(interp, new Reader(span));
@@ -1609,7 +1596,6 @@ namespace ServiceStack.Script
 
                 Def("group-by", -2, (I, a) =>
                 {
-
                     var keyFn = resolve1ArgFn(a[0], I);
                     var varArgs = EnumerableUtils.ToList(a[1].assertEnumerable());
 
@@ -2115,7 +2101,6 @@ namespace ServiceStack.Script
                                     {
                                         return (StaticMethodInvoker)(a =>
                                         {
-
                                             var ret = scope.Context.AssertProtectedMethods().call(a[0], symName.Substring(1).Replace('+', ','), TypeConstants.EmptyObjectList);
                                             return ret.unwrapScriptValue();
                                         });
@@ -3779,6 +3764,5 @@ setcdr rplacd)
     filter remove-if
 )
 ";
-
     }
 }

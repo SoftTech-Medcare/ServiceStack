@@ -391,7 +391,6 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
         private readonly long[] largeBufferFreeSize;
         private readonly long[] largeBufferInUseSize;
 
-
         private readonly ConcurrentStack<byte[]>[] largePools;
 
         private readonly ConcurrentStack<byte[]> smallPool;
@@ -1023,7 +1022,6 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
             return GetStream(null, buffer, 0, buffer.Length);
         }
 
-
         /// <summary>
         /// Retrieve a new MemoryStream object with the given tag and with contents copied from the provided
         /// buffer. The provided buffer is not wrapped or used after construction.
@@ -1141,7 +1139,6 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
         /// </summary>
         public event UsageReportEventHandler UsageReport;
     }
-
 
     /// <summary>
     /// MemoryStream implementation that deals with pooling and managing memory streams which use potentially large
@@ -2050,7 +2047,6 @@ namespace ServiceStack.Text //Internalize to avoid conflicts
             {
                 stream.Write(this.largeBuffer, offset, count);
             }
-
         }
         #endregion
 

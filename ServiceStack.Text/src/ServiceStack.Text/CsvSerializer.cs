@@ -46,7 +46,6 @@ namespace ServiceStack.Text
                 {
                     snapshot = WriteFnCache;
                     newCache = new Dictionary<Type, WriteObjectDelegate>(WriteFnCache) { [type] = writeFn };
-
                 } while (!ReferenceEquals(
                     Interlocked.CompareExchange(ref WriteFnCache, newCache, snapshot), snapshot));
 
@@ -78,7 +77,6 @@ namespace ServiceStack.Text
                 {
                     snapshot = ReadFnCache;
                     newCache = new Dictionary<Type, ParseStringDelegate>(ReadFnCache) { [type] = writeFn };
-
                 } while (!ReferenceEquals(
                     Interlocked.CompareExchange(ref ReadFnCache, newCache, snapshot), snapshot));
 
@@ -413,7 +411,6 @@ namespace ServiceStack.Text
             }
         }
 
-
         static CsvSerializer()
         {
             if (typeof(T) == typeof(object))
@@ -427,7 +424,6 @@ namespace ServiceStack.Text
                 ReadCacheFn = GetReadFn();
             }
         }
-
 
         public static ParseStringDelegate ReadFn()
         {

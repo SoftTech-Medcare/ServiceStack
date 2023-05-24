@@ -241,7 +241,6 @@ namespace ServiceStack.Redis
             return map;
         }
 
-
         public List<string> GetRangeFromSortedSetByLowestScore(string setId, string fromStringScore, string toStringScore)
         {
             return GetRangeFromSortedSetByLowestScore(setId, fromStringScore, toStringScore, null, null);
@@ -310,7 +309,6 @@ namespace ServiceStack.Redis
             return CreateSortedScoreMap(multiDataList);
         }
 
-
         public List<string> GetRangeFromSortedSetByHighestScore(string setId, string fromStringScore, string toStringScore)
         {
             return GetRangeFromSortedSetByHighestScore(setId, fromStringScore, toStringScore, null, null);
@@ -378,8 +376,6 @@ namespace ServiceStack.Redis
             var multiDataList = base.ZRevRangeByScoreWithScores(setId, fromScore, toScore, skip, take);
             return CreateSortedScoreMap(multiDataList);
         }
-
-
 
         public long RemoveRangeFromSortedSet(string setId, int minRank, int maxRank)
         {

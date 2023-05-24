@@ -10,8 +10,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 
-
-
 namespace ServiceStack
 {
     public class NetStandardPclExportClient : PclExportClient
@@ -103,7 +101,6 @@ namespace ServiceStack
         //see .NET 4.6.2 Reference source
         private static string[] GetValues(WebHeaderCollection headers, string header)
         {
-
             /* Unmerged change from project 'ServiceStack.Client.Core (netstandard2.0)'
             Before:
                         var value = headers[header];

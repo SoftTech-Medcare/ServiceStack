@@ -181,7 +181,6 @@ namespace ServiceStack.Redis
         public readonly static byte[] PUnSubscribe = "PUNSUBSCRIBE".ToUtf8Bytes();
         public readonly static byte[] Publish = "PUBLISH".ToUtf8Bytes();
 
-
         public readonly static byte[] WithScores = "WITHSCORES".ToUtf8Bytes();
         public readonly static byte[] Limit = "LIMIT".ToUtf8Bytes();
         public readonly static byte[] By = "BY".ToUtf8Bytes();

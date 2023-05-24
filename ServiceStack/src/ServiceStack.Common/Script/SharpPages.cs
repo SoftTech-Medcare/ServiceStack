@@ -62,7 +62,6 @@ namespace ServiceStack.Script
                     break;
 
                 dir = dir.ParentDirectory;
-
             } while (dir != null);
 
             return null;
@@ -103,7 +102,6 @@ namespace ServiceStack.Script
                     break;
 
                 dir = dir.ParentDirectory;
-
             } while (dir != null);
 
             return null;

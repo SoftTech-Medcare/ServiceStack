@@ -2,7 +2,6 @@ using ServiceStack.Web;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-
 namespace ServiceStack
 {
     public static class RequestScriptUtils

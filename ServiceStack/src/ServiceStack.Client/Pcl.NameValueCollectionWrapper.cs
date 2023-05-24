@@ -40,7 +40,6 @@ namespace ServiceStack.Pcl
 {
     using System;
 
-
     public class HttpUtility
     {
         private sealed class HttpQSCollection : NameValueCollection

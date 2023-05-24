@@ -22,7 +22,6 @@ After:
 using System.Threading.Tasks;
 */
 
-
 namespace ServiceStack.Redis
 {
     public class RedisSentinelResolver : IRedisResolver, IRedisResolverExtended
@@ -238,7 +237,6 @@ namespace ServiceStack.Redis
                                         newReplicas.Add(hostConfig);
                                         break;
                                 }
-
                             }
                             catch { /* skip past invalid master connections */ }
                         }

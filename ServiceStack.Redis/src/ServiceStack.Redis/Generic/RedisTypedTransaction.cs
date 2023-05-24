@@ -10,7 +10,6 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-
 /* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
 Before:
 using System;
@@ -62,7 +61,6 @@ namespace ServiceStack.Redis.Generic
                 VoidReadCommand = RedisClient.ExpectQueued
             });
         }
-
 
         /// <summary>
         /// Issue exec command (not queued)
@@ -164,7 +162,6 @@ namespace ServiceStack.Redis.Generic
             }
             finally
             {
-
                 RedisClient.Transaction = null;
                 ClosePipeline();
                 RedisClient.AddTypeIdsRegisteredDuringPipeline();

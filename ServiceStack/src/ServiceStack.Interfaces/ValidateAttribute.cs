@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-
 namespace ServiceStack
 {
     /// <summary>
@@ -99,19 +98,16 @@ namespace ServiceStack
     public class ValidateIsAuthenticatedAttribute : ValidateRequestAttribute
     {
         public ValidateIsAuthenticatedAttribute() : base("IsAuthenticated") { }
-
     }
 
     public class ValidateIsAdminAttribute : ValidateRequestAttribute
     {
         public ValidateIsAdminAttribute() : base("IsAdmin") { }
-
     }
 
     public class ValidateHasRoleAttribute : ValidateRequestAttribute
     {
         public ValidateHasRoleAttribute(string role) : base("HasRole(`" + role + "`)") { }
-
     }
 
     public class ValidateHasPermissionAttribute : ValidateRequestAttribute

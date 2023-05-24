@@ -14,7 +14,6 @@ namespace ServiceStack.Redis.Support
 		protected readonly BinaryFormatter bf = new BinaryFormatter();
 #endif
 
-
         /// <summary>
         ///  Serialize object to buffer
         /// </summary>

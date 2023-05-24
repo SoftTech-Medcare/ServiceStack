@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace ServiceStack.Redis
 {
-
     public partial class RedisAllPurposePipeline : IRedisPipelineAsync
     {
         private IRedisPipelineAsync AsAsync() => this;
@@ -245,7 +244,6 @@ namespace ServiceStack.Redis
             CurrentQueuedOperation.WithAsyncReadCommand(multiBytesReadCommand);
             AddCurrentQueuedOperation();
         }
-
 
         void IRedisQueueCompletableOperationAsync.CompleteLongQueuedCommandAsync(Func<CancellationToken, ValueTask<long>> longReadCommand)
         {

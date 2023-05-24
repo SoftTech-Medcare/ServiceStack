@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace ServiceStack.Redis.Support.Queue.Implementation
 {
     /// <summary>
@@ -8,11 +7,9 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
     /// </summary>
     public class RedisChronologicalWorkQueue<T> : RedisWorkQueue<T>, IChronologicalWorkQueue<T> where T : class
     {
-
         public RedisChronologicalWorkQueue(int maxReadPoolSize, int maxWritePoolSize, string host, int port) :
                                                this(maxReadPoolSize, maxWritePoolSize, host, port, null)
         {
-
         }
 
         public RedisChronologicalWorkQueue(int maxReadPoolSize, int maxWritePoolSize, string host, int port, string queueName)
@@ -41,7 +38,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
             }
         }
 
-
         /// <summary>
         /// Dequeue next batch of work items
         /// </summary>
@@ -60,7 +56,6 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
                 var itemIds = client.ZRangeByScore(pendingWorkItemIdQueue, minTime, maxTime, null, maxBatchSize);
                 if (itemIds != null && itemIds.Length > 0)
                 {
-
                     var rawItems = client.HMGet(workQueue, itemIds);
                     IList<byte[]> toDelete = new List<byte[]>();
                     for (int i = 0; i < itemIds.Length; ++i)

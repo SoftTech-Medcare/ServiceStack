@@ -232,7 +232,5 @@ namespace ServiceStack
                         : file.ReadAllBytes();
             return bytes;
         }
-
     }
-
 }

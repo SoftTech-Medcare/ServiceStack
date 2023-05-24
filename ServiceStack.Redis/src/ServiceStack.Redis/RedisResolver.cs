@@ -141,7 +141,6 @@ namespace ServiceStack.Redis
                                 newReplicas.Add(hostConfig);
                                 break;
                         }
-
                     }
                     catch { /* skip */ }
                 }

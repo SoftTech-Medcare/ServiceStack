@@ -174,6 +174,5 @@ namespace ServiceStack.Redis
         {
             client.IncrementItemInSortedSet(setId, value, incrementByScore);
         }
-
     }
 }

@@ -76,6 +76,5 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
             }
             return rc;
         }
-
     }
 }

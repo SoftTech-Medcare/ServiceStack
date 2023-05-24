@@ -309,6 +309,5 @@ namespace ServiceStack.Messaging
             var shouldDispose = messageService as IMessageHandlerDisposer;
             shouldDispose?.DisposeMessageHandler(this);
         }
-
     }
 }

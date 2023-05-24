@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Data.Common;
 
-
 #pragma warning disable 1591 // xml doc comments warnings
 
 namespace ServiceStack.MiniProfiler.Data
 {
-
     public class ProfiledDbDataReader : DbDataReader
     {
         private DbConnection db;
@@ -23,7 +21,6 @@ namespace ServiceStack.MiniProfiler.Data
                 this.profiler = profiler;
             }
         }
-
 
         public override int Depth => reader.Depth;
 

@@ -16,7 +16,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
-
 namespace ServiceStack.Text
 {
     public static class TranslateListWithElements
@@ -41,7 +40,6 @@ namespace ServiceStack.Text
                 {
                     [elementType] = translateToFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref TranslateICollectionCache, newCache, snapshot), snapshot));
 
@@ -70,7 +68,6 @@ namespace ServiceStack.Text
                 {
                     [typeKey] = translateToFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref TranslateConvertibleICollectionCache, newCache, snapshot), snapshot));
 

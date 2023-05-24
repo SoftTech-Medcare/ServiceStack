@@ -272,7 +272,6 @@ namespace ServiceStack.Script
             return ScriptLanguage.UnwrapValue(ret.Item2);
         }
 
-
         public static List<PageFragment> ParseTemplate(string text)
         {
             return new ScriptContext().Init().ParseTemplate(text.AsMemory());
@@ -931,7 +930,6 @@ namespace ServiceStack.Script
                                     if (fi != null)
                                         currType = fi.FieldType;
                                 }
-
                             }
                         }
                     }

@@ -137,7 +137,6 @@ namespace ServiceStack.Script
                 return null;
             }
 
-
             MethodInvoker invoker;
             ScriptMethods filter;
             object value;

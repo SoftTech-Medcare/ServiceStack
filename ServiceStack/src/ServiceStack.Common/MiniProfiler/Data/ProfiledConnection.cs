@@ -51,7 +51,6 @@ namespace ServiceStack.MiniProfiler.Data
             Init(dbConn, profiler, autoDisposeConnection);
         }
 
-
 #pragma warning disable 1591 // xml doc comments warnings
 
         /// <summary>

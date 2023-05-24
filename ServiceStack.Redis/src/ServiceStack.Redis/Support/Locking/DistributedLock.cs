@@ -99,7 +99,6 @@ namespace ServiceStack.Redis.Support.Locking
             var localClient = (RedisClient)client;
             using (var pipe = localClient.CreatePipeline())
             {
-
                 pipe.QueueCommand(r => ((RedisNativeClient)r).Watch(key));
                 pipe.QueueCommand(r => ((RedisNativeClient)r).Get(key),
                                   x => lockVal = (x != null) ? BitConverter.ToInt64(x, 0) : 0);

@@ -65,7 +65,6 @@ namespace ServiceStack.Redis.Generic
             }
         }
 
-
         public void Add(T item)
         {
             using (var redis = GetClient())
@@ -118,7 +117,6 @@ namespace ServiceStack.Redis.Generic
         {
             return GetRedisList().GetEnumerator();
         }
-
 
         IEnumerator IEnumerable.GetEnumerator()
         {

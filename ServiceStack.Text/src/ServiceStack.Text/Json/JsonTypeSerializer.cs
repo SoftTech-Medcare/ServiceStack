@@ -1,7 +1,6 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-
 /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
 Before:
 using System;
@@ -303,7 +302,6 @@ namespace ServiceStack.Text.Json
                 JsWriter.WriteEnumFlags(writer, enumValue);
         }
 
-
 #if NET6_0
         public void WriteDateOnly(TextWriter writer, object oDateOnly)
         {
@@ -429,7 +427,6 @@ namespace ServiceStack.Text.Json
                     if (json[index] == 'u')
                         index += 4;
                 }
-
             } while (index++ < jsonLength);
 
             if (index == jsonLength)
@@ -770,7 +767,6 @@ namespace ServiceStack.Text.Json
 
         public bool EatMapKeySeperator(string value, ref int i) => EatMapKeySeperator(value.AsSpan(), ref i);
 
-
         public bool EatMapKeySeperator(ReadOnlySpan<char> value, ref int i)
         {
             for (; i < value.Length; i++) { var c = value[i]; if (!JsonUtils.IsWhiteSpace(c)) break; } //Whitespace inline
@@ -924,5 +920,4 @@ namespace ServiceStack.Text.Json
                 : strValue;
         }
     }
-
 }

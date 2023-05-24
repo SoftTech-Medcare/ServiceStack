@@ -18,7 +18,6 @@ public class HttpClientDiagnosticEvent : DiagnosticEvent
     public Type ResponseType { get; set; }
 }
 
-
 public static class ClientDiagnostics
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

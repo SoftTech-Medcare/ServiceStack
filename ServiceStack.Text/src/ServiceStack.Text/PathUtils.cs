@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-
 using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
@@ -225,5 +224,4 @@ namespace ServiceStack
             return list;
         }
     }
-
 }

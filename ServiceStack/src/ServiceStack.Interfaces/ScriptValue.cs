@@ -42,5 +42,4 @@ namespace ServiceStack
         public string Eval { get; set; }
         public bool NoCache { get; set; }
     }
-
 }

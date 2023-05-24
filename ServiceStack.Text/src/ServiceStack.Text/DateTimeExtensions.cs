@@ -208,5 +208,4 @@ namespace ServiceStack.Text
             return new DateTime(from.Date.Year, from.Date.Month, 1).AddDays(-1);
         }
     }
-
 }

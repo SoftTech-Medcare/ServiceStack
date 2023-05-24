@@ -122,6 +122,5 @@ namespace ServiceStack.Redis
             CurrentQueuedOperation.RedisDataReadCommand = redisDataReadCommand;
             AddCurrentQueuedOperation();
         }
-
     }
 }

@@ -10,7 +10,6 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-
 using ServiceStack.Text;
 using ServiceStack.Text.Common;
 using System.Collections.Generic;

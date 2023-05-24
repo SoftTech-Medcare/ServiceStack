@@ -26,7 +26,5 @@ namespace ServiceStack.DataAnnotations
             : this(18, 0)
         {
         }
-
     }
 }
-

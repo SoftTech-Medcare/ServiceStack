@@ -95,5 +95,4 @@ namespace ServiceStack.Messaging
             return TempMqPrefix + Guid.NewGuid().ToString("n");
         }
     }
-
 }

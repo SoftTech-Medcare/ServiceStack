@@ -79,5 +79,4 @@ namespace ServiceStack.Messaging
         /// </summary>
         void Stop();
     }
-
 }

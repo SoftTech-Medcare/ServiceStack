@@ -90,5 +90,4 @@ namespace ServiceStack.DataAnnotations
     {
         public PgSqlTimestampTzAttribute() : base("timestamp with time zone[]") { }
     }
-
 }

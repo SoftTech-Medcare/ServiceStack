@@ -95,7 +95,6 @@ namespace ServiceStack.Text.Common
                 snapshot = CacheFns;
                 newCache = new Dictionary<MapKey, WriteMapDelegate>(CacheFns);
                 newCache[mapKey] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref CacheFns, newCache, snapshot), snapshot));
 

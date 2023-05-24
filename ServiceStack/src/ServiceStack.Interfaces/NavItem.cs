@@ -63,5 +63,4 @@ namespace ServiceStack
         /// </summary>
         public Dictionary<string, string> Meta { get; set; }
     }
-
 }

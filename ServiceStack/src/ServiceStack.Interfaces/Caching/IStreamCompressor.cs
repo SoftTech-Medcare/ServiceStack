@@ -10,7 +10,6 @@ namespace ServiceStack.Caching;
 /// </summary>
 public interface IStreamCompressor
 {
-
     /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
     Before:
         string Encoding { get; }

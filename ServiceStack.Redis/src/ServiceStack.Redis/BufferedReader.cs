@@ -51,7 +51,6 @@ namespace ServiceStack.Redis
             return _available > 0 ? ReadByteFromBuffer() : -1;
         }
 
-
         private int ReadFromBuffer(byte[] buffer, int offset, int count)
         {
             // we have data in the buffer; hand it back

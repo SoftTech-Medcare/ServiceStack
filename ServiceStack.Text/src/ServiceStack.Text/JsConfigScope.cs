@@ -300,6 +300,4 @@ namespace ServiceStack.Text
             return this;
         }
     }
-
 }
-

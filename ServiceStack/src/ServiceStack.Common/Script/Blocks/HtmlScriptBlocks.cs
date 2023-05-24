@@ -325,7 +325,6 @@ namespace ServiceStack.Script
         /// <summary>
         /// Usages: {{#ul {each:items, class:'nav'} }} <li>{{it}}</li> {{/ul}}
         /// </summary>
-
         public void Register(ScriptContext context)
         {
             context.ScriptBlocks.AddRange(new ScriptBlock[] {
@@ -363,5 +362,4 @@ namespace ServiceStack.Script
             });
         }
     }
-
 }

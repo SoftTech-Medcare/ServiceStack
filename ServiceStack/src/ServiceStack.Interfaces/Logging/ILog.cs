@@ -13,7 +13,6 @@ public interface ILog
     /// <value>
     /// 	<c>true</c> if this instance is debug enabled; otherwise, <c>false</c>.
     /// </value>
-
     /* Unmerged change from project 'ServiceStack.Interfaces.Core (netstandard2.0)'
     Before:
         bool IsDebugEnabled { get; }
@@ -166,7 +165,6 @@ public interface ILogTrace
     [JetBrains.Annotations.StringFormatMethod("format")]
     void TraceFormat(string format, params object[] args);
 }
-
 
 public static class LogUtils
 {

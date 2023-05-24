@@ -955,7 +955,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
     public Task GetAsync(IReturnVoid requestDto, CancellationToken token) =>
         SendAsync<byte[]>(HttpMethods.Get, ResolveTypedUrl(HttpMethods.Get, requestDto), null, requestDto, token);
 
-
     public Task<TResponse> DeleteAsync<TResponse>(IReturn<TResponse> requestDto) =>
         SendAsync<TResponse>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, requestDto);
     public Task<TResponse> DeleteAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token) =>
@@ -975,7 +974,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
         SendAsync<byte[]>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, requestDto);
     public Task DeleteAsync(IReturnVoid requestDto, CancellationToken token) =>
         SendAsync<byte[]>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, requestDto, token);
-
 
     public Task<TResponse> PostAsync<TResponse>(IReturn<TResponse> requestDto) =>
         SendAsync<TResponse>(HttpMethods.Post, ResolveTypedUrl(HttpMethods.Post, requestDto), requestDto);
@@ -997,8 +995,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
     public Task PostAsync(IReturnVoid requestDto, CancellationToken token) =>
         SendAsync<byte[]>(HttpMethods.Post, ResolveTypedUrl(HttpMethods.Post, requestDto), requestDto, token);
 
-
-
     public Task<TResponse> PutAsync<TResponse>(IReturn<TResponse> requestDto) =>
         SendAsync<TResponse>(HttpMethods.Put, ResolveTypedUrl(HttpMethods.Put, requestDto), requestDto);
     public Task<TResponse> PutAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token) =>
@@ -1019,8 +1015,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
     public Task PutAsync(IReturnVoid requestDto, CancellationToken token) =>
         SendAsync<byte[]>(HttpMethods.Put, ResolveTypedUrl(HttpMethods.Put, requestDto), requestDto, token);
 
-
-
     public Task<TResponse> PatchAsync<TResponse>(IReturn<TResponse> requestDto) =>
         SendAsync<TResponse>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto);
     public Task<TResponse> PatchAsync<TResponse>(IReturn<TResponse> requestDto, CancellationToken token) =>
@@ -1040,7 +1034,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
         SendAsync<byte[]>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto);
     public Task PatchAsync(IReturnVoid requestDto, CancellationToken token) =>
         SendAsync<byte[]>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto, token);
-
 
     public Task<TResponse> CustomMethodAsync<TResponse>(string httpVerb, IReturn<TResponse> requestDto, CancellationToken token = default)
     {
@@ -1098,7 +1091,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
         Send<byte[]>(HttpMethods.Post, absoluteUri, requests);
     }
 
-
     public void ClearCookies()
     {
         CookieContainer = new CookieContainer();
@@ -1148,10 +1140,8 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
         while (response.Results.Count + response.Offset < response.Total);
     }
 
-
     public void Get(IReturnVoid requestDto) =>
         Send<byte[]>(HttpMethods.Get, ResolveTypedUrl(HttpMethods.Get, requestDto), null, requestDto);
-
 
     public TResponse Delete<TResponse>(IReturn<TResponse> requestDto) =>
         Send<TResponse>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, requestDto);
@@ -1165,7 +1155,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
     public void Delete(IReturnVoid requestDto) =>
         Send<byte[]>(HttpMethods.Delete, ResolveTypedUrl(HttpMethods.Delete, requestDto), null, requestDto);
 
-
     public TResponse Post<TResponse>(IReturn<TResponse> requestDto) =>
         Send<TResponse>(HttpMethods.Post, ResolveTypedUrl(HttpMethods.Post, requestDto), requestDto);
 
@@ -1177,7 +1166,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
 
     public void Post(IReturnVoid requestDto) =>
         Send<byte[]>(HttpMethods.Post, ResolveTypedUrl(HttpMethods.Post, requestDto), requestDto);
-
 
     public TResponse Put<TResponse>(IReturn<TResponse> requestDto) =>
         Send<TResponse>(HttpMethods.Put, ResolveTypedUrl(HttpMethods.Put, requestDto), requestDto);
@@ -1191,7 +1179,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
     public void Put(IReturnVoid requestDto) =>
         Send<byte[]>(HttpMethods.Put, ResolveTypedUrl(HttpMethods.Put, requestDto), requestDto);
 
-
     public TResponse Patch<TResponse>(IReturn<TResponse> requestDto) =>
         Send<TResponse>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto);
 
@@ -1203,7 +1190,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
 
     public void Patch(IReturnVoid requestDto) =>
         Send<byte[]>(HttpMethods.Patch, ResolveTypedUrl(HttpMethods.Patch, requestDto), requestDto);
-
 
     public TResponse CustomMethod<TResponse>(string httpVerb, IReturn<TResponse> requestDto)
     {
@@ -1240,8 +1226,6 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
         var requestBody = HttpUtils.HasRequestBody(httpVerb) ? request : null;
         return Send<TResponse>(httpVerb, ResolveUrl(httpVerb, relativeOrAbsoluteUrl), requestBody);
     }
-
-
 
     public virtual async Task<TResponse> PostFileAsync<TResponse>(string relativeOrAbsoluteUrl, Stream fileToUpload, string fileName, string? mimeType = null, string fieldName = "file", CancellationToken token = default)
     {
@@ -1642,6 +1626,5 @@ public class JsonApiClient : IJsonServiceClient, IHasCookieContainer, IServiceCl
     public Task<TResponse> SendFormAsync<TResponse>(object requestDto, MultipartFormDataContent formData, CancellationToken token = default) =>
         SendFormAsync<TResponse>(ServiceClientUtils.GetHttpMethod(requestDto.GetType()) ?? HttpMethods.Post, requestDto.GetType().ToApiUrl(), formData, token);
 }
-
 
 #endif

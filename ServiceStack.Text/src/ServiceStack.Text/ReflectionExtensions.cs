@@ -375,7 +375,6 @@ namespace ServiceStack
                 snapshot = ConstructorMethods;
                 newCache = new Dictionary<Type, EmptyCtorDelegate>(ConstructorMethods);
                 newCache[type] = emptyCtorFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ConstructorMethods, newCache, snapshot), snapshot));
 
@@ -400,7 +399,6 @@ namespace ServiceStack
                 {
                     [typeName] = emptyCtorFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref TypeNamesMap, newCache, snapshot), snapshot));
 

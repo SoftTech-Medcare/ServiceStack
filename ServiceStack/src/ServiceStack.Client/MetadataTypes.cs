@@ -919,7 +919,6 @@ public static class MetadataTypeExtensions
     public static List<MetadataOperationType> GetOperationsByTags(this MetadataTypes types, string[] tags) =>
         types.Operations.Where(x => x.Tags != null && x.Tags.Any(t => Array.IndexOf(tags, t) >= 0)).ToList();
 
-
     private static readonly char[] SystemTypeChars = { '<', '>', '+' };
     public static bool IsSystemOrServiceStackType(this MetadataTypeName metaRef)
     {
@@ -1441,7 +1440,6 @@ public static class AppMetadataUtils
         return to;
     }
 
-
     public static PropertyInfo[] GetInstancePublicProperties(this Type type)
     {
         return type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
@@ -1462,7 +1460,6 @@ public static class AppMetadataUtils
 
         return types.Any(x => x.IsGenericTypeDefinition && target.IsOrHasGenericInterfaceTypeOf(x));
     }
-
 
     // Shared by NativeTypesMetadata.ToProperty
     public static MetadataPropertyType ToMetadataPropertyType(this PropertyInfo pi, object instance = null, Dictionary<string, object> ignoreValues = null,

@@ -105,7 +105,6 @@ namespace ServiceStack.Script
 
             var activator = (ObjectActivator)Context.Cache.GetOrAdd(key, k =>
             {
-
                 var args = constructorArgs;
                 var argTypes = args?.Select(x => x?.GetType()).ToArray() ?? TypeConstants.EmptyTypeArray;
 
@@ -344,7 +343,6 @@ namespace ServiceStack.Script
 
             var resolvedType = (Type)Context.Cache.GetOrAdd(key, k =>
             {
-
                 var type = onlyTypeOf(typeName);
                 if (type != null)
                     return type;
@@ -729,7 +727,6 @@ namespace ServiceStack.Script
             if (pos == -1)
                 throw new NotSupportedException($"Could not parse Function Name '{name}', " +
                                                 $"format: <type>.<method>(<arg-types>), e.g. Console.WriteLine(string)");
-
 
             var typeName = name.Substring(0, pos);
             var methodName = name.Substring(pos + 1);

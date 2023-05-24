@@ -157,7 +157,6 @@ public static class HttpHeaders
     };
 }
 
-
 public static class CompressionTypes
 {
     public static readonly string[] AllCompressionTypes =

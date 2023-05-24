@@ -95,7 +95,6 @@ namespace ServiceStack.Messaging
             {
             }
         }
-
     }
 }
 #endif

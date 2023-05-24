@@ -857,5 +857,4 @@ namespace ServiceStack.Redis
 
         public Dictionary<string, long> Stats => RedisStats.ToDictionary();
     }
-
 }

@@ -226,5 +226,4 @@ namespace ServiceStack
             return RequestAttributes.HttpOther;
         }
     }
-
 }

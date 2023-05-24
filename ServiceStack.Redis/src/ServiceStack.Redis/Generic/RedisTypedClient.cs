@@ -366,7 +366,6 @@ namespace ServiceStack.Redis.Generic
             return client.GetFromHash<T>(id);
         }
 
-
         #region Implementation of IBasicPersistenceProvider<T>
 
         public T GetById(object id)

@@ -32,7 +32,6 @@ namespace ServiceStack
                 {
                     [type] = toMessageFn
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ToMessageFnCache, newCache, snapshot), snapshot));
 

@@ -219,7 +219,6 @@ namespace ServiceStack.Text.Json
                && value[value.Length - 1] == '}';
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsJsArray(string value)
         {
@@ -235,6 +234,5 @@ namespace ServiceStack.Text.Json
                && value[0] == '['
                && value[value.Length - 1] == ']';
         }
-
     }
 }

@@ -20,5 +20,4 @@ namespace ServiceStack.Messaging.Redis
 
         public override IMessageFactory MessageFactory => messageFactory;
     }
-
 }

@@ -238,7 +238,6 @@ namespace ServiceStack.Redis
 
         static readonly ReservedClient reservedSlot = new ReservedClient();
 
-
         /// <summary>
         /// Called within a lock
         /// </summary>

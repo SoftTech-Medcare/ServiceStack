@@ -150,5 +150,4 @@ namespace ServiceStack.Script
             return MemoryStreamFactory.GetStream(htmlEncoded.ToUtf8Bytes());
         }
     }
-
 }

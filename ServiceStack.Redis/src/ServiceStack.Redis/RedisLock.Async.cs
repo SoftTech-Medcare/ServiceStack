@@ -37,7 +37,6 @@ namespace ServiceStack.Redis
             throw new TimeoutException($"Exceeded timeout of {timeOut.Value}");
         }
 
-
         private async ValueTask AcquireAsync(TimeSpan? timeOut, CancellationToken token)
         {
             var redisClient = (IRedisClientAsync)untypedClient;

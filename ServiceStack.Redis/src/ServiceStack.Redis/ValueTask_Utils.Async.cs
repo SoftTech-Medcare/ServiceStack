@@ -122,7 +122,6 @@ namespace ServiceStack.Redis.Internal
 
         static readonly Task<bool> s_TaskTrue = Task.FromResult(true), s_TaskFalse = Task.FromResult(false);
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ValueTask<List<TValue>> ConvertEachToAsync<TValue>(this ValueTask<List<string>> pending)
         {

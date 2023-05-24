@@ -21,7 +21,6 @@ namespace ServiceStack.Redis.Generic
     /// <summary>
     /// Wrap the common redis list operations under a IList[string] interface.
     /// </summary>
-
     public interface IRedisListAsync<T>
         : IAsyncEnumerable<T>, IHasStringId
     {
@@ -49,7 +48,6 @@ namespace ServiceStack.Redis.Generic
         ValueTask<T> PopAsync(CancellationToken token = default);
         ValueTask<T> BlockingPopAsync(TimeSpan? timeOut, CancellationToken token = default);
         ValueTask<T> PopAndPushAsync(IRedisListAsync<T> toList, CancellationToken token = default);
-
 
         ValueTask<bool> RemoveAsync(T item, CancellationToken token = default);
         ValueTask AddAsync(T item, CancellationToken token = default);

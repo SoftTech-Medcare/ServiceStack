@@ -33,7 +33,6 @@ namespace ServiceStack.Script
                         ifNone: () => throw new NotSupportedException("'while' block does not have a valid expression"));
 
                     Context.DefaultMethods.AssertWithinMaxQuota(iterations++);
-
                 } while (result);
             }
             else

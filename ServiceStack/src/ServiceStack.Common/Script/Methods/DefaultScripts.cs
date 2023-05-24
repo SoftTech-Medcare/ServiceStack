@@ -276,7 +276,6 @@ namespace ServiceStack.Script
         public object ifNotOnly(bool test) => test ? (object)StopExecution.Value : IgnoreResult.Value;
         public object ifNotOnly(object ignoreTarget, bool test) => test ? (object)StopExecution.Value : IgnoreResult.Value;
 
-
         public object ifDo(object test) => isTrue(test) ? (object)IgnoreResult.Value : StopExecution.Value;
         public object ifDo(object ignoreTarget, object test) => isTrue(test) ? (object)IgnoreResult.Value : StopExecution.Value;
         public object doIf(object test) => isTrue(test) ? (object)IgnoreResult.Value : StopExecution.Value;

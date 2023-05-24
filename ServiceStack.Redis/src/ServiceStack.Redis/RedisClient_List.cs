@@ -154,7 +154,6 @@ namespace ServiceStack.Redis
         public string BlockingRemoveStartFromList(string listId, TimeSpan? timeOut)
         {
             return BLPopValue(listId, (int)timeOut.GetValueOrDefault().TotalSeconds).FromUtf8Bytes();
-
         }
 
         public ItemRef BlockingRemoveStartFromLists(string[] listIds, TimeSpan? timeOut)

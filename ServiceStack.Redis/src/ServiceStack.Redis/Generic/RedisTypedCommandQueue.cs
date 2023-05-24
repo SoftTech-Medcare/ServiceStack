@@ -15,7 +15,6 @@ namespace ServiceStack.Redis.Generic
         internal RedisTypedCommandQueue(RedisTypedClient<T> redisClient)
         {
             RedisClient = redisClient;
-
         }
 
         public void QueueCommand(Action<IRedisTypedClient<T>> command)
@@ -39,7 +38,6 @@ namespace ServiceStack.Redis.Generic
             command(RedisClient);
         }
 
-
         public void QueueCommand(Func<IRedisTypedClient<T>, int> command)
         {
             QueueCommand(command, null, null);
@@ -60,7 +58,6 @@ namespace ServiceStack.Redis.Generic
             });
             command(RedisClient);
         }
-
 
         public void QueueCommand(Func<IRedisTypedClient<T>, long> command)
         {
@@ -83,7 +80,6 @@ namespace ServiceStack.Redis.Generic
             command(RedisClient);
         }
 
-
         public void QueueCommand(Func<IRedisTypedClient<T>, bool> command)
         {
             QueueCommand(command, null, null);
@@ -104,7 +100,6 @@ namespace ServiceStack.Redis.Generic
             });
             command(RedisClient);
         }
-
 
         public void QueueCommand(Func<IRedisTypedClient<T>, double> command)
         {
@@ -127,7 +122,6 @@ namespace ServiceStack.Redis.Generic
             command(RedisClient);
         }
 
-
         public void QueueCommand(Func<IRedisTypedClient<T>, byte[]> command)
         {
             QueueCommand(command, null, null);
@@ -148,7 +142,6 @@ namespace ServiceStack.Redis.Generic
             });
             command(RedisClient);
         }
-
 
         public void QueueCommand(Func<IRedisTypedClient<T>, string> command)
         {
@@ -192,7 +185,6 @@ namespace ServiceStack.Redis.Generic
             command(RedisClient);
         }
 
-
         public void QueueCommand(Func<IRedisTypedClient<T>, byte[][]> command)
         {
             QueueCommand(command, null, null);
@@ -213,7 +205,6 @@ namespace ServiceStack.Redis.Generic
             });
             command(RedisClient);
         }
-
 
         public void QueueCommand(Func<IRedisTypedClient<T>, List<string>> command)
         {
@@ -257,7 +248,6 @@ namespace ServiceStack.Redis.Generic
             command(RedisClient);
         }
 
-
         public void QueueCommand(Func<IRedisTypedClient<T>, HashSet<string>> command)
         {
             QueueCommand(command, null, null);
@@ -299,6 +289,5 @@ namespace ServiceStack.Redis.Generic
             });
             command(RedisClient);
         }
-
     }
 }

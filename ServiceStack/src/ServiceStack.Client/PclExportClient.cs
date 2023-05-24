@@ -37,7 +37,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 //Dummy namespaces
 namespace System.Collections.Specialized { }
 namespace System.Web { }
@@ -227,5 +226,4 @@ namespace ServiceStack
             webReq.IfModifiedSince = lastModified;
         }
     }
-
 }

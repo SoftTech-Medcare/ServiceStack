@@ -177,7 +177,6 @@ namespace ServiceStack.Text.Common
                     propertyDeclaredTypeName = propertyInfo.GetDeclaringTypeName();
                 }
 
-
                 PropertyWriters[i] = new TypePropertyWriter
                 (
                     propertyType,

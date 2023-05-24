@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 
 namespace ServiceStack.Script
 {
-
     /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
     Before:
         // ReSharper disable InconsistentNaming
@@ -68,7 +67,6 @@ namespace ServiceStack.Script
             var fmt = string.Format(cultureInfo, "{0:C}", decimalValue);
             return fmt;
         }
-
 
         /* Unmerged change from project 'ServiceStack.Common.Core (netstandard2.0)'
         Before:
@@ -159,7 +157,6 @@ namespace ServiceStack.Script
         public string rightPart(string text, string needle) => text.RightPart(needle);
         public string lastLeftPart(string text, string needle) => text.LastLeftPart(needle);
         public string lastRightPart(string text, string needle) => text.LastRightPart(needle);
-
 
         public int compareTo(string text, string other) => string.Compare(text, other, (StringComparison)Context.Args[ScriptConstants.DefaultStringComparison]);
 

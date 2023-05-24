@@ -10,7 +10,6 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-
 /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
 Before:
 using System;

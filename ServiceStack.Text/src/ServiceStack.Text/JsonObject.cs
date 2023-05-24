@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-
 namespace ServiceStack.Text
 {
     public static class JsonExtensions

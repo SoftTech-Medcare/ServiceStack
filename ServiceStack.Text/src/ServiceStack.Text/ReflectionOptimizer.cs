@@ -75,7 +75,6 @@ namespace ServiceStack.Text
                 propertySetMethod.Invoke(o, new[] { convertedValue });
         }
 
-
         public override GetMemberDelegate CreateGetter(FieldInfo fieldInfo) => fieldInfo.GetValue;
         public override GetMemberDelegate<T> CreateGetter<T>(FieldInfo fieldInfo) => x => fieldInfo.GetValue(x);
         public override SetMemberDelegate CreateSetter(FieldInfo fieldInfo) => fieldInfo.SetValue;
@@ -224,7 +223,6 @@ namespace ServiceStack.Text
                 setterCall, instance, argument
             );
         }
-
 
         public override GetMemberDelegate CreateGetter(FieldInfo fieldInfo)
         {

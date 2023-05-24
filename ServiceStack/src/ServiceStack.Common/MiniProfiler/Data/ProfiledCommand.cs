@@ -102,7 +102,6 @@ namespace ServiceStack.MiniProfiler.Data
             set { _cmd.UpdatedRowSource = value; }
         }
 
-
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
             if (_profiler == null || !_profiler.IsActive)

@@ -3,7 +3,6 @@ using System;
 
 namespace ServiceStack.DataAnnotations
 {
-
     /// <summary>
     /// Ignore property from consideration as an RDBMS column.
     /// Properties with this attribute are ignored in all SQL.

@@ -32,4 +32,3 @@ namespace ServiceStack.DataAnnotations
     [AttributeUsage(AttributeTargets.Property)]
     public class PersistedAttribute : AttributeBase { }
 }
-

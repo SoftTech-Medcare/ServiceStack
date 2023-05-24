@@ -76,7 +76,6 @@ public static class StreamCompressors
     public static bool Remove(string encoding) => Compressors.Remove(encoding);
 }
 
-
 #if NET6_0_OR_GREATER
 public class BrotliCompressor : IStreamCompressor
 {

@@ -10,7 +10,6 @@
 // Licensed under the same terms of ServiceStack.
 //
 
-
 /* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
 Before:
 using System;
@@ -140,7 +139,6 @@ namespace ServiceStack.Redis
                 return false;
             }
         }
-
 
         public static string[] GetIds(this IHasStringId[] itemsWithId)
         {

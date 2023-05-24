@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-
 /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
 Before:
 using System;
@@ -191,7 +190,6 @@ namespace ServiceStack
             internal readonly LicenseKey LicenseKey;
             internal __ActivatedLicense(LicenseKey licenseKey) => LicenseKey = licenseKey;
         }
-
 
         /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
         Before:
@@ -744,7 +742,6 @@ namespace ServiceStack
                 var RSAalg = new System.Security.Cryptography.RSACryptoServiceProvider();
                 RSAalg.ImportParameters(Key);
                 return RSAalg.VerifySha1Data(DataToVerify, SignedData);
-
             }
             catch (System.Security.Cryptography.CryptographicException ex)
             {

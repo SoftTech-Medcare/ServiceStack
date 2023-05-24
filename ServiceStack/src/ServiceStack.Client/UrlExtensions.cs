@@ -8,7 +8,6 @@ using System.Text;
 
 using static System.String;
 
-
 namespace ServiceStack
 {
     /// <summary>
@@ -183,7 +182,6 @@ namespace ServiceStack
 
         public static string ToApiUrl(this Type requestType) =>
             "/api".CombineWith(requestType.GetOperationName());
-
 
         public static string ToUrl(this object requestDto, string httpMethod = "GET", string formatFallbackToPredefinedRoute = null) =>
             requestDto.ToUrl(httpMethod, formatFallbackToPredefinedRoute != null
@@ -538,7 +536,6 @@ namespace ServiceStack
                         IgnoreInQueryString = fieldInfo.FirstAttribute<IgnoreDataMemberAttribute>() != null, //but allow in PathInfo
                     };
                 }
-
             }
 
             return result;
@@ -614,6 +611,5 @@ namespace ServiceStack
             return Route.Variables.All(v => other.Route.Variables.Contains(v));
         }
     }
-
 
 }

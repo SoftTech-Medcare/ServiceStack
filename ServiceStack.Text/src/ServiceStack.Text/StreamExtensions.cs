@@ -1,7 +1,6 @@
 //Copyright (c) ServiceStack, Inc. All Rights Reserved.
 //License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-
 /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
 Before:
 using System;
@@ -251,7 +250,6 @@ namespace ServiceStack
             await CopyToAsync(input, ms, buffer, token);
             return ms.GetBufferAsMemory();
         }
-
 
         /// <summary>
         /// Copies all the data from one stream into another.
@@ -654,7 +652,6 @@ namespace ServiceStack
 
         public static Task WriteToAsync(this Stream stream, Stream output, CancellationToken token = default(CancellationToken)) =>
             WriteToAsync(stream, output, JsConfig.UTF8Encoding, token);
-
 
         public static Task WriteToAsync(this Stream stream, Stream output, Encoding encoding, CancellationToken token)
         {

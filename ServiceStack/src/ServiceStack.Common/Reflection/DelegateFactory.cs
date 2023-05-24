@@ -43,7 +43,6 @@ namespace ServiceStack.Reflection
                     parameter.ParameterType)).ToArray();
         }
 
-
         public delegate void LateBoundVoid(object target, object[] arguments);
 
         public static LateBoundVoid CreateVoid(MethodInfo method)

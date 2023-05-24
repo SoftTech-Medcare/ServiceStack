@@ -21,6 +21,5 @@ namespace ServiceStack.Redis.Generic
         void QueueCommand(Func<IRedisTypedClientAsync<T>, ValueTask<List<string>>> command, Action<List<string>> onSuccessCallback = null, Action<Exception> onErrorCallback = null);
         void QueueCommand(Func<IRedisTypedClientAsync<T>, ValueTask<HashSet<string>>> command, Action<HashSet<string>> onSuccessCallback = null, Action<Exception> onErrorCallback = null);
         void QueueCommand(Func<IRedisTypedClientAsync<T>, ValueTask<List<T>>> command, Action<List<T>> onSuccessCallback = null, Action<Exception> onErrorCallback = null);
-
     }
 }

@@ -343,12 +343,10 @@ namespace ServiceStack.IO
                 && x.DirPath.StartsWith(DirPath)
                 && x.Name.Glob(globPattern));
         }
-
     }
 
     public class InMemoryVirtualFile : AbstractVirtualFileBase
     {
-
         public InMemoryVirtualFile(IVirtualPathProvider owningProvider, IVirtualDirectory directory)
             : base(owningProvider, directory)
         {

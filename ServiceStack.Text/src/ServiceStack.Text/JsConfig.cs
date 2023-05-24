@@ -772,7 +772,6 @@ namespace ServiceStack.Text
                 snapshot = __uniqueTypes;
                 newTypes = new HashSet<Type>(__uniqueTypes) { type };
                 __uniqueTypesCount = newTypes.Count;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref __uniqueTypes, newTypes, snapshot), snapshot));
         }
@@ -1119,6 +1118,4 @@ namespace ServiceStack.Text
         /// </summary>
         SnakeCase,
     }
-
 }
-

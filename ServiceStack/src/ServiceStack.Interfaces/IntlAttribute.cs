@@ -28,7 +28,6 @@ public class IntlDateTime : Intl
         Time = time;
     }
     public override bool ShouldInclude(PropertyInfo pi, string value) => pi.Name != nameof(Type) && base.ShouldInclude(pi, value);
-
 }
 
 /// <summary>

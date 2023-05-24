@@ -368,6 +368,5 @@ namespace ServiceStack.Script
 
             return context;
         }
-
     }
 }

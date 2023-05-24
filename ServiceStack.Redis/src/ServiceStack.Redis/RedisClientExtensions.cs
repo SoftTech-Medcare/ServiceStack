@@ -17,5 +17,4 @@ public static partial class RedisClientExtensions
     [Obsolete("Use AppendToAsync")]
     public static ValueTask<long> AppendToValueAsync(this IRedisClientAsync redis, string key, string value, CancellationToken token = default) =>
         redis.AppendToAsync(key, value, token);
-
 }

@@ -75,5 +75,4 @@ namespace ServiceStack
             return StringBuilderCache.ReturnAndFree(sb);
         }
     }
-
 }

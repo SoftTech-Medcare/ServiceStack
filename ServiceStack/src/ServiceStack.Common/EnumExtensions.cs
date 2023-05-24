@@ -128,7 +128,5 @@ namespace ServiceStack
                     throw new NotSupportedException($"Enums of type {@enum.GetType().Name}");
             }
         }
-
     }
-
 }

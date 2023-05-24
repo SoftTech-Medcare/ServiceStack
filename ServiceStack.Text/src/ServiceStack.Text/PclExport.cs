@@ -260,7 +260,6 @@ namespace ServiceStack
             return new UTF8Encoding(emitBom);
         }
 
-
         [Obsolete("ReflectionOptimizer.CreateGetter")]
         public GetMemberDelegate CreateGetter(PropertyInfo propertyInfo) => ReflectionOptimizer.Instance.CreateGetter(propertyInfo);
 
@@ -273,7 +272,6 @@ namespace ServiceStack
         [Obsolete("ReflectionOptimizer.CreateSetter")]
         public SetMemberDelegate<T> CreateSetter<T>(PropertyInfo propertyInfo) => ReflectionOptimizer.Instance.CreateSetter<T>(propertyInfo);
 
-
         [Obsolete("ReflectionOptimizer.CreateGetter")]
         public virtual GetMemberDelegate CreateGetter(FieldInfo fieldInfo) => ReflectionOptimizer.Instance.CreateGetter(fieldInfo);
 
@@ -285,7 +283,6 @@ namespace ServiceStack
 
         [Obsolete("ReflectionOptimizer.CreateSetter")]
         public virtual SetMemberDelegate<T> CreateSetter<T>(FieldInfo fieldInfo) => ReflectionOptimizer.Instance.CreateSetter<T>(fieldInfo);
-
 
         public virtual bool InSameAssembly(Type t1, Type t2)
         {
@@ -344,7 +341,6 @@ namespace ServiceStack
         public virtual ParseStringSpanDelegate GetJsReaderParseStringSpanMethod<TSerializer>(Type type)
             where TSerializer : ITypeSerializer => null;
 
-
         public virtual void InitHttpWebRequest(HttpWebRequest httpReq,
             long? contentLength = null, bool allowAutoRedirect = true, bool keepAlive = true)
         { }
@@ -386,5 +382,4 @@ namespace ServiceStack
             return EmptyTask;
         }
     }
-
 }

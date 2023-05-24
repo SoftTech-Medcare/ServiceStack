@@ -37,7 +37,6 @@ namespace ServiceStack.Logging
 
         static private List<KeyValuePair<Levels, string>> _logs = new();
 
-
         static public IList<KeyValuePair<Levels, string>> GetLogs() { return _logs; }
 
         public bool IsDebugEnabled { get; set; }

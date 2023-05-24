@@ -25,7 +25,6 @@ After:
 using System.Xml;
 */
 
-
 namespace ServiceStack
 {
     public static class PlatformExtensions
@@ -681,7 +680,6 @@ namespace ServiceStack
                 {
                     [key] = genericType
                 };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref GenericTypeCache, newCache, snapshot), snapshot));
 
@@ -864,7 +862,6 @@ namespace ServiceStack
                 }
                 return to;
             }
-
 
             if (obj is KeyValuePair<string, object> objKvp)
             {
@@ -1130,7 +1127,6 @@ namespace ServiceStack
                         {
                             to[entry.Key] = entry.Value.ToString();
                         }
-
                     }
                     catch (Exception ignore)
                     {
@@ -1172,7 +1168,6 @@ namespace ServiceStack
 
             return to;
         }
-
 
         /// <summary>
         /// Check if #nullable enabled reference type is non nullable

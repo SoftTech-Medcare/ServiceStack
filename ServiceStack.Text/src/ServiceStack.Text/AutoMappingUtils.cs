@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ServiceStack, Inc. All Rights Reserved.
 // License: https://raw.github.com/ServiceStack/ServiceStack/master/license.txt
 
-
 /* Unmerged change from project 'ServiceStack.Text.Core (netstandard2.0)'
 Before:
 using System;
@@ -310,7 +309,6 @@ namespace ServiceStack
                 var toKvpType = toType.GetTypeWithGenericTypeDefinitionOf(typeof(KeyValuePair<,>));
                 if (toKvpType != null)
                 {
-
                     var toKvpArgs = toKvpType.GetGenericArguments();
                     var toCtor = toKvpType.GetConstructor(toKvpArgs);
                     var to = toCtor.Invoke(new[] { fromKey.ConvertTo(toKvpArgs[0]), fromValue.ConvertTo(toKvpArgs[1]) });
@@ -443,7 +441,6 @@ namespace ServiceStack
             {
                 snapshot = DefaultValueTypes;
                 newCache = new Dictionary<Type, object>(DefaultValueTypes) { [type] = defaultValue };
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref DefaultValueTypes, newCache, snapshot), snapshot));
 
@@ -669,7 +666,6 @@ namespace ServiceStack
             recursionInfo[type] = recurseLevel + 1; // increase recursion level for this type
             try // use a try/finally block to make sure we decrease the recursion level for this type no matter which code path we take,
             {
-
                 //when using KeyValuePair<TKey, TValue>, TKey must be non-default to stuff in a Dictionary
                 if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
                 {
@@ -935,7 +931,6 @@ namespace ServiceStack
                             }
                         }
 
-
                         // Fallback for handling any KVP combo
                         var toKvpDefType = toType.GetKeyValuePairsTypeDef();
                         switch (obj)
@@ -1178,7 +1173,6 @@ namespace ServiceStack
                 var toType = toMember.Type;
                 try
                 {
-
                     var fromValue = assignmentEntry.GetValueFn(from);
 
                     if (valuePredicate != null
@@ -1278,5 +1272,4 @@ namespace ServiceStack
             return null;
         }
     }
-
 }

@@ -864,7 +864,6 @@ namespace ServiceStack.Redis
             return string.Concat(NamespacePrefix, IdUtils.CreateUrn(type, id));
         }
 
-
         #endregion
 
         #region LUA EVAL
@@ -973,7 +972,6 @@ namespace ServiceStack.Redis
         {
             return base.EvalSha(sha1, keys.Length, MergeAndConvertToBytes(keys, args)).ToStringList();
         }
-
 
         public bool HasLuaScript(string sha1Ref)
         {
@@ -1170,5 +1168,4 @@ namespace ServiceStack.Redis
         public InvalidAccessException(int threadId, string stackTrace)
             : base($"The Current Thread #{Thread.CurrentThread.ManagedThreadId} is different to the original Thread #{threadId} that resolved this pooled client at: \n{stackTrace}") { }
     }
-
 }

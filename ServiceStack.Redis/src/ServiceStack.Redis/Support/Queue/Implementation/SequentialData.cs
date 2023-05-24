@@ -56,6 +56,5 @@ namespace ServiceStack.Redis.Support.Queue.Implementation
         {
             _dequeueManager.UpdateNextUnprocessed(newWorkItem);
         }
-
     }
 }

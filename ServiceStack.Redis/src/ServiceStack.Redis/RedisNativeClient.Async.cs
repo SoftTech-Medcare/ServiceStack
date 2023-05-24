@@ -181,7 +181,6 @@ namespace ServiceStack.Redis
             return SendExpectSuccessAsync(token, keysAndValues);
         }
 
-
         ValueTask IRedisNativeClientAsync.MSetAsync(string[] keys, byte[][] values, CancellationToken token)
             => ((IRedisNativeClientAsync)this).MSetAsync(keys.ToMultiByteArray(), values, token);
 

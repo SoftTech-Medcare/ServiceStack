@@ -681,6 +681,5 @@ namespace ServiceStack.Text
                 ? value.Slice(3)
                 : value;
         }
-
     }
 }

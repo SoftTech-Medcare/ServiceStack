@@ -4,7 +4,6 @@ namespace ServiceStack.Redis.Support.Queue
 {
     public interface ISequentialData<T>
     {
-
         /// <summary>
         /// 
         /// </summary>
@@ -15,7 +14,6 @@ namespace ServiceStack.Redis.Support.Queue
         {
             get;
         }
-
 
         /// <summary>
         /// pop numProcessed items from queue and unlock queue for work item id that dequeued

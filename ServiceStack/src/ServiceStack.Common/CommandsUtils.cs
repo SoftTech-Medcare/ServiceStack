@@ -15,7 +15,6 @@ namespace ServiceStack
 {
     public class CommandsUtils
     {
-
         public static List<T> ExecuteAsyncCommandList<T>(TimeSpan timeout, params ICommandList<T>[] commands)
         {
             return ExecuteAsyncCommandList(timeout, commands);

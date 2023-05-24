@@ -28,7 +28,6 @@ namespace ServiceStack.Text.Common
         [ThreadStatic]
         internal static bool IsCsv = false;
 
-
         [ThreadStatic]
         internal static HashSet<Type> InSerializerFns = new HashSet<Type>();
 

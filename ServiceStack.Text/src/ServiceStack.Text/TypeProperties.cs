@@ -150,4 +150,3 @@ namespace ServiceStack
             ReflectionOptimizer.Instance.CreateSetter<T>(propertyInfo);
     }
 }
-

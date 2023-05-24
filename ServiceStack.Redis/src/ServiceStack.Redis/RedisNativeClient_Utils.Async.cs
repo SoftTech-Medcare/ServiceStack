@@ -326,7 +326,6 @@ namespace ServiceStack.Redis
             }
         }
 
-
         private ValueTask<int> SafeReadByteAsync(in CancellationToken token, [CallerMemberName] string name = null)
         {
             AssertNotDisposed();
@@ -525,7 +524,6 @@ namespace ServiceStack.Redis
             if (c == '-')
                 throw CreateResponseError(s.StartsWith("ERR") && s.Length >= 4 ? s.Substring(4) : s);
         }
-
 
         private async ValueTask ExpectWordAsync(string word, CancellationToken token)
         {

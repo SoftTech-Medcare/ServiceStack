@@ -27,6 +27,5 @@ namespace ServiceStack.Text
         {
             CsvWriter<T>.Write(writer, records);
         }
-
     }
 }

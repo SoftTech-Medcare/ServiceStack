@@ -74,7 +74,6 @@ namespace ServiceStack.Redis
         ValueTask BackgroundRewriteAppendOnlyFileAsync(CancellationToken token = default);
         ValueTask FlushDbAsync(CancellationToken token = default);
 
-
         ValueTask<RedisServerRole> GetServerRoleAsync(CancellationToken token = default);
         ValueTask<RedisText> GetServerRoleInfoAsync(CancellationToken token = default);
         ValueTask<string> GetConfigAsync(string item, CancellationToken token = default);
@@ -193,7 +192,6 @@ namespace ServiceStack.Redis
 
         #endregion
 
-
         #region Set operations
 
         ValueTask<HashSet<string>> GetAllItemsFromSetAsync(string setId, CancellationToken token = default);
@@ -220,7 +218,6 @@ namespace ServiceStack.Redis
         ValueTask<string> GetRandomItemFromSetAsync(string setId, CancellationToken token = default);
 
         #endregion
-
 
         #region List operations
 
@@ -260,7 +257,6 @@ namespace ServiceStack.Redis
         ValueTask<string> BlockingPopAndPushItemBetweenListsAsync(string fromListId, string toListId, TimeSpan? timeOut, CancellationToken token = default);
 
         #endregion
-
 
         #region Sorted Set operations
 
@@ -328,7 +324,6 @@ namespace ServiceStack.Redis
 
         #endregion
 
-
         #region Hash operations
 
         ValueTask<bool> HashContainsEntryAsync(string hashId, string key, CancellationToken token = default);
@@ -347,7 +342,6 @@ namespace ServiceStack.Redis
         ValueTask<Dictionary<string, string>> GetAllEntriesFromHashAsync(string hashId, CancellationToken token = default);
 
         #endregion
-
 
         #region Eval/Lua operations
 

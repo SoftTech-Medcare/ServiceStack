@@ -51,13 +51,11 @@ namespace ServiceStack.Text.Common
                 snapshot = ListCacheFns;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(ListCacheFns);
                 newCache[elementType] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ListCacheFns, newCache, snapshot), snapshot));
 
             return writeFn;
         }
-
 
         static Dictionary<Type, WriteObjectDelegate> IListCacheFns = new Dictionary<Type, WriteObjectDelegate>();
 
@@ -76,7 +74,6 @@ namespace ServiceStack.Text.Common
                 snapshot = IListCacheFns;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(IListCacheFns);
                 newCache[elementType] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref IListCacheFns, newCache, snapshot), snapshot));
 
@@ -100,7 +97,6 @@ namespace ServiceStack.Text.Common
                 snapshot = CacheFns;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(CacheFns);
                 newCache[elementType] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref CacheFns, newCache, snapshot), snapshot));
 
@@ -124,7 +120,6 @@ namespace ServiceStack.Text.Common
                 snapshot = EnumerableCacheFns;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(EnumerableCacheFns);
                 newCache[elementType] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref EnumerableCacheFns, newCache, snapshot), snapshot));
 
@@ -148,7 +143,6 @@ namespace ServiceStack.Text.Common
                 snapshot = ListValueTypeCacheFns;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(ListValueTypeCacheFns);
                 newCache[elementType] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref ListValueTypeCacheFns, newCache, snapshot), snapshot));
 
@@ -173,7 +167,6 @@ namespace ServiceStack.Text.Common
                 snapshot = IListValueTypeCacheFns;
                 newCache = new Dictionary<Type, WriteObjectDelegate>(IListValueTypeCacheFns);
                 newCache[elementType] = writeFn;
-
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref IListValueTypeCacheFns, newCache, snapshot), snapshot));
 
@@ -303,7 +296,6 @@ namespace ServiceStack.Text.Common
                     JsWriter.WriteItemSeperatorIfRanOnce(writer, ref ranOnce);
                     ElementWriteFn(writer, list[i]);
                 }
-
             }
             catch (Exception ex)
             {
@@ -540,6 +532,5 @@ namespace ServiceStack.Text.Common
                 ? WriteListsOfElements<TSerializer>.GetListWriteFn(elementType)
                 : WriteListsOfElements<TSerializer>.GetIListWriteFn(elementType);
         }
-
     }
 }

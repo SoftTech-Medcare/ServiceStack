@@ -102,7 +102,6 @@ namespace ServiceStack.Messaging
             return (IMessage<T>)mqResponse;
         }
 
-
         public string GetTempQueueName()
         {
             return QueueNames.GetTempQueueName();

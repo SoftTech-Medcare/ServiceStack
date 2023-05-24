@@ -102,7 +102,6 @@ namespace ServiceStack.Text.Common
             CacheFn = ParseMethodUtilities.GetParseFn<T>(ParseMethod);
             CacheStringSpanFn = ParseMethodUtilities.GetParseStringSpanFn<T>(ParseMethod);
         }
-
     }
 
     internal static class StaticParseRefTypeMethod<TSerializer, T>
@@ -128,5 +127,4 @@ namespace ServiceStack.Text.Common
             CacheStringSpanFn = ParseMethodUtilities.GetParseStringSpanFn<T>(ParseStringSpanMethod);
         }
     }
-
 }

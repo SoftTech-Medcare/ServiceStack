@@ -186,7 +186,6 @@ internal static class ServiceStackDiagnostics
             }.Init(operationId));
         }
     }
-
 }
 
 public static class ServiceStackDiagnosticsUtils

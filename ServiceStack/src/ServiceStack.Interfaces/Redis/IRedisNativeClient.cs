@@ -155,7 +155,6 @@ namespace ServiceStack.Redis
         void SDiffStore(string intoSetId, string fromSetId, params string[] withSetIds);
         byte[] SRandMember(string setId);
 
-
         //Redis Sorted Set operations
         long ZAdd(string setId, double score, byte[] value);
         long ZAdd(string setId, long score, byte[] value);

@@ -152,7 +152,6 @@ namespace ServiceStack
             if (!string.IsNullOrEmpty(ServerStackTrace))
                 sb.Append($"Server StackTrace:\n {ServerStackTrace}\n");
 
-
             return StringBuilderCache.ReturnAndFree(sb);
         }
     }

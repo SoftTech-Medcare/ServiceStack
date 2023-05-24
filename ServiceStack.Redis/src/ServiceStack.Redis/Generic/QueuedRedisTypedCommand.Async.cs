@@ -104,6 +104,5 @@ namespace ServiceStack.Redis.Generic
                 throw new InvalidOperationException("A sync return command was present, but the queued operation is being processed asynchronously");
             }
         }
-
     }
 }

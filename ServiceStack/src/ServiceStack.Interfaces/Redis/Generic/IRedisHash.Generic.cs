@@ -19,5 +19,4 @@ namespace ServiceStack.Redis.Generic
     {
         Dictionary<TKey, TValue> GetAll();
     }
-
 }

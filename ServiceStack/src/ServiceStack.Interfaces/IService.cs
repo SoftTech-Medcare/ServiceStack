@@ -99,7 +99,6 @@ namespace ServiceStack
         object Options(T request);
     }
 
-
     public interface IAnyVoid<T>
     {
         void Any(T request);

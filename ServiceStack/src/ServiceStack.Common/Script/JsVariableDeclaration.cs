@@ -71,7 +71,6 @@ namespace ServiceStack.Script
         }
     }
 
-
     public enum JsVariableDeclarationKind
     {
         Var,

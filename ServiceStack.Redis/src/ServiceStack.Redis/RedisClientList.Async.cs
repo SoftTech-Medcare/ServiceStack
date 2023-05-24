@@ -48,7 +48,6 @@ namespace ServiceStack.Redis
         ValueTask<List<string>> IRedisListAsync.GetAllAsync(CancellationToken token)
             => AsyncClient.GetAllItemsFromListAsync(listId, token);
 
-
         async IAsyncEnumerator<string> IAsyncEnumerable<string>.GetAsyncEnumerator(CancellationToken token)
         {
             var count = await AsAsync().CountAsync(token).ConfigureAwait(false);

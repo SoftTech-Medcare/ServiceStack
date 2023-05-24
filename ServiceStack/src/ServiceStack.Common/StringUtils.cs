@@ -660,7 +660,6 @@ namespace ServiceStack
                                     node.Children.Add(new TextNode { Text = arg.Trim() });
                                 }
                             }
-
                         }
                     }
 
