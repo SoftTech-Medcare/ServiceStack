@@ -229,17 +229,6 @@ namespace ServiceStack.Redis
             {
 #if DEBUG
                 DebugAllowSync = oldDebugAllowSync;
-
-                /* Unmerged change from project 'ServiceStack.Redis.Core (netstandard2.0)'
-                Before:
-                #endif
-
-                                if (e != null)
-                After:
-                #endif
-
-                                if (e != null)
-                */
 #endif
 
                 if (e != null)
